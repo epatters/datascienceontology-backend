@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Concept",
+  "description": "Concept in an ontology",
+  "type": "object",
+  "required": [ "ontology", "name" ],
+  "properties": {
+    "ontology": {
+      "description": "Ontology to which the concept belongs",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human-readable name of concept",
+      "type": "string"
+    },
+    "description": {
+      "description": "Human-readable description of concept in Markdown",
+      "type": "string"
+    },
+    "definition": {
+      "description": "Definition of concept in terms of other concepts",
+      "$ref": { "$ref": "#/definitions/expression" }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/definitions/object" },
+    { "$ref": "#/definitions/morphism" }
+  ],
+  "definitions": {
+    "expression": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 1,
+          "patternProperties": {
+            ".*": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/expression" }
+            }
+          }
+        }
+      ]
+    },
+    "object": {
+      "required": [ "kind" ],
+      "properties": {
+        "kind": { "enum": ["object"] }
+      }
+    },
+    "morphism": {
+      "required": [ "kind", "domain", "codomain" ],
+      "properties": {
+        "kind": { "enum": ["morphism"] },
+        "domain": { "$ref": "#/definitions/expression" },
+        "codomain": { "$ref": "#/definitions/expression" }
+      }
+    }
+  }
+}
