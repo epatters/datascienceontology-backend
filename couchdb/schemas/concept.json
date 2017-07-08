@@ -27,22 +27,15 @@
     { "$ref": "#/definitions/morphism" }
   ],
   "definitions": {
-    "expression": {
+    "s-expression": {
       "oneOf": [
         {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         {
-          "type": "object",
-          "minProperties": 1,
-          "maxProperties": 1,
-          "patternProperties": {
-            ".*": {
-              "type": "array",
-              "items": { "$ref": "#/definitions/expression" }
-            }
-          }
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/s-expression" }
         }
       ]
     },
@@ -56,8 +49,8 @@
       "required": [ "kind", "domain", "codomain" ],
       "properties": {
         "kind": { "enum": ["morphism"] },
-        "domain": { "$ref": "#/definitions/expression" },
-        "codomain": { "$ref": "#/definitions/expression" }
+        "domain": { "$ref": "#/definitions/s-expression" },
+        "codomain": { "$ref": "#/definitions/s-expression" }
       }
     }
   }
