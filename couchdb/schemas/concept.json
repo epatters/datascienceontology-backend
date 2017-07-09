@@ -3,10 +3,21 @@
   "title": "Concept",
   "description": "Concept in an ontology",
   "type": "object",
-  "required": [ "ontology", "name" ],
+  "documentID": [ "schema", "ontology", "id" ],
+  "required": [ "_id", "schema", "ontology", "id" ],
   "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "schema": {
+      "enum": ["concept"]
+    },
     "ontology": {
       "description": "Ontology to which the concept belongs",
+      "type": "string"
+    },
+    "id": {
+      "description": "Identifer for concept, unique within ontology",
       "type": "string"
     },
     "name": {
