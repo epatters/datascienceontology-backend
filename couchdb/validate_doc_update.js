@@ -8,16 +8,21 @@ function(newDoc, oldDoc, userCtx) {
   if (!newDoc.schema) {
     throw({forbidden : 'Document schema is missing'});
   }
-  if (!this.schema.hasOwnProperty(newDoc.schema)) {
-    throw({forbidden : 'Database has no schema for: ' + newDoc.schema});
+  if (!this.schemas.hasOwnProperty(newDoc.schema)) {
+    throw({forbidden : 'Database has no schema: ' + newDoc.schema});
   }
-  var schema = this.schema[newDoc.schema];
+  var schema = this.schemas[newDoc.schema];
   
   // Validate schema.
-  var Ajv = require('lib/ajv');
+  var Ajv = require('lib/ajv.min');
   var ajv = new Ajv({format: 'full', allErrors: true});
-  if (!ajv.validate(schema, newDoc)) {
-    throw({forbidden: 'Document validation error: ' + ajv.errorsText()});
+  try {
+    var valid = ajv.validate(schema, newDoc);
+  } catch (exc) {
+    throw({forbidden: 'Error validating document:' + JSON.stringify(exc)});
+  }
+  if (!valid) {
+    throw({forbidden: 'Document invalid: ' + ajv.errorsText()});
   }
   
   // Validate ID.

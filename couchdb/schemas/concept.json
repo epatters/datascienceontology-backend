@@ -30,7 +30,7 @@
     },
     "definition": {
       "description": "Definition of concept in terms of other concepts",
-      "$ref": { "$ref": "#/definitions/expression" }
+      "$ref": "#/definitions/s-expression"
     }
   },
   "oneOf": [
