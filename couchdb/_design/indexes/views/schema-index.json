@@ -1,0 +1,15 @@
+{
+  "map": {
+    "fields": {
+      "schema": "asc"
+    }
+  },
+  "reduce": "_count",
+  "options": {
+    "def": {
+      "fields": [
+        "schema"
+      ]
+    }
+  }
+}
