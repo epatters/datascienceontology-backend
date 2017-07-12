@@ -1,6 +1,7 @@
 function(doc) {
   if (doc.schema === "concept") {
-    index("id", doc.id);
+    index("ontology", doc.ontology, {"store": true});
+    index("id", doc.id, {"store": true});
     if (doc.name) {
       index("name", doc.name, {"store": true});
     }
