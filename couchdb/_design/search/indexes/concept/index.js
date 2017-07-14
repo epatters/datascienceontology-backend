@@ -9,7 +9,7 @@ function(doc) {
       index("name", doc.name, {"store": true});
     }
     if (doc.description) {
-      index("description", doc.description);
+      index("description", doc.description, {"store": true});
     }
   }
 }
