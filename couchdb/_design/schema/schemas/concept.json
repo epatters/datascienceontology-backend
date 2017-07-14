@@ -60,8 +60,28 @@
       "required": [ "kind", "domain", "codomain" ],
       "properties": {
         "kind": { "enum": ["morphism"] },
-        "domain": { "$ref": "#/definitions/s-expression" },
-        "codomain": { "$ref": "#/definitions/s-expression" }
+        "domain": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/domain-object" }
+        },
+        "codomain": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/domain-object" }
+        }
+      }
+    },
+    "domain-object": {
+      "descripton": "Object belonging to the domain or codomain of a morphism",
+      "required": [ "object" ],
+      "properties": {
+        "object": {
+          "description": "Identifier of an object concept",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human-readable name of domain object",
+          "type": "string"
+        }
       }
     }
   }
