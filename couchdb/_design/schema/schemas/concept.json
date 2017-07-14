@@ -4,7 +4,7 @@
   "description": "Concept in an ontology",
   "type": "object",
   "documentID": [ "schema", "ontology", "id" ],
-  "required": [ "_id", "schema", "ontology", "id" ],
+  "required": [ "_id", "schema", "ontology", "id", "name" ],
   "properties": {
     "_id": {
       "type": "string"
