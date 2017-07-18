@@ -41,7 +41,7 @@ type ElementID = number | string;
 
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape elements.
  */
-export function xdot_to_elements(xdot: any): Element[] {
+export function xdotToElements(xdot: any): Element[] {
   let elements: Element[] = [];
   
   // Walk the xdot AST, picking out nodes and edges.
@@ -55,10 +55,10 @@ export function xdot_to_elements(xdot: any): Element[] {
         doc.statements.forEach(walk);
         break;
       case "node":
-        elements.push(xdot_node_to_element(doc));
+        elements.push(xdotNodeToElement(doc));
         break;
       case "edge":
-        elements.push(xdot_edge_to_element(doc));
+        elements.push(xdotEdgeToElement(doc));
       default:
         break;
     }
@@ -68,7 +68,7 @@ export function xdot_to_elements(xdot: any): Element[] {
   return elements;
 }
 
-function xdot_node_to_element(node: any): Element {
+function xdotNodeToElement(node: any): Element {
   const position: number[] = node.attributes["pos"];
   return {
     group: "node",
@@ -82,7 +82,7 @@ function xdot_node_to_element(node: any): Element {
   }
 }
 
-function xdot_edge_to_element(edge: any): Element {
+function xdotEdgeToElement(edge: any): Element {
   return {
     group: "edge",
     data: {

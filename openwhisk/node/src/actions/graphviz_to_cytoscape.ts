@@ -16,5 +16,5 @@ export interface ActionResult {
  */
 export default function action(params: ActionParams): ActionResult {
   const xdot = DotParser.parse(params.xdot);  
-  return { elements: Cytoscape.xdot_to_elements(xdot) };
+  return { elements: Cytoscape.xdotToElements(xdot) };
 }
