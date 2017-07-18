@@ -10,7 +10,7 @@ export interface Element {
   class?: string;
   
   /* Element data */
-  data?: ElementData;
+  data: ElementData;
   
   /* "Scratchpad data" not consumed by Cytoscape. */
   scratch?: {};
@@ -41,7 +41,53 @@ type ElementID = number | string;
 
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape elements.
  */
-export function xdot_to_elements(xdot: {}): Array<Element> {
-  // TODO
-  return [];
+export function xdot_to_elements(xdot: any): Element[] {
+  let elements: Element[] = [];
+  
+  // Walk the xdot AST, picking out nodes and edges.
+  // FIXME: Graphivz subgraphs should become Cytoscape subgraphs. Currently we
+  // are flattening the hierarchy.
+  function walk(doc: any) {
+    switch(doc.type) {
+      case "graph":
+      case "digraph":
+      case "subgraph":
+        doc.statements.forEach(walk);
+        break;
+      case "node":
+        elements.push(xdot_node_to_element(doc));
+        break;
+      case "edge":
+        elements.push(xdot_edge_to_element(doc));
+      default:
+        break;
+    }
+  };
+  
+  walk(xdot);
+  return elements;
+}
+
+function xdot_node_to_element(node: any): Element {
+  const position: number[] = node.attributes["pos"];
+  return {
+    group: "node",
+    data: {
+      id: node.name
+    },
+    position: {
+      x: position[0],
+      y: position[1]
+    }
+  }
+}
+
+function xdot_edge_to_element(edge: any): Element {
+  return {
+    group: "edge",
+    data: {
+      source: edge.source,
+      target: edge.target,
+    }
+  }
 }

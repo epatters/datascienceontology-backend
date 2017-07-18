@@ -9,7 +9,7 @@ export interface ActionParams {
 
 export interface ActionResult {
   /* Elements JSON in Cytoscape format. */
-  elements: Array<Cytoscape.Element>;
+  elements: Cytoscape.Element[];
 }
 
 /* Convert Graphviz output to Cytoscape elements.
