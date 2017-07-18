@@ -7,5 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "build-parser": "pegjs -o ./src/grammar/xdot.js ./src/grammar/xdot.pegjs"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.1",
+    "typescript": "^2.4.1"
   }
 }
