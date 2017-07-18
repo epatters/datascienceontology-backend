@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "data-science-ontology-actions",
+  "version": "0.1.0",
+  "description": "OpenWhisk actions for the Data Science Ontology",
+  "author": "Evan Patterson",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build-parser": "pegjs -o ./src/grammar/xdot.js ./src/grammar/xdot.pegjs"
+  }
+}
