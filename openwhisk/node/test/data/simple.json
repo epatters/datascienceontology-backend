@@ -143,5 +143,66 @@
         "target": "make_string"
       }
     }
+  ],
+  "layout": {
+    "name": "preset"
+  },
+  "style": [
+    {
+      "selector": "#main",
+      "style": {
+        "width": 0.77193,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#parse",
+      "style": {
+        "width": 0.79904,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#init",
+      "style": {
+        "width": 0.75,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#cleanup",
+      "style": {
+        "width": 1.0446,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#printf",
+      "style": {
+        "width": 0.8265,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#execute",
+      "style": {
+        "width": 1.0308,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#make_string",
+      "style": {
+        "width": 1.4951,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#compare",
+      "style": {
+        "width": 1.1264,
+        "height": 0.5
+      }
+    }
   ]
 }

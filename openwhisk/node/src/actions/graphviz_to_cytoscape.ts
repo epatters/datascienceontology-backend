@@ -9,12 +9,12 @@ export interface ActionParams {
 
 export interface ActionResult {
   /* Elements JSON in Cytoscape format. */
-  elements: Cytoscape.Element[];
+  cytoscape: Cytoscape.Cytoscape;
 }
 
-/* Convert Graphviz output to Cytoscape elements.
+/* Convert Graphviz output to Cytoscape data.
  */
 export default function action(params: ActionParams): ActionResult {
   const xdot = DotParser.parse(params.xdot);  
-  return { elements: Cytoscape.xdotToElements(xdot) };
+  return { cytoscape: Cytoscape.xdotToCytoscape(xdot) };
 }

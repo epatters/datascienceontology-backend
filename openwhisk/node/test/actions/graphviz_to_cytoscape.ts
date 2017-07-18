@@ -20,6 +20,6 @@ describe("graphviz_to_cytoscape action", () => {
   it("simple graph from the dot guide (Figure 1)", () => {
     const xdot = readTestData("simple.xdot");
     const result = action({xdot: xdot});
-    assert.deepEqual(result, readTestJSON("simple.json"));
+    assert.deepEqual(result.cytoscape, readTestJSON("simple.json"));
   });
 })
