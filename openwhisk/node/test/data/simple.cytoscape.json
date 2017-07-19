@@ -21,10 +21,13 @@
       }
     },
     {
-      "group": "edge",
+      "group": "node",
       "data": {
-        "source": "main",
-        "target": "parse"
+        "id": "execute"
+      },
+      "position": {
+        "x": 150.82,
+        "y": 90
       }
     },
     {
@@ -38,13 +41,6 @@
       }
     },
     {
-      "group": "edge",
-      "data": {
-        "source": "main",
-        "target": "init"
-      }
-    },
-    {
       "group": "node",
       "data": {
         "id": "cleanup"
@@ -52,47 +48,6 @@
       "position": {
         "x": 194.82,
         "y": 162
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "main",
-        "target": "cleanup"
-      }
-    },
-    {
-      "group": "node",
-      "data": {
-        "id": "printf"
-      },
-      "position": {
-        "x": 257.82,
-        "y": 18
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "main",
-        "target": "printf"
-      }
-    },
-    {
-      "group": "node",
-      "data": {
-        "id": "execute"
-      },
-      "position": {
-        "x": 150.82,
-        "y": 90
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "parse",
-        "target": "execute"
       }
     },
     {
@@ -106,17 +61,13 @@
       }
     },
     {
-      "group": "edge",
+      "group": "node",
       "data": {
-        "source": "execute",
-        "target": "make_string"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "execute",
-        "target": "printf"
+        "id": "printf"
+      },
+      "position": {
+        "x": 257.82,
+        "y": 18
       }
     },
     {
@@ -132,15 +83,64 @@
     {
       "group": "edge",
       "data": {
-        "source": "execute",
-        "target": "compare"
+        "source": "parse",
+        "target": "main"
       }
     },
     {
       "group": "edge",
       "data": {
         "source": "init",
-        "target": "make_string"
+        "target": "main"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "cleanup",
+        "target": "main"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "printf",
+        "target": "main"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "execute",
+        "target": "parse"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "make_string",
+        "target": "execute"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "printf",
+        "target": "execute"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "compare",
+        "target": "execute"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "make_string",
+        "target": "init"
       }
     }
   ],
@@ -163,6 +163,13 @@
       }
     },
     {
+      "selector": "#execute",
+      "style": {
+        "width": 1.0308,
+        "height": 0.5
+      }
+    },
+    {
       "selector": "#init",
       "style": {
         "width": 0.75,
@@ -177,23 +184,16 @@
       }
     },
     {
-      "selector": "#printf",
-      "style": {
-        "width": 0.8265,
-        "height": 0.5
-      }
-    },
-    {
-      "selector": "#execute",
-      "style": {
-        "width": 1.0308,
-        "height": 0.5
-      }
-    },
-    {
       "selector": "#make_string",
       "style": {
         "width": 1.4951,
+        "height": 0.5
+      }
+    },
+    {
+      "selector": "#printf",
+      "style": {
+        "width": 0.8265,
         "height": 0.5
       }
     },

@@ -1,3 +1,5 @@
+import * as Graphviz from "./graphviz";
+
 /* Top-level interface for Cytoscape graph data.
  */
 export interface Cytoscape {
@@ -66,32 +68,29 @@ export interface Style {
 
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape data.
  */
-export function xdotToCytoscape(xdot: any): Cytoscape {
+export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape {
   let elements: Element[] = [];
   let styles: Style[] = [];
   
-  // Walk the xdot AST, picking out nodes and edges.
-  // FIXME: Graphivz subgraphs should become Cytoscape subgraphs. Currently we
-  // are flattening the hierarchy.
-  function walk(doc: any) {
-    switch(doc.type) {
-      case "graph":
-      case "digraph":
-      case "subgraph":
-        doc.statements.forEach(walk);
-        break;
-      case "node":
-        let [element, style] = xdotNodeToCytoscape(doc);
-        elements.push(element);
-        styles.push(style);
-        break;
-      case "edge":
-        elements.push(xdotEdgeToCytoscape(doc));
-      default:
-        break;
-    }
-  };
-  walk(xdot);
+  // Convert nodes and subgraph.
+  // FIXME: We are not handling the subgraph case.
+  for (let obj of dot.objects) {
+    const [element, style] = dotNodeToCytoscape(obj);
+    elements.push(element);
+    styles.push(style);
+  }
+  
+  // Convert edges.
+  for (let edge of dot.edges) {
+    const element: Element = {
+      group: "edge",
+      data: {
+        source: elements[edge.head].data.id,
+        target: elements[edge.tail].data.id,
+      }
+    };
+    elements.push(element);
+  }
   
   return {
     elements: elements,
@@ -102,8 +101,8 @@ export function xdotToCytoscape(xdot: any): Cytoscape {
    };
 }
 
-function xdotNodeToCytoscape(node: any): [Element, Style] {
-  const position: number[] = node.attributes["pos"];
+function dotNodeToCytoscape(node: Graphviz.MetaNode): [Element, Style] {
+  const position = parseFloatArray(node.pos);
   return [
     {
       group: "node",
@@ -119,19 +118,13 @@ function xdotNodeToCytoscape(node: any): [Element, Style] {
     {
       selector: "#" + node.name,
       style: {
-        width: node.attributes["width"],
-        height: node.attributes["height"]
+        width: parseFloat(node.width),
+        height: parseFloat(node.height)
       }
     }
   ]
 }
 
-function xdotEdgeToCytoscape(edge: any): Element {
-  return {
-    group: "edge",
-    data: {
-      source: edge.source,
-      target: edge.target,
-    }
-  }
+function parseFloatArray(s: string): number[] {
+  return s.split(",").map(parseFloat);
 }

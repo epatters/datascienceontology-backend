@@ -1,10 +1,10 @@
 import * as Cytoscape from "../cytoscape";
-import * as DotParser from "../grammar/xdot.js";
+import * as Graphviz from "../graphviz";
 
 
 export interface ActionParams {
-  /* Graphviz output in xdot format. */
-  xdot: string
+  /* Graphviz output in JSON format. */
+  dot: Graphviz.Graph;
 }
 
 export interface ActionResult {
@@ -15,6 +15,6 @@ export interface ActionResult {
 /* Convert Graphviz output to Cytoscape data.
  */
 export default function action(params: ActionParams): ActionResult {
-  const xdot = DotParser.parse(params.xdot);  
-  return { cytoscape: Cytoscape.xdotToCytoscape(xdot) };
+  const dot = params.dot;
+  return { cytoscape: Cytoscape.dotToCytoscape(dot) };
 }
