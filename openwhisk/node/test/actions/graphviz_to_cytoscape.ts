@@ -17,9 +17,16 @@ function readTestJSON(name: string): any {
 
 
 describe("graphviz_to_cytoscape action", () => {
-  it("simple graph from the dot guide (Figure 1)", () => {
+  it("simple graph from dot guide (Fig 1): dot output", () => {
     const dot = readTestJSON("simple.dot.json");
     const actual = action({dot: dot}).cytoscape;
+    const target = readTestJSON("simple.cytoscape.json");
+    assert.deepEqual(actual, target);
+  });
+  
+  it("simple graph from dot guide (Fig 1): xdot output", () => {
+    const xdot = readTestJSON("simple.xdot.json");
+    const actual = action({dot: xdot}).cytoscape;
     const target = readTestJSON("simple.cytoscape.json");
     assert.deepEqual(actual, target);
   });
