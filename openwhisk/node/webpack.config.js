@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    graphviz_to_cytoscape: "./src/actions/graphviz_to_cytoscape.ts",
+    dot_to_cytoscape: "./src/actions/dot_to_cytoscape.ts",
   },
   output: {
     filename: "[name].bundle.js",
