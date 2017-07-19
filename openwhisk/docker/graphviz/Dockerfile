@@ -23,7 +23,7 @@ RUN mkdir -p /actionProxy
 ADD actionproxy.py /actionProxy/
 
 RUN mkdir -p /action
-ADD stub.sh /action/exec
+ADD action.py /action/exec
 RUN chmod +x /action/exec
 
 CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
