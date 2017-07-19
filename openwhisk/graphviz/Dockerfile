@@ -1,4 +1,3 @@
-# Dockerfile for docker skeleton (useful for running blackbox binaries, scripts, or Python 3 actions) .
 FROM python:3.6-alpine
 
 # Upgrade and install basic Python dependencies.

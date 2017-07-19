@@ -25,6 +25,8 @@ FORMATS = [
 ]
 
 
+"""  Wrap Graphviz with a JSON API: a simple OpenWhisk docker action.
+"""
 def main(argv):
     # Parse JSON and action parameters.
     params = json.loads(argv[1])
