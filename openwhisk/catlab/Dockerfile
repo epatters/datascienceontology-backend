@@ -14,10 +14,6 @@ ENV FLASK_PROXY_PORT 8080
 # Copied from official Julia repo on Docker Hub:
 # https://github.com/docker-library/julia/blob/ef0fdf96ba90c0020776bca367cb838910aca339/Dockerfile
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends ca-certificates \
-	&& rm -rf /var/lib/apt/lists/*
-
 ENV JULIA_PATH /usr/local/julia
 ENV JULIA_VERSION 0.6.0
 
@@ -35,6 +31,17 @@ RUN mkdir $JULIA_PATH \
 	&& rm -rf /var/lib/apt/lists/* julia.tar.gz*
 
 ENV PATH $JULIA_PATH/bin:$PATH
+
+######################################################################
+# Catlab
+######################################################################
+
+ENV CATLAB_VERSION d47e188a1bd21481326930aff70a40b8441dbfe8
+
+RUN julia -e 'Pkg.clone("https://github.com/epatters/Catlab.git")' \
+  && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
+  && git checkout ${CATLAB_VERSION} . \
+  && julia -e 'using Catlab' # precompile!
 
 ######################################################################
 
