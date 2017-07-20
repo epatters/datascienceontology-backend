@@ -4,7 +4,7 @@ import json
 import subprocess
 import sys
 
-ENGINES = [
+PROGRAMS = [
     "dot",
     "neato",
     "sfdp"
@@ -30,14 +30,12 @@ FORMATS = [
 def main(argv):
     # Parse JSON and action parameters.
     params = json.loads(argv[1])
-    data = params["data"]
-    engine = params.get("engine", "dot")
-    assert engine in ENGINES
-    fmt = params.get("format", "json0")
+    data, prog, fmt = params["data"], params["prog"], params["format"]
+    assert prog in PROGRAMS
     assert fmt in FORMATS
     
     # Run Graphviz!
-    ran = subprocess.run([engine, "-T"+fmt], input=data, encoding="utf-8",
+    ran = subprocess.run([prog, "-T"+fmt], input=data, encoding="utf-8",
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
     # Build the response and print to stdout.

@@ -13,6 +13,8 @@ wsk action update --web true $PKG/dot_to_cytoscape \
 
 wsk action update --web true $PKG/graphviz \
   --docker $DOCKER/whisk-graphviz \
+  --param prog dot \
+  --param format json0 \
   -a description "Run Graphviz"
 
 wsk action update --web true $PKG/graphviz_to_cytoscape \
