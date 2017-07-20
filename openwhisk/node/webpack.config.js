@@ -1,6 +1,9 @@
+var nodeExternals = require('webpack-node-externals');
+
 module.exports = {
   entry: {
     dot_to_cytoscape: "./src/actions/dot_to_cytoscape.ts",
+    expression_to_cytoscape: "./src/actions/expression_to_cytoscape.ts",
   },
   output: {
     filename: "[name].bundle.js",
@@ -17,5 +20,8 @@ module.exports = {
         loader: "awesome-typescript-loader"
       }
     ]
-  }
+  },
+  externals: [
+    nodeExternals()
+  ],
 };
