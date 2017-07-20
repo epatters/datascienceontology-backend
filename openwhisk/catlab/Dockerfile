@@ -8,6 +8,7 @@ RUN apt-get update \
 
 ENV FLASK_PROXY_PORT 8080
 
+######################################################################
 # Julia
 ######################################################################
 
@@ -38,10 +39,10 @@ ENV PATH $JULIA_PATH/bin:$PATH
 
 ENV CATLAB_VERSION d47e188a1bd21481326930aff70a40b8441dbfe8
 
-RUN julia -e 'Pkg.clone("https://github.com/epatters/Catlab.git")' \
+RUN julia -e 'Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
   && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
   && git checkout ${CATLAB_VERSION} . \
-  && julia -e 'using Catlab' # precompile!
+  && julia -e 'import JSON; import Catlab' # precompile!
 
 ######################################################################
 
@@ -49,7 +50,7 @@ RUN mkdir -p /actionProxy
 ADD actionproxy.py /actionProxy/
 
 RUN mkdir -p /action
-ADD stub.sh /action/exec
+ADD action.jl /action/exec
 RUN chmod +x /action/exec
 
 CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
