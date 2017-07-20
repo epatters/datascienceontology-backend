@@ -5,7 +5,3 @@ declare namespace NodeJS {
     main: (params: {}) => {};
   }
 }
-
-/* The OpenWhisk client-side library does not yet have type defintiions.
- */
-declare module "openwhisk";

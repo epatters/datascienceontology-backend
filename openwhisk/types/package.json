@@ -1,0 +1,11 @@
+{
+  "name": "@types/openwhisk",
+  "version": "0.1.0",
+  "description": "TypeScript definitions for openwhisk",
+  "license": "UNLICENSED",
+  "main": "",
+  "scripts": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "typeScriptVersion": "2.0"
+}

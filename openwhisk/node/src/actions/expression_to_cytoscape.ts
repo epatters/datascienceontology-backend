@@ -1,4 +1,4 @@
-import * as OpenWhisk from "openwhisk";
+import OpenWhisk = require("openwhisk");
 import * as Cytoscape from "../cytoscape";
 
 
@@ -18,7 +18,7 @@ export interface ActionResult {
   not currently possible because sequences don't support default parameters:
   https://github.com/apache/incubator-openwhisk/issues/2008
  */
-export default function action(params: ActionParams): ActionResult {
+export default function action(params: ActionParams): Promise<ActionResult> {
   const openwhisk = OpenWhisk()
   return openwhisk.actions.invoke({
     name: "data-science-ontology/catlab",
@@ -27,7 +27,7 @@ export default function action(params: ActionParams): ActionResult {
       action: "expression_to_graphviz",
       data: params.data
     }
-  }).then((result: any) => {
+  }).then((result) => {
     return openwhisk.actions.invoke({
       name: "data-science-ontology/graphviz_to_cytoscape",
       blocking: true,
@@ -35,7 +35,7 @@ export default function action(params: ActionParams): ActionResult {
         data: result.response.result.data
       }
     })
-  }).then((result: any) => {
+  }).then((result) => {
     return {
       data: result.response.result.data
     }
