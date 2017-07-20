@@ -6,12 +6,21 @@
    included in this interface.
  */
 export interface Graph {
+  /* Name of the top-level graph. */
   name: string;
+  
   directed: boolean;
   strict: boolean;
-  _subgraph_cnt: 0;
   
+  /* Number of subgraphs in the graph. */
+  _subgraph_cnt: number;
+  
+  /* Nodes and subgraphs in the graph.
+     The first `_subgraph_cnt` objects are subgraphs; the rest are nodes.
+   */
   objects: MetaNode[];
+  
+  /* Edges in the graph. */
   edges: Edge[];
 }
 
@@ -23,11 +32,21 @@ export interface MetaNode {
   
   /* Name of node or subgraph in dot file. */
   name: string;
-  
+}
+
+export interface Node extends MetaNode {
   label?: string;
   pos?: string;
   width?: string;
   height?: string;
+}
+
+export interface Subgraph extends MetaNode {
+  /* Nodes (or subgraphs) in graph that are contained in this subgraph. */
+  nodes: number[];
+  
+  /* Edges in graph that are contained in this subgraph. */
+  edges: number[];
 }
 
 export interface Edge {

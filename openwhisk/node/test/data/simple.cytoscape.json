@@ -83,64 +83,64 @@
     {
       "group": "edge",
       "data": {
-        "source": "parse",
-        "target": "main"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "init",
-        "target": "main"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "cleanup",
-        "target": "main"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "printf",
-        "target": "main"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "execute",
+        "source": "main",
         "target": "parse"
       }
     },
     {
       "group": "edge",
       "data": {
-        "source": "make_string",
-        "target": "execute"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "printf",
-        "target": "execute"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "compare",
-        "target": "execute"
-      }
-    },
-    {
-      "group": "edge",
-      "data": {
-        "source": "make_string",
+        "source": "main",
         "target": "init"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "main",
+        "target": "cleanup"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "main",
+        "target": "printf"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "parse",
+        "target": "execute"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "execute",
+        "target": "make_string"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "execute",
+        "target": "printf"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "execute",
+        "target": "compare"
+      }
+    },
+    {
+      "group": "edge",
+      "data": {
+        "source": "init",
+        "target": "make_string"
       }
     }
   ],

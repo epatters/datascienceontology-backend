@@ -72,10 +72,11 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape {
   let elements: Element[] = [];
   let styles: Style[] = [];
   
-  // Convert nodes and subgraph.
-  // FIXME: We are not handling the subgraph case.
-  for (let obj of dot.objects) {
-    const [element, style] = dotNodeToCytoscape(obj);
+  // Convert nodes, ignoring the subgraphs. Note that this does not exclude
+  // any nodes, only the subgraph structure.
+  const offset = dot._subgraph_cnt;
+  for (let obj of dot.objects.slice(offset)) {
+    const [element, style] = dotNodeToCytoscape(obj as any); // obj as Node
     elements.push(element);
     styles.push(style);
   }
@@ -85,8 +86,8 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape {
     const element: Element = {
       group: "edge",
       data: {
-        source: elements[edge.head].data.id,
-        target: elements[edge.tail].data.id,
+        source: elements[edge.tail - offset].data.id,
+        target: elements[edge.head - offset].data.id,
       }
     };
     elements.push(element);
@@ -101,7 +102,7 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape {
    };
 }
 
-function dotNodeToCytoscape(node: Graphviz.MetaNode): [Element, Style] {
+function dotNodeToCytoscape(node: Graphviz.Node): [Element, Style] {
   const position = parseFloatArray(node.pos);
   return [
     {

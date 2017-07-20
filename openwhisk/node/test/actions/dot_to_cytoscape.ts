@@ -30,4 +30,11 @@ describe("dot_to_cytoscape action", () => {
     const target = readTestJSON("simple.cytoscape.json");
     assert.deepEqual(actual, target);
   });
+  
+  it("wiring diagram from Catlab", () => {
+    const dot = readTestJSON("wiring.dot.json");
+    const actual = action({data: dot}).data;
+    const target = readTestJSON("wiring.cytoscape.json");
+    assert.deepEqual(actual, target);
+  });
 })
