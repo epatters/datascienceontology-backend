@@ -24,7 +24,3 @@ wsk action update --web true $PKG/dot_to_cytoscape \
 wsk action update --web true $PKG/expression_to_cytoscape \
   "$NODE/expression_to_cytoscape.bundle.js" \
   -a description "Convert a morphism expression to Cytoscape data"
-
-wsk action update --web true $PKG/graphviz_to_cytoscape \
-  --sequence $PKG/graphviz,$PKG/dot_to_cytoscape \
-  -a description "Run Graphviz and convert output to Cytoscape data"

@@ -1,22 +1,20 @@
 import OpenWhisk = require("openwhisk");
+
 import * as Cytoscape from "../cytoscape";
+import * as Graphviz from "../graphviz";
 
 
 export interface ActionParams {
   /* Morphism as S-expression */
-  data: {};
+  expr: {};
 }
 
 export interface ActionResult {
   /* Elements JSON in Cytoscape format. */
-  data: Cytoscape.Cytoscape;
+  cytoscape: Cytoscape.Cytoscape;
 }
 
 /* Convert morphism to wiring diagram in Cytoscape format.
-
-  This simple composition should be a sequence action in OpenWhisk, but that's
-  not currently possible because sequences don't support default parameters:
-  https://github.com/apache/incubator-openwhisk/issues/2008
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
   const openwhisk = OpenWhisk()
@@ -25,19 +23,21 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     blocking: true,
     params: {
       action: "expression_to_graphviz",
-      data: params.data
+      expr: params.expr
     }
   }).then((result) => {
     return openwhisk.actions.invoke({
-      name: "data-science-ontology/graphviz_to_cytoscape",
+      name: "data-science-ontology/graphviz",
       blocking: true,
       params: {
-        data: result.response.result.data
+        graph: result.response.result.data,
+        format: "json0"
       }
     })
   }).then((result) => {
+    const dot = JSON.parse(result.response.result.data) as Graphviz.Graph;
     return {
-      data: result.response.result.data
+      cytoscape: Cytoscape.dotToCytoscape(dot)
     }
   })
 }

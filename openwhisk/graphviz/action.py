@@ -13,16 +13,19 @@ PROGRAMS = [
     "circo",
 ]
 
-FORMATS = [
-    "dot",
-    "gv",
-    "xdot",
-    "json",
-    "json0",
-    "dot_json",
-    "dot_json0",
-    "svg",
-]
+MIMETYPES = {
+    "dot" : "text/vnd.graphviz",
+    "gv" : "text/vnd.graphviz",
+    "xdot" : "text/vnd.graphviz",
+    "json" : "application/json",
+    "json0" : "application/json",
+    "dot_json" : "application/json",
+    "dot_json0": "application/json",
+    "jpg" : "image/jpeg",
+    "jpeg" : "image/jpeg",
+    "png" : "image/png",
+    "svg" : "image/svg+xml",
+}
 
 
 """  Wrap Graphviz with a JSON API: a simple OpenWhisk docker action.
@@ -30,21 +33,21 @@ FORMATS = [
 def main(argv):
     # Parse JSON and action parameters.
     params = json.loads(argv[1])
-    data, prog, fmt = params["data"], params["prog"], params["format"]
+    graph, prog, fmt = params["graph"], params["prog"], params["format"]
     assert prog in PROGRAMS
-    assert fmt in FORMATS
+    assert fmt in MIMETYPES
     
     # Run Graphviz!
-    ran = subprocess.run([prog, "-T"+fmt], input=data, encoding="utf-8",
+    ran = subprocess.run([prog, "-T"+fmt], input=graph, encoding="utf-8",
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
     # Build the response and print to stdout.
     if ran.returncode == 0:
-        data = json.loads(ran.stdout) if "json" in fmt else ran.stdout
         result = {
             "success": True,
-            "data": data,
+            "data": ran.stdout,
             "format": fmt,
+            "mimetype": MIMETYPES[fmt],
         }
     else:
         result = {

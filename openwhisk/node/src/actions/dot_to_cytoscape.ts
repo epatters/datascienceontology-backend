@@ -4,17 +4,17 @@ import * as Graphviz from "../graphviz";
 
 export interface ActionParams {
   /* Graphviz output in JSON format. */
-  data: Graphviz.Graph;
+  dot: Graphviz.Graph;
 }
 
 export interface ActionResult {
   /* Elements JSON in Cytoscape format. */
-  data: Cytoscape.Cytoscape;
+  cytoscape: Cytoscape.Cytoscape;
 }
 
 /* Convert Graphviz output to Cytoscape data.
  */
 export default function action(params: ActionParams): ActionResult {
-  return { data: Cytoscape.dotToCytoscape(params.data) };
+  return { cytoscape: Cytoscape.dotToCytoscape(params.dot) };
 }
 global.main = action;
