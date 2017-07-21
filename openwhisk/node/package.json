@@ -12,7 +12,6 @@
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.14",
-    "@types/openwhisk": "^0.1.0",
     "awesome-typescript-loader": "^3.2.1",
     "mocha": "^3.4.2",
     "openwhisk": "^3.6.0",
