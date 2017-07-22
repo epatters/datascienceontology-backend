@@ -25,7 +25,7 @@
       "type": "string"
     },
     "description": {
-      "description": "Human-readable description of concept in Markdown",
+      "description": "Human-readable description of concept",
       "type": "string"
     },
     "definition": {
@@ -53,7 +53,12 @@
     "object": {
       "required": [ "kind" ],
       "properties": {
-        "kind": { "enum": ["object"] }
+        "kind": { "enum": ["object"] },
+        "subobject-of": {
+          "description": "Object is a subobject (subtype) of these objects",
+          "type": "array",
+          "items": { "type": "string" }
+        }
       }
     },
     "morphism": {
@@ -61,12 +66,18 @@
       "properties": {
         "kind": { "enum": ["morphism"] },
         "domain": {
+          "description": "Domain of morphism as a product of named objects",
           "type": "array",
           "items": { "$ref": "#/definitions/domain-object" }
         },
         "codomain": {
+          "description": "Codomain of morphism as a product of named objects",
           "type": "array",
           "items": { "$ref": "#/definitions/domain-object" }
+        },
+        "generic": {
+          "description": "Identifer of generic morphism to which this morphism belongs",
+          "type": "string"
         }
       }
     },
@@ -79,7 +90,11 @@
           "type": "string"
         },
         "name": {
-          "description": "Human-readable name of domain object",
+          "description": "Syntactic name of domain object",
+          "type": "string"
+        },
+        "description": {
+          "description": "Human-readable description of domain object",
           "type": "string"
         }
       }
