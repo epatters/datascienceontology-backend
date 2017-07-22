@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Annotation",
+  "description": "Semantic annotation of computer code",
+  "type": "object",
+  "documentID": [
+    "schema",
+    "language",
+    "package",
+    "id"
+  ],
+  "required": [
+    "_id",
+    "schema",
+    "language",
+    "package",
+    "id",
+    "ontology",
+    "kind",
+    "definition"
+  ],
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "schema": {
+      "enum": ["annotation"]
+    },
+    "language": {
+      "description": "Programming language of annotated code",
+      "type": "string"
+    },
+    "package": {
+      "description": "Library or package of annotated code",
+      "type": "string"
+    },
+    "id": {
+      "description": "Identifer for annotation, unique within language and package",
+      "type": "string"
+    },
+    "ontology": {
+      "description": "Ontology to which the annotation refers",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Kind of concept of annotated code",
+      "enum": [
+        "object",
+        "morphism"
+      ]
+    },
+    "name": {
+      "description": "Human-readable name of annotated code object",
+      "type": "string"
+    },
+    "description": {
+      "description": "Human-readable description of annotated code object",
+      "type": "string"
+    },
+    "definition": {
+      "description": "Definition of annotated code in terms of ontology concepts",
+      "$ref": "#/definitions/s-expression"
+    }
+  },
+  "definitions": {
+    "s-expression": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/s-expression" }
+        }
+      ]
+    }
+  }
+}
