@@ -64,7 +64,7 @@
       "required": [ "kind" ],
       "properties": {
         "kind": { "enum": ["object"] },
-        "subobject-of": {
+        "subobject": {
           "description": "Object is a subobject (subtype) of these objects",
           "type": "array",
           "items": { "type": "string" }
@@ -93,6 +93,7 @@
     },
     "domain-object": {
       "descripton": "Object belonging to the domain or codomain of a morphism",
+      "type": "object",
       "required": [ "object" ],
       "properties": {
         "object": {

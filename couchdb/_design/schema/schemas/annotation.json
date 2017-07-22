@@ -16,7 +16,6 @@
     "package",
     "id",
     "ontology",
-    "kind",
     "definition"
   ],
   "properties": {
@@ -42,13 +41,6 @@
       "description": "Ontology to which the annotation refers",
       "type": "string"
     },
-    "kind": {
-      "description": "Kind of concept of annotated code",
-      "enum": [
-        "object",
-        "morphism"
-      ]
-    },
     "name": {
       "description": "Human-readable name of annotated code object",
       "type": "string"
@@ -56,12 +48,12 @@
     "description": {
       "description": "Human-readable description of annotated code object",
       "type": "string"
-    },
-    "definition": {
-      "description": "Definition of annotated code in terms of ontology concepts",
-      "$ref": "#/definitions/s-expression"
     }
   },
+  "oneOf": [
+    { "$ref": "#/definitions/python-object" },
+    { "$ref": "#/definitions/python-morphism" }
+  ],
   "definitions": {
     "s-expression": {
       "oneOf": [
@@ -72,6 +64,103 @@
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/definitions/s-expression" }
+        }
+      ]
+    },
+    "python-object": {
+      "description": "Annotation of Python class as object",
+      "required": [
+        "language",
+        "kind",
+        "class",
+        "definition"
+      ],
+      "properties": {
+        "language": { "enum": ["python"] },
+        "kind": { "enum": ["object"] },
+        "class": {
+          "description": "Class to which annotation applies",
+          "$ref": "#/definitions/python-class"
+        },
+        "definition": {
+          "description": "Definition of annotated class as object in ontology",
+          "type": "string"
+        },
+        "slots": {
+          "description": "Class slots (attributes, properties, methods) defining morphisms in ontology",
+          "type": "object",
+          "patternProperties": {
+            ".*": { "type": "string" }
+          }
+        }
+      }
+    },
+    "python-morphism": {
+      "description": "Annotation of Python function or method as morphism",
+      "required": [
+        "language",
+        "kind",
+        "definition",
+        "domain",
+        "codomain"
+      ],
+      "properties": {
+        "language": { "enum": ["python"] },
+        "kind": { "enum": ["morphism"] },
+        "definition": {
+          "description": "Definition of annotated function or method as morphism in ontology",
+          "$ref": "#/definitions/s-expression"
+        },
+        "domain": {
+          "description": "Mapping of arguments (positional and named) to morphism domain",
+          "type": "array",
+          "items": {
+            "oneOf": [ {"type" : "number"}, {"type" : "string"} ]
+          }
+        },
+        "codomain": {
+          "description": "Mapping of mutated arguments and return value to morphism codomain",
+          "type": "array",
+          "items": {
+            "oneOf": [ {"type" : "number"}, {"type" : "string"} ]
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "required": [ "funcion" ],
+          "properties": {
+            "function": {
+              "description": "Fully qualified name of function",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "required": [ "class", "method" ],
+          "properties": {
+            "class": {
+              "description": "Class to which annotation applies",
+              "$ref": "#/definitions/python-class"
+            },
+            "method": {
+              "description": "Unqualified name of method",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "python-class": {
+      "description": "Class or intersection of classes (with fully qualified names)",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
         }
       ]
     }
