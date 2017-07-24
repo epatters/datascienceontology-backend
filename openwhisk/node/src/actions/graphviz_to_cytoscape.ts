@@ -17,7 +17,7 @@ export interface ActionResult {
 /* Convert Graphviz graph to Cytoscape data.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
-  const openwhisk = OpenWhisk()
+  const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
     name: "data-science-ontology/graphviz",
     blocking: true,
