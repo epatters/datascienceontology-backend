@@ -5,8 +5,8 @@ import * as Graphviz from "../graphviz";
 
 
 export interface ActionParams {
-  /* Morphism as S-expression */
-  expr: {};
+  /* Graphviz input in dot format. */
+  graph: string;
 }
 
 export interface ActionResult {
@@ -14,25 +14,22 @@ export interface ActionResult {
   cytoscape: Cytoscape.Cytoscape;
 }
 
-/* Convert morphism to wiring diagram in Cytoscape format.
+/* Convert Graphviz graph to Cytoscape data.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
   const openwhisk = OpenWhisk()
   return openwhisk.actions.invoke({
-    name: "data-science-ontology/catlab",
+    name: "data-science-ontology/graphviz",
     blocking: true,
     params: {
-      action: "expression_to_graphviz",
-      expr: params.expr
+      graph: params.graph,
+      format: "json0"
     }
   }).then((result) => {
-    return openwhisk.actions.invoke({
-      name: "data-science-ontology/graphviz_to_cytoscape",
-      blocking: true,
-      params: {
-        graph: result.response.result.data,
-      }
-    })
-  }).then((result) => result.response.result);
+    const graph = JSON.parse(result.response.result.data) as Graphviz.Graph;
+    return {
+      cytoscape: Cytoscape.dotToCytoscape(graph)
+    }
+  });
 }
 global.main = action;

@@ -2,7 +2,8 @@ var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    dot_to_cytoscape: "./src/actions/dot_to_cytoscape.ts",
+    dot_json_to_cytoscape: "./src/actions/dot_json_to_cytoscape.ts",
+    graphviz_to_cytoscape: "./src/actions/graphviz_to_cytoscape.ts",
     expression_to_cytoscape: "./src/actions/expression_to_cytoscape.ts",
   },
   output: {

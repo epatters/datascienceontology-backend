@@ -17,10 +17,14 @@ wsk action update $PKG/graphviz \
   --param format json0 \
   -a description "Run Graphviz"
 
-wsk action update --web true $PKG/dot_to_cytoscape \
-  "$NODE/dot_to_cytoscape.bundle.js" \
-  -a description "Convert Graphviz output to Cytoscape data"
+wsk action update $PKG/dot_json_to_cytoscape \
+  "$NODE/dot_json_to_cytoscape.bundle.js" \
+  -a description "Convert Graphviz output (JSON format) to Cytoscape data"
 
-wsk action update --web true $PKG/expression_to_cytoscape \
+wsk action update $PKG/graphviz_to_cytoscape \
+  "$NODE/graphviz_to_cytoscape.bundle.js" \
+  -a description "Convert Graphviz input (dot format) to Cytoscape data"
+
+wsk action update $PKG/expression_to_cytoscape \
   "$NODE/expression_to_cytoscape.bundle.js" \
   -a description "Convert a morphism expression to Cytoscape data"
