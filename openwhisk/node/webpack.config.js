@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     dot_json_to_cytoscape: "./src/actions/dot_json_to_cytoscape.ts",
     graphviz_to_cytoscape: "./src/actions/graphviz_to_cytoscape.ts",
-    expression_to_cytoscape: "./src/actions/expression_to_cytoscape.ts",
+    morphism_to_cytoscape: "./src/actions/morphism_to_cytoscape.ts",
   },
   output: {
     filename: "[name].bundle.js",

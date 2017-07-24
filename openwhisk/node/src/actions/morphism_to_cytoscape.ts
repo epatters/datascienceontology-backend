@@ -14,7 +14,7 @@ export interface ActionResult {
   cytoscape: Cytoscape.Cytoscape;
 }
 
-/* Convert morphism to wiring diagram in Cytoscape format.
+/* Convert morphism expression to wiring diagram in Cytoscape format.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
   const openwhisk = OpenWhisk()
