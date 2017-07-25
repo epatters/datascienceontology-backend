@@ -8,8 +8,8 @@ using Catlab.Diagram: Wiring, GraphvizWiring
 
 function expression_to_graphviz()::Graphviz.Graph
   # XXX: Hard-code an expression for now!
-  A, B, C = ob(FreeCartesianCategory, :A, :B, :C)
-  f, g, h = hom(:f, A, B), hom(:g, B, C), hom(:h, A, C)
+  A, B, C = Ob(FreeCartesianCategory, :A, :B, :C)
+  f, g, h = Hom(:f, A, B), Hom(:g, B, C), Hom(:h, A, C)
   expr = otimes(compose(f, g), h)
   to_graphviz(to_wiring_diagram(expr))
 end

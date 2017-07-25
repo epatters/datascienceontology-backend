@@ -1,5 +1,6 @@
-import * as Cytoscape from "../cytoscape";
-import * as Graphviz from "../graphviz";
+import * as Cytoscape from "../interfaces/cytoscape";
+import * as Graphviz from "../interfaces/graphviz";
+import { dotToCytoscape } from "../cytoscape";
 
 
 export interface ActionParams {
@@ -15,6 +16,6 @@ export interface ActionResult {
 /* Convert Graphviz JSON output to Cytoscape data.
  */
 export default function action(params: ActionParams): ActionResult {
-  return { cytoscape: Cytoscape.dotToCytoscape(params.graph) };
+  return { cytoscape: dotToCytoscape(params.graph) };
 }
 global.main = action;

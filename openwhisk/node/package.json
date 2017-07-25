@@ -1,12 +1,12 @@
 {
   "private": true,
-  "name": "data-science-ontology-actions",
+  "name": "data-science-ontology-backend",
   "version": "0.1.0",
-  "description": "OpenWhisk actions for the Data Science Ontology",
+  "description": "Node.js backend for the Data Science Ontology",
   "author": "Evan Patterson",
   "license": "UNLICENSED",
+  "types": "./src/index.ts",
   "scripts": {
-    "build-parser": "pegjs -o ./src/grammar/xdot.js ./src/grammar/xdot.pegjs",
     "test": "./node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.ts"
   },
   "devDependencies": {

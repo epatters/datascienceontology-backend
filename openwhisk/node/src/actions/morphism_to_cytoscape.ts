@@ -1,7 +1,7 @@
 import OpenWhisk = require("openwhisk");
 
-import * as Cytoscape from "../cytoscape";
-import * as Graphviz from "../graphviz";
+import * as Cytoscape from "../interfaces/cytoscape";
+import * as Graphviz from "../interfaces/graphviz";
 
 
 interface SExpArray extends Array<string | SExpArray> {}
