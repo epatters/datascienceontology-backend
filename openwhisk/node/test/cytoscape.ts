@@ -33,7 +33,7 @@ describe("convert dot to cytoscape", () => {
   
   it("wiring diagram from Catlab", () => {
     const dot = readTestJSON("wiring.dot.json");
-    const actual = dotToCytoscape(dot);
+    const actual = dotToCytoscape(dot, { edgeEndPoints: true });
     const target = readTestJSON("wiring.cytoscape.json");
     assert.deepEqual(actual, target);
   });

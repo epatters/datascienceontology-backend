@@ -53,7 +53,8 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "data-science-ontology/graphviz_to_cytoscape",
       blocking: true,
       params: {
-        graph: result.response.result.data
+        graph: result.response.result.data,
+        edgeEndPoints: true
       }
     });
   }).then((result) => result.response.result);

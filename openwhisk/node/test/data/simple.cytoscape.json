@@ -117,15 +117,7 @@
       "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "parse",
-        "source-endpoint": [
-          -9.95,
-          -17.06
-        ],
-        "target-endpoint": [
-          9.89,
-          16.94
-        ]
+        "target": "parse"
       }
     },
     {
@@ -133,15 +125,7 @@
       "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "init",
-        "source-endpoint": [
-          -23.67,
-          -9.92
-        ],
-        "target-endpoint": [
-          -0.069,
-          18.1
-        ]
+        "target": "init"
       }
     },
     {
@@ -149,15 +133,7 @@
       "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "cleanup",
-        "source-endpoint": [
-          9.96,
-          -17.06
-        ],
-        "target-endpoint": [
-          -10.17,
-          17.44
-        ]
+        "target": "cleanup"
       }
     },
     {
@@ -165,15 +141,7 @@
       "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "printf",
-        "source-endpoint": [
-          25.3,
-          -8.15
-        ],
-        "target-endpoint": [
-          3.1,
-          17.941
-        ]
+        "target": "printf"
       }
     },
     {
@@ -181,15 +149,7 @@
       "class": "graphviz",
       "data": {
         "source": "parse",
-        "target": "execute",
-        "source-endpoint": [
-          9.48,
-          -17.06
-        ],
-        "target-endpoint": [
-          -9.69,
-          17.44
-        ]
+        "target": "execute"
       }
     },
     {
@@ -197,15 +157,7 @@
       "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "make_string",
-        "source-endpoint": [
-          -20.57,
-          -15.269
-        ],
-        "target-endpoint": [
-          22.231,
-          16.501
-        ]
+        "target": "make_string"
       }
     },
     {
@@ -213,15 +165,7 @@
       "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "printf",
-        "source-endpoint": [
-          21.91,
-          -14.744
-        ],
-        "target-endpoint": [
-          -20.07,
-          13.508
-        ]
+        "target": "printf"
       }
     },
     {
@@ -229,15 +173,7 @@
       "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "compare",
-        "source-endpoint": [
-          3.79,
-          -18.169
-        ],
-        "target-endpoint": [
-          -3.83,
-          18.413
-        ]
+        "target": "compare"
       }
     },
     {
@@ -245,15 +181,7 @@
       "class": "graphviz",
       "data": {
         "source": "init",
-        "target": "make_string",
-        "source-endpoint": [
-          0,
-          -18.169
-        ],
-        "target-endpoint": [
-          0,
-          18.413
-        ]
+        "target": "make_string"
       }
     }
   ],
@@ -271,10 +199,7 @@
     },
     {
       "selector": "edge.graphviz",
-      "style": {
-        "source-endpoint": "data(source-endpoint)",
-        "target-endpoint": "data(target-endpoint)"
-      }
+      "style": {}
     },
     {
       "selector": ".graphviz-invis",

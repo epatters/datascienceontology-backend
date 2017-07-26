@@ -2,10 +2,10 @@ import OpenWhisk = require("openwhisk");
 
 import * as Cytoscape from "../interfaces/cytoscape";
 import * as Graphviz from "../interfaces/graphviz";
-import { dotToCytoscape } from "../cytoscape";
+import { dotToCytoscape, DotToCytoscapeOptions } from "../cytoscape";
 
 
-export interface ActionParams {
+export interface ActionParams extends DotToCytoscapeOptions {
   /* Graphviz input in dot format. */
   graph: string;
 }
@@ -29,7 +29,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
   }).then((result) => {
     const graph = JSON.parse(result.response.result.data) as Graphviz.Graph;
     return {
-      cytoscape: dotToCytoscape(graph)
+      cytoscape: dotToCytoscape(graph, params)
     }
   });
 }

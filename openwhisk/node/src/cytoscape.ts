@@ -8,16 +8,22 @@ import * as Graphviz from "./interfaces/graphviz";
 const striptags: (html: string) => string = require("striptags");
 
 
+export interface DotToCytoscapeOptions {
+  /* Whether to manually set edge source and target endpoints (default false) */
+  edgeEndPoints?: boolean;
+}
+
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape data.
  */
-export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape.Cytoscape {
+export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions = {}):
+    Cytoscape.Cytoscape {
   let elements: Cytoscape.Element[] = [];
   
   // Convert nodes, ignoring the subgraphs. Note that this does not exclude
   // any nodes, only the subgraph structure.
   const offset = dot._subgraph_cnt;
   for (let obj of dot.objects.slice(offset)) {
-    elements.push(dotNodeToCytoscape(obj as any)); // obj as Node
+    elements.push(dotNodeToCytoscape(obj as any, opts)); // obj as Node
   }
   
   // Convert edges.
@@ -27,7 +33,7 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape.Cytoscape {
       // Omit invisible edges, which are used to tweak layout in Graphviz.
       continue;
     }
-    elements.push(dotEdgeToCytoscape(edge, nodes));
+    elements.push(dotEdgeToCytoscape(edge, nodes, opts));
   }
   
   return {
@@ -46,10 +52,11 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape.Cytoscape {
       },
       {
         selector: "edge.graphviz",
-        style: {
-          "source-endpoint": "data(source-endpoint)",
-          "target-endpoint": "data(target-endpoint)"
-        }
+        style: opts.edgeEndPoints ?
+          {
+            "source-endpoint": "data(source-endpoint)",
+            "target-endpoint": "data(target-endpoint)"
+          } : {}
       },
       {
         selector: ".graphviz-invis",
@@ -61,7 +68,8 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape.Cytoscape {
    };
 }
 
-function dotNodeToCytoscape(node: Graphviz.Node): Cytoscape.Element {
+function dotNodeToCytoscape(node: Graphviz.Node, opts: DotToCytoscapeOptions = {}):
+    Cytoscape.Element {
   // Create element data.
   let data: Cytoscape.ElementData = {
    /* Confusingly, we assign the Graphviz name to the Cytoscape ID and vice
@@ -96,10 +104,28 @@ function dotNodeToCytoscape(node: Graphviz.Node): Cytoscape.Element {
 }
 
 function dotEdgeToCytoscape(edge: Graphviz.Edge,
-                            nodes: (id: number) => Cytoscape.Element): Cytoscape.Element {
+    nodes: (id: number) => Cytoscape.Element,
+    opts: DotToCytoscapeOptions = {}): Cytoscape.Element {
+  // Create element data.
   const source = nodes(edge.tail);
   const target = nodes(edge.head);
-  const spline = parseSpline(edge.pos);
+  let data: Cytoscape.ElementData = {
+    source: source.data.id,
+    target: target.data.id
+  }
+  if (opts.edgeEndPoints) {
+    const spline = parseSpline(edge.pos);
+    data["source-endpoint"] = [
+      round(spline[0].x - source.position.x, 3),
+      round(spline[0].y - source.position.y, 3)
+    ];
+    data["target-endpoint"] = [
+      round(spline.slice(-1)[0].x - target.position.x, 3),
+      round(spline.slice(-1)[0].y - target.position.y, 3)
+    ];
+  }
+  
+  // Create element.
   let classes = [ "graphviz" ];
   if (edge.style !== undefined) {
     classes.push(`graphviz-${edge.style}`);
@@ -107,18 +133,7 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
   return {
     group: "edge",
     class: classes.join(" "),
-    data: {
-      source: source.data.id,
-      target: target.data.id,
-      "source-endpoint": [
-        round(spline[0].x - source.position.x, 3),
-        round(spline[0].y - source.position.y, 3)
-      ],
-      "target-endpoint": [
-        round(spline.slice(-1)[0].x - target.position.x, 3),
-        round(spline.slice(-1)[0].y - target.position.y, 3)
-      ]
-    }
+    data: data
   };
 }
 
