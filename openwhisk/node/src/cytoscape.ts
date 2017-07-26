@@ -69,7 +69,9 @@ function dotNodeToCytoscape(node: Graphviz.Node): [Cytoscape.Element, Cytoscape.
     width: inchesToPoints(parseFloat(node.width)),
     height: inchesToPoints(parseFloat(node.height))
   }
-  if (node.label !== "\\N") {
+  if (node.style === "invis") {
+    style.visibilty = "hidden";
+  } else if (node.label !== "\\N") {
     // Strip tags in Graphviz "HTML-like" labels.
     style.label = striptags(node.label).trim();
   }

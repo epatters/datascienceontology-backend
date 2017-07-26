@@ -18,7 +18,7 @@ export interface Graph {
   /* Nodes and subgraphs in the graph.
      The first `_subgraph_cnt` objects are subgraphs; the rest are nodes.
    */
-  objects: MetaNode[];
+  objects: GraphObject[];
   
   /* Edges in the graph. */
   edges: Edge[];
@@ -26,22 +26,16 @@ export interface Graph {
 
 /* Node or subgraph in Graphviz JSON output.
  */
-export interface MetaNode {
+export interface GraphObject extends GraphElement {
   /* Index of node or subgraph in `objects` array. */
   _gvid: number;
   
-  /* User-defined ID, ignored by Graphviz. */
-  id?: string;
-  
   /* Name of node or subgraph in dot file. */
   name: string;
-  
-  /* Text label attached to object. */
-  label?: string;
 }
 
-export interface Node extends MetaNode {
-  /* Position of node as comma-separated pair, in points (72 points/inch) */
+export interface Node extends GraphObject {
+  /* Position of node as comma-separated pair, in points (72 points/inch). */
   pos?: string;
   
   /* Width of node in inches. */
@@ -51,7 +45,7 @@ export interface Node extends MetaNode {
   height?: string;
 }
 
-export interface Subgraph extends MetaNode {
+export interface Subgraph extends GraphObject {
   /* Nodes (or subgraphs) in graph that are contained in this subgraph. */
   nodes: number[];
   
@@ -59,15 +53,26 @@ export interface Subgraph extends MetaNode {
   edges: number[];
 }
 
-export interface Edge {
+export interface Edge extends GraphElement {
   /* Index of edge in `edges` array. */
   _gvid: number;
   
-  /* User-defined ID, ignored by Graphviz. */
-  id?: string;
-  
+  /* Head (target) of edge. */
   head: number;
+  
+  /* Tail (source) of edge. */
   tail: number;
   
   pos?: string;
+}
+
+export interface GraphElement {
+  /* User-defined ID, ignored by Graphviz. */
+  id?: string;
+  
+  /* Text label attached to element. */
+  label?: string;
+  
+  /* Style information. */
+  style?: string;
 }

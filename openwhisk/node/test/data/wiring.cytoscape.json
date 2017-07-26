@@ -134,28 +134,32 @@
       "selector": "#n1p1",
       "style": {
         "width": 31.144,
-        "height": 14
+        "height": 14,
+        "visibilty": "hidden"
       }
     },
     {
       "selector": "#n1p2",
       "style": {
         "width": 31.144,
-        "height": 14
+        "height": 14,
+        "visibilty": "hidden"
       }
     },
     {
       "selector": "#n2p1",
       "style": {
         "width": 31.144,
-        "height": 14
+        "height": 14,
+        "visibilty": "hidden"
       }
     },
     {
       "selector": "#n2p2",
       "style": {
         "width": 31.144,
-        "height": 14
+        "height": 14,
+        "visibilty": "hidden"
       }
     },
     {
