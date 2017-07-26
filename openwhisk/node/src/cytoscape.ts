@@ -144,14 +144,30 @@ function parsePoint(s: string): Point {
 
 /* Parse Graphviz spline.
 
-  Ignores start/end points for arrow head.
   http://www.graphviz.org/doc/info/attrs.html#k:splineType
 */
 function parseSpline(spline: string): Point[] {
-  return spline
-    .split(" ")
-    .filter((s) => !(s.startsWith("s") || s.startsWith("e")))
-    .map(parsePoint);
+  let points: Point[] = [];
+  let startPoint: Point = null;
+  let endPoint: Point = null;
+  
+  spline.split(" ").forEach((s) => {
+    if (s.startsWith("s,")) {
+      startPoint = parsePoint(s.slice(2));
+    } else if (s.startsWith("e,")) {
+      endPoint = parsePoint(s.slice(2));
+    } else {
+      points.push(parsePoint(s));
+    }
+  });
+  
+  if (startPoint !== null) {
+    points.splice(0, 0, startPoint);
+  }
+  if (endPoint !== null) {
+    points.push(endPoint);
+  }
+  return points;    
 }
 
 // 72 points per inch in Graphviz.
