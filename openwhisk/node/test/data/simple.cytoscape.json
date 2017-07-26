@@ -2,8 +2,12 @@
   "elements": [
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "main"
+        "id": "main",
+        "label": "main",
+        "width": 55.579,
+        "height": 36
       },
       "position": {
         "x": 152.82,
@@ -12,8 +16,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "parse"
+        "id": "parse",
+        "label": "parse",
+        "width": 57.531,
+        "height": 36
       },
       "position": {
         "x": 110.82,
@@ -22,8 +30,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "execute"
+        "id": "execute",
+        "label": "execute",
+        "width": 74.218,
+        "height": 36
       },
       "position": {
         "x": 150.82,
@@ -32,8 +44,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "init"
+        "id": "init",
+        "label": "init",
+        "width": 54,
+        "height": 36
       },
       "position": {
         "x": 53.823,
@@ -42,8 +58,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "cleanup"
+        "id": "cleanup",
+        "label": "cleanup",
+        "width": 75.211,
+        "height": 36
       },
       "position": {
         "x": 194.82,
@@ -52,8 +72,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "make_string"
+        "id": "make_string",
+        "label": "make_string",
+        "width": 107.647,
+        "height": 36
       },
       "position": {
         "x": 53.823,
@@ -62,8 +86,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "printf"
+        "id": "printf",
+        "label": "printf",
+        "width": 59.508,
+        "height": 36
       },
       "position": {
         "x": 257.82,
@@ -72,8 +100,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "compare"
+        "id": "compare",
+        "label": "compare",
+        "width": 81.101,
+        "height": 36
       },
       "position": {
         "x": 165.82,
@@ -82,65 +114,146 @@
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "parse"
+        "target": "parse",
+        "source-endpoint": [
+          -9.95,
+          -17.06
+        ],
+        "target-endpoint": [
+          15.05,
+          25.79
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "init"
+        "target": "init",
+        "source-endpoint": [
+          -23.67,
+          -9.92
+        ],
+        "target-endpoint": [
+          0.554,
+          28.19
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "cleanup"
+        "target": "cleanup",
+        "source-endpoint": [
+          9.96,
+          -17.06
+        ],
+        "target-endpoint": [
+          -15.29,
+          26.22
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "main",
-        "target": "printf"
+        "target": "printf",
+        "source-endpoint": [
+          25.3,
+          -8.15
+        ],
+        "target-endpoint": [
+          4.4,
+          28.197
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "parse",
-        "target": "execute"
+        "target": "execute",
+        "source-endpoint": [
+          9.48,
+          -17.06
+        ],
+        "target-endpoint": [
+          -14.56,
+          26.22
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "make_string"
+        "target": "make_string",
+        "source-endpoint": [
+          -20.57,
+          -15.269
+        ],
+        "target-endpoint": [
+          30.665,
+          22.761
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "printf"
+        "target": "printf",
+        "source-endpoint": [
+          21.91,
+          -14.744
+        ],
+        "target-endpoint": [
+          -28.85,
+          19.414
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "execute",
-        "target": "compare"
+        "target": "compare",
+        "source-endpoint": [
+          3.79,
+          -18.169
+        ],
+        "target-endpoint": [
+          -5.92,
+          28.417
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "init",
-        "target": "make_string"
+        "target": "make_string",
+        "source-endpoint": [
+          0,
+          -18.169
+        ],
+        "target-endpoint": [
+          0,
+          28.417
+        ]
       }
     }
   ],
@@ -149,65 +262,24 @@
   },
   "style": [
     {
-      "selector": "node",
+      "selector": "node.graphviz",
       "style": {
-        "label": "data(id)"
+        "label": "data(label)",
+        "width": "data(width)",
+        "height": "data(height)"
       }
     },
     {
-      "selector": "#main",
+      "selector": "edge.graphviz",
       "style": {
-        "width": 55.579,
-        "height": 36
+        "source-endpoint": "data(source-endpoint)",
+        "target-endpoint": "data(target-endpoint)"
       }
     },
     {
-      "selector": "#parse",
+      "selector": ".graphviz-invis",
       "style": {
-        "width": 57.531,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#execute",
-      "style": {
-        "width": 74.218,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#init",
-      "style": {
-        "width": 54,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#cleanup",
-      "style": {
-        "width": 75.211,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#make_string",
-      "style": {
-        "width": 107.647,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#printf",
-      "style": {
-        "width": 59.508,
-        "height": 36
-      }
-    },
-    {
-      "selector": "#compare",
-      "style": {
-        "width": 81.101,
-        "height": 36
+        "visibility": "hidden"
       }
     }
   ]

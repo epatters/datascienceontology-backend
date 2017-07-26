@@ -63,6 +63,9 @@ export interface Edge extends GraphElement {
   /* Tail (source) of edge. */
   tail: number;
   
+  /* Positions of start, end, and control points of spline. 
+     http://www.graphviz.org/doc/info/attrs.html#k:splineType
+  */
   pos?: string;
 }
 

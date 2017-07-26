@@ -2,8 +2,12 @@
   "elements": [
     {
       "group": "node",
+      "class": "graphviz graphviz-invis",
       "data": {
-        "id": "n1p1"
+        "id": "n1p1",
+        "label": "n1p1",
+        "width": 31.144,
+        "height": 14
       },
       "position": {
         "x": 15.572,
@@ -12,8 +16,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz graphviz-invis",
       "data": {
-        "id": "n1p2"
+        "id": "n1p2",
+        "label": "n1p2",
+        "width": 31.144,
+        "height": 14
       },
       "position": {
         "x": 64.572,
@@ -22,8 +30,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz graphviz-invis",
       "data": {
-        "id": "n2p1"
+        "id": "n2p1",
+        "label": "n2p1",
+        "width": 31.144,
+        "height": 14
       },
       "position": {
         "x": 15.572,
@@ -32,8 +44,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz graphviz-invis",
       "data": {
-        "id": "n2p2"
+        "id": "n2p2",
+        "label": "n2p2",
+        "width": 31.144,
+        "height": 14
       },
       "position": {
         "x": 64.572,
@@ -42,8 +58,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "n3"
+        "id": "n3",
+        "label": "g",
+        "width": 24,
+        "height": 24
       },
       "position": {
         "x": 15.572,
@@ -52,8 +72,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "n4"
+        "id": "n4",
+        "label": "h",
+        "width": 24,
+        "height": 24
       },
       "position": {
         "x": 64.572,
@@ -62,8 +86,12 @@
     },
     {
       "group": "node",
+      "class": "graphviz",
       "data": {
-        "id": "n5"
+        "id": "n5",
+        "label": "f",
+        "width": 24,
+        "height": 24
       },
       "position": {
         "x": 15.572,
@@ -72,51 +100,82 @@
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "n1p1",
-        "target": "n1p2"
+        "target": "n5",
+        "source-endpoint": [
+          0,
+          -7
+        ],
+        "target-endpoint": [
+          0,
+          17.17
+        ]
       }
     },
     {
       "group": "edge",
-      "data": {
-        "source": "n1p1",
-        "target": "n5"
-      }
-    },
-    {
-      "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "n1p2",
-        "target": "n4"
+        "target": "n4",
+        "source-endpoint": [
+          0,
+          -7
+        ],
+        "target-endpoint": [
+          0,
+          17.328
+        ]
       }
     },
     {
       "group": "edge",
-      "data": {
-        "source": "n2p1",
-        "target": "n2p2"
-      }
-    },
-    {
-      "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "n3",
-        "target": "n2p1"
+        "target": "n2p1",
+        "source-endpoint": [
+          0,
+          -12
+        ],
+        "target-endpoint": [
+          0,
+          12.169
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "n4",
-        "target": "n2p2"
+        "target": "n2p2",
+        "source-endpoint": [
+          0,
+          -12
+        ],
+        "target-endpoint": [
+          0,
+          12.169
+        ]
       }
     },
     {
       "group": "edge",
+      "class": "graphviz",
       "data": {
         "source": "n5",
-        "target": "n3"
+        "target": "n3",
+        "source-endpoint": [
+          0,
+          -12
+        ],
+        "target-endpoint": [
+          0,
+          17.169
+        ]
       }
     }
   ],
@@ -125,65 +184,24 @@
   },
   "style": [
     {
-      "selector": "node",
+      "selector": "node.graphviz",
       "style": {
-        "label": "data(id)"
+        "label": "data(label)",
+        "width": "data(width)",
+        "height": "data(height)"
       }
     },
     {
-      "selector": "#n1p1",
+      "selector": "edge.graphviz",
       "style": {
-        "width": 31.144,
-        "height": 14,
-        "visibilty": "hidden"
+        "source-endpoint": "data(source-endpoint)",
+        "target-endpoint": "data(target-endpoint)"
       }
     },
     {
-      "selector": "#n1p2",
+      "selector": ".graphviz-invis",
       "style": {
-        "width": 31.144,
-        "height": 14,
-        "visibilty": "hidden"
-      }
-    },
-    {
-      "selector": "#n2p1",
-      "style": {
-        "width": 31.144,
-        "height": 14,
-        "visibilty": "hidden"
-      }
-    },
-    {
-      "selector": "#n2p2",
-      "style": {
-        "width": 31.144,
-        "height": 14,
-        "visibilty": "hidden"
-      }
-    },
-    {
-      "selector": "#n3",
-      "style": {
-        "width": 24,
-        "height": 24,
-        "label": "g"
-      }
-    },
-    {
-      "selector": "#n4",
-      "style": {
-        "width": 24,
-        "height": 24,
-        "label": "h"
-      }
-    },
-    {
-      "selector": "#n5",
-      "style": {
-        "width": 24,
-        "height": 24,
-        "label": "f"
+        "visibility": "hidden"
       }
     }
   ]
