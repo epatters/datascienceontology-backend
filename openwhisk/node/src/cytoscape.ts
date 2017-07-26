@@ -1,6 +1,10 @@
 import * as Cytoscape from "./interfaces/cytoscape";
 import * as Graphviz from "./interfaces/graphviz";
 
+// XXX: Official types are borked due to TypeScript/CommonJS incompatibility:
+// https://github.com/Microsoft/TypeScript/issues/5565#issuecomment-155171298
+const striptags: (html: string) => string = require("striptags");
+
 
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape data.
  */
@@ -66,7 +70,8 @@ function dotNodeToCytoscape(node: Graphviz.Node): [Cytoscape.Element, Cytoscape.
     height: inchesToPoints(parseFloat(node.height))
   }
   if (node.label !== "\\N") {
-    style.label = node.label;
+    // Strip tags in Graphviz "HTML-like" labels.
+    style.label = striptags(node.label).trim();
   }
   
   const position = parseFloatArray(node.pos);

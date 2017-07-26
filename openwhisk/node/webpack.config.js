@@ -23,6 +23,10 @@ module.exports = {
     ]
   },
   externals: [
-    nodeExternals()
+    nodeExternals({
+      whitelist: [
+        "striptags"
+      ]
+    })
   ],
 };

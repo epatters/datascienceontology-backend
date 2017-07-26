@@ -163,7 +163,7 @@
       "style": {
         "width": 24,
         "height": 24,
-        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">g</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
+        "label": "g"
       }
     },
     {
@@ -171,7 +171,7 @@
       "style": {
         "width": 24,
         "height": 24,
-        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">h</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
+        "label": "h"
       }
     },
     {
@@ -179,7 +179,7 @@
       "style": {
         "width": 24,
         "height": 24,
-        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">f</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
+        "label": "f"
       }
     }
   ]
