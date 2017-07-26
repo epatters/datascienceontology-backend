@@ -34,30 +34,55 @@ export function dotToCytoscape(dot: Graphviz.Graph): Cytoscape.Cytoscape {
     layout: {
       name: "preset"
     },
-    style: styles
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)"
+        }
+      },
+      ...styles
+    ]
    };
 }
 
 function dotNodeToCytoscape(node: Graphviz.Node): [Cytoscape.Element, Cytoscape.Style] {
+  const dpi = 72; // 72 points per inch in Graphviz
+  const inchesToPoints = (x: number) => Math.round(dpi * x * 1000) / 1000
+  
+  // Create element data. Confusingly, we assign the Graphviz name to the
+  // Cytoscape ID and vice versa. The reason is that the Graphviz names are
+  // guaranteed to be unique, while the user-defined IDs need not be.
+  let data: Cytoscape.ElementData = {
+    id: node.name
+  }
+  if (node.id !== undefined) {
+    data.name = node.id;
+  }
+  
+  // Create style data. Only assign label if node default is overridden.
+  let style: Cytoscape.StyleData = {
+    width: inchesToPoints(parseFloat(node.width)),
+    height: inchesToPoints(parseFloat(node.height))
+  }
+  if (node.label !== "\\N") {
+    style.label = node.label;
+  }
+  
   const position = parseFloatArray(node.pos);
   return [
     {
       group: "node",
-      data: {
-        id: node.name
-      },
-      // Position refers to node *center* in both Graphviz and Cytoscape.
+      data: data,
       position: {
+        // Position refers to node *center* in both Graphviz and Cytoscape.
         x: position[0],
         y: position[1]
       }
     },
     {
       selector: "#" + node.name,
-      style: {
-        width: parseFloat(node.width),
-        height: parseFloat(node.height)
-      }
+      style: style
     }
   ]
 }

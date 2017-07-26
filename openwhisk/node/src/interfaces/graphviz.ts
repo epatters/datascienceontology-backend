@@ -30,14 +30,24 @@ export interface MetaNode {
   /* Index of node or subgraph in `objects` array. */
   _gvid: number;
   
+  /* User-defined ID, ignored by Graphviz. */
+  id?: string;
+  
   /* Name of node or subgraph in dot file. */
   name: string;
+  
+  /* Text label attached to object. */
+  label?: string;
 }
 
 export interface Node extends MetaNode {
-  label?: string;
+  /* Position of node as comma-separated pair, in points (72 points/inch) */
   pos?: string;
+  
+  /* Width of node in inches. */
   width?: string;
+  
+  /* Height of node in inches. */
   height?: string;
 }
 
@@ -52,6 +62,9 @@ export interface Subgraph extends MetaNode {
 export interface Edge {
   /* Index of edge in `edges` array. */
   _gvid: number;
+  
+  /* User-defined ID, ignored by Graphviz. */
+  id?: string;
   
   head: number;
   tail: number;

@@ -149,59 +149,65 @@
   },
   "style": [
     {
+      "selector": "node",
+      "style": {
+        "label": "data(id)"
+      }
+    },
+    {
       "selector": "#main",
       "style": {
-        "width": 0.77193,
-        "height": 0.5
+        "width": 55.579,
+        "height": 36
       }
     },
     {
       "selector": "#parse",
       "style": {
-        "width": 0.79904,
-        "height": 0.5
+        "width": 57.531,
+        "height": 36
       }
     },
     {
       "selector": "#execute",
       "style": {
-        "width": 1.0308,
-        "height": 0.5
+        "width": 74.218,
+        "height": 36
       }
     },
     {
       "selector": "#init",
       "style": {
-        "width": 0.75,
-        "height": 0.5
+        "width": 54,
+        "height": 36
       }
     },
     {
       "selector": "#cleanup",
       "style": {
-        "width": 1.0446,
-        "height": 0.5
+        "width": 75.211,
+        "height": 36
       }
     },
     {
       "selector": "#make_string",
       "style": {
-        "width": 1.4951,
-        "height": 0.5
+        "width": 107.647,
+        "height": 36
       }
     },
     {
       "selector": "#printf",
       "style": {
-        "width": 0.8265,
-        "height": 0.5
+        "width": 59.508,
+        "height": 36
       }
     },
     {
       "selector": "#compare",
       "style": {
-        "width": 1.1264,
-        "height": 0.5
+        "width": 81.101,
+        "height": 36
       }
     }
   ]

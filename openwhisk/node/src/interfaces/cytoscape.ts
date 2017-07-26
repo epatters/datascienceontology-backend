@@ -20,10 +20,10 @@ export interface Element {
   /* Element data */
   data: ElementData;
   
-  /* "Scratchpad data" not consumed by Cytoscape. */
+  /* "Scratchpad data" that is temporary or non-serializable */
   scratch?: {};
 
-  /* Position of node (specifically, the center of the node). */
+  /* Position of node (specifically, the center of the node) */
   position?: {
     x: number,
     y: number,
@@ -42,6 +42,9 @@ export interface ElementData {
   
   /* Parent of element, if a compound node. */
   parent?: ElementID;
+  
+  /* Other JSON-serializable data, not consumed by Cytoscape. */
+  [other: string]: any;
 }
 
 export type ElementID = number | string;
@@ -60,5 +63,9 @@ export interface Style {
   selector: string;
   
   /* Style key-value pairs. */
-  style: {};
+  style: StyleData;
+}
+
+export interface StyleData {
+  [key: string]: any;
 }

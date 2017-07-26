@@ -125,52 +125,61 @@
   },
   "style": [
     {
+      "selector": "node",
+      "style": {
+        "label": "data(id)"
+      }
+    },
+    {
       "selector": "#n1p1",
       "style": {
-        "width": 0.43256,
-        "height": 0.19444
+        "width": 31.144,
+        "height": 14
       }
     },
     {
       "selector": "#n1p2",
       "style": {
-        "width": 0.43256,
-        "height": 0.19444
+        "width": 31.144,
+        "height": 14
       }
     },
     {
       "selector": "#n2p1",
       "style": {
-        "width": 0.43256,
-        "height": 0.19444
+        "width": 31.144,
+        "height": 14
       }
     },
     {
       "selector": "#n2p2",
       "style": {
-        "width": 0.43256,
-        "height": 0.19444
+        "width": 31.144,
+        "height": 14
       }
     },
     {
       "selector": "#n3",
       "style": {
-        "width": 0.33333,
-        "height": 0.33333
+        "width": 24,
+        "height": 24,
+        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">g</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
       }
     },
     {
       "selector": "#n4",
       "style": {
-        "width": 0.33333,
-        "height": 0.33333
+        "width": 24,
+        "height": 24,
+        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">h</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
       }
     },
     {
       "selector": "#n5",
       "style": {
-        "width": 0.33333,
-        "height": 0.33333
+        "width": 24,
+        "height": 24,
+        "label": "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"in1\"></TD></TR></TABLE></TD></TR>\n<TR><TD BORDER=\"1\" CELLPADDING=\"4\">f</TD></TR>\n<TR><TD><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TR><TD HEIGHT=\"0\" WIDTH=\"24\" PORT=\"out1\"></TD></TR></TABLE></TD></TR>\n</TABLE>"
       }
     }
   ]
