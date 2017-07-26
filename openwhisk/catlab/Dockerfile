@@ -42,7 +42,9 @@ ENV CATLAB_VERSION a6674303a3f5cfaed94ac70807ffa2e39f26d36a
 RUN julia -e 'Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
   && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
   && git checkout ${CATLAB_VERSION} . \
-  && julia -e 'import JSON; import Catlab' # precompile!
+  # Precompile packages
+  && julia -e 'import JSON; import Catlab' \
+  && rm -rf /root/.julia/v${JULIA_VERSION%[.-]*}/METADATA
 
 ######################################################################
 

@@ -6,8 +6,8 @@ import Catlab.Diagram: Graphviz
 using Catlab.Diagram: Wiring, GraphvizWiring
 
 
-function expression_to_graphviz(sexpr::String)::Graphviz.Graph
-  expr = parse_json(FreeCartesianCategory, JSON.parse(sexpr))
+function expression_to_graphviz(sexpr)::Graphviz.Graph
+  expr = parse_json(FreeCartesianCategory, sexpr)
   to_graphviz(to_wiring_diagram(expr))
 end
 

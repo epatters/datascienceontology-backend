@@ -8,7 +8,7 @@ import * as Graphviz from "../interfaces/graphviz";
 
 export interface ActionParams {
   /* Morphism expression */
-  expr: SExp;
+  expression: SExp;
 }
 
 export interface ActionResult {
@@ -19,7 +19,7 @@ export interface ActionResult {
 /* Convert morphism expression to wiring diagram in Cytoscape format.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
-  const generators = getAtoms(params.expr);
+  const generators = getAtoms(params.expression);
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
     name: "Bluemix_Cloudant_Root/exec-query-find",
@@ -39,13 +39,13 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     }
   }).then((result) => {
     const docs = result.response.result.docs;
-    const expr = expandGenerators(params.expr, docs);
+    const expression = expandGenerators(params.expression, docs);
     return openwhisk.actions.invoke({
       name: "data-science-ontology/catlab",
       blocking: true,
       params: {
         action: "expression_to_graphviz",
-        expression: expr
+        expression: expression
       }
     });
   }).then((result) => {
