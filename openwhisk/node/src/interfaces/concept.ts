@@ -1,3 +1,5 @@
+import { SExp } from "./expression";
+
 /** Concept in an ontology.
 
   Mirrors the JSON schema for the database.
@@ -7,18 +9,18 @@ export type Concept = ObjectConcept | MorphismConcept;
 /** Object concept in an ontology.
  */
 export interface ObjectConcept extends ConceptBase {
-  /* Concept is a subobject (subtype) of these objects, if it is an object */
+  /* Object is a subobject (subtype) of these objects */
   subobject?: string[];
 }
 
 /** Morphism concept in an ontology.
  */
 export interface MorphismConcept extends ConceptBase {
-  /* Domain and codomain of concept, if it is a morphism */
+  /* Domain and codomain of morphism */
   domain: Array<DomainObject>;
   codomain: Array<DomainObject>;
   
-  /* Identifer of generic morphism to which this concept belongs, if it is a concept */
+  /* Identifer of generic morphism to which this morphism belongs, if any */
   generic?: string;
 }
 
@@ -44,12 +46,12 @@ interface ConceptBase {
   kind: string;
   
   /* Definition of concept in terms of other concepts */
-  definition?: any;
+  definition?: SExp;
 }
 
 /** Object belonging to the domain or codomain of a morphism.
  */
-interface DomainObject {
+export interface DomainObject {
   /* ID of an object concept */
   object: string;
   

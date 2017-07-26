@@ -1,11 +1,10 @@
 import OpenWhisk = require("openwhisk");
 
+import { SExp, SExpArray, morphismToExpr } from "../syntax";
+import { MorphismConcept } from "../interfaces/concept";
 import * as Cytoscape from "../interfaces/cytoscape";
 import * as Graphviz from "../interfaces/graphviz";
 
-
-interface SExpArray extends Array<string | SExpArray> {}
-type SExp = string | SExpArray;
 
 export interface ActionParams {
   /* Morphism expression */
@@ -39,13 +38,14 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       }
     }
   }).then((result) => {
+    const docs = result.response.result.docs;
+    const expr = expandGenerators(params.expr, docs);
     return openwhisk.actions.invoke({
       name: "data-science-ontology/catlab",
       blocking: true,
       params: {
         action: "expression_to_graphviz",
-        expr: params.expr,
-        generators: result.response.result
+        expression: expr
       }
     });
   }).then((result) => {
@@ -72,5 +72,25 @@ function getAtoms(expr: SExp): Array<string> {
       (expr as SExpArray).slice(1).forEach(recurse);
     }
   }
+  recurse(expr);
   return Array.from(atoms);
+}
+
+/* Expand generator names into generator constructors.
+
+  Uses generator definitions from the ontology.
+ */
+function expandGenerators(expr: SExp, generators: Array<MorphismConcept>): SExp {
+  let expansions: { [id: string]: SExp } = {};
+  for (let concept of generators) {
+    expansions[concept.id] = morphismToExpr(concept);
+  }
+  const recurse = (expr: SExp): SExp => {
+    if (typeof expr === "string") {
+      return expansions[expr];
+    } else {
+      return (expr as SExpArray).map(recurse);
+    }
+  }
+  return recurse(expr);
 }

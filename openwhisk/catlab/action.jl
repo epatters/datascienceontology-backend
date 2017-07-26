@@ -1,16 +1,13 @@
 #!/usr/bin/env julia
 import JSON
 
-using Catlab.Doctrine
+using Catlab: Doctrine, Syntax
 import Catlab.Diagram: Graphviz
 using Catlab.Diagram: Wiring, GraphvizWiring
 
 
-function expression_to_graphviz()::Graphviz.Graph
-  # XXX: Hard-code an expression for now!
-  A, B, C = Ob(FreeCartesianCategory, :A, :B, :C)
-  f, g, h = Hom(:f, A, B), Hom(:g, B, C), Hom(:h, A, C)
-  expr = otimes(compose(f, g), h)
+function expression_to_graphviz(sexpr::String)::Graphviz.Graph
+  expr = parse_json(FreeCartesianCategory, JSON.parse(sexpr))
   to_graphviz(to_wiring_diagram(expr))
 end
 
@@ -22,7 +19,7 @@ function main(args::Vector{String})
   
   # Run action!
   result = if action == "expression_to_graphviz"
-    graph = expression_to_graphviz()
+    graph = expression_to_graphviz(params["expression"])
     dot = sprint(Graphviz.pprint, graph)
     Dict(
       "success" => true,

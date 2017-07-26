@@ -37,7 +37,7 @@ ENV PATH $JULIA_PATH/bin:$PATH
 # Catlab
 ######################################################################
 
-ENV CATLAB_VERSION d47e188a1bd21481326930aff70a40b8441dbfe8
+ENV CATLAB_VERSION a6674303a3f5cfaed94ac70807ffa2e39f26d36a
 
 RUN julia -e 'Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
   && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
