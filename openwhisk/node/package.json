@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "data-science-ontology-backend",
+  "name": "data-science-ontology",
   "version": "0.1.0",
   "description": "Node.js backend for the Data Science Ontology",
   "author": "Evan Patterson",
