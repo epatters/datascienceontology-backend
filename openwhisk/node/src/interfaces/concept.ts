@@ -8,10 +8,7 @@ export type Concept = ObjectConcept | MorphismConcept;
 
 /** Object concept in an ontology.
  */
-export interface ObjectConcept extends ConceptBase {
-  /* Object is a subobject (subtype) of these objects */
-  subobject?: string[];
-}
+export interface ObjectConcept extends ConceptBase {}
 
 /** Morphism concept in an ontology.
  */
@@ -19,9 +16,6 @@ export interface MorphismConcept extends ConceptBase {
   /* Domain and codomain of morphism */
   domain: Array<DomainObject>;
   codomain: Array<DomainObject>;
-  
-  /* Identifer of generic morphism to which this morphism belongs, if any */
-  generic?: string;
 }
 
 /** Base interface for concept in an ontology.
@@ -50,6 +44,9 @@ interface ConceptBase {
   
   /* Definition of concept in terms of other concepts */
   definition?: SExp;
+  
+  /* Concept is a sub-concept (subobject/subtype or sub-morphism) of these concepts */
+  subconcept?: string[];
 }
 
 /** Object belonging to the domain or codomain of a morphism.

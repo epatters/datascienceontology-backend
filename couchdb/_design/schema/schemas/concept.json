@@ -41,6 +41,11 @@
     "definition": {
       "description": "Definition of concept in terms of other concepts",
       "$ref": "#/definitions/s-expression"
+    },
+    "subconcept": {
+      "description": "Concept is a sub-concept (subobject/subtype or sub-morphism) of these concepts",
+      "type": "array",
+      "items": { "type": "string" }
     }
   },
   "oneOf": [
@@ -63,12 +68,7 @@
     "object": {
       "required": [ "kind" ],
       "properties": {
-        "kind": { "enum": ["object"] },
-        "subobject": {
-          "description": "Object is a subobject (subtype) of these objects",
-          "type": "array",
-          "items": { "type": "string" }
-        }
+        "kind": { "enum": ["object"] }
       }
     },
     "morphism": {
@@ -84,10 +84,6 @@
           "description": "Codomain of morphism as a product of named objects",
           "type": "array",
           "items": { "$ref": "#/definitions/domain-object" }
-        },
-        "generic": {
-          "description": "Identifer of generic morphism to which this morphism belongs",
-          "type": "string"
         }
       }
     },
