@@ -1,3 +1,7 @@
 {
-  "name": "standard"
+  "name": "perfield",
+  "default": "standard",
+  "fields": {
+    "id": "keyword"
+  }
 }
