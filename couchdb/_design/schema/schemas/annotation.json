@@ -128,7 +128,7 @@
       },
       "oneOf": [
         {
-          "required": [ "funcion" ],
+          "required": [ "function" ],
           "properties": {
             "function": {
               "description": "Fully qualified name of function",
