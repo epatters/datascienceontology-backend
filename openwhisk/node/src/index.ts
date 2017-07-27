@@ -1,3 +1,4 @@
+export * from "./interfaces/annotation";
 export * from "./interfaces/expression";
 export * from "./interfaces/concept";
 export * from "./syntax";
