@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Cache",
+  "description": "Cached computations on content of another document",
+  "type": "object",
+  "documentID": [ "schema", "key" ],
+  "required": [ "_id", "schema", "key" ],
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "schema": {
+      "enum": ["cache"]
+    },
+    "key": {
+      "description": "Key for cache entry, typically the ID of another document",
+      "type": "string"
+    }
+  }
+}

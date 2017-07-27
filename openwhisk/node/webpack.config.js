@@ -2,6 +2,7 @@ var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
+    cache_concept: "./src/actions/cache_concept.ts",
     dot_json_to_cytoscape: "./src/actions/dot_json_to_cytoscape.ts",
     graphviz_to_cytoscape: "./src/actions/graphviz_to_cytoscape.ts",
     morphism_to_cytoscape: "./src/actions/morphism_to_cytoscape.ts",

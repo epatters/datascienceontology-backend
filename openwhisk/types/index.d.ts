@@ -20,7 +20,9 @@ interface ClientOptions {
 }
 
 interface Actions {
-  invoke: (options: ActionOptions) => Promise<ActionResult>;
+  // Promise can have type `ActionResult` or `any` depending on value of
+  // `result` option.
+  invoke: (options: ActionOptions) => Promise<any>;
 }
 
 interface ActionOptions {

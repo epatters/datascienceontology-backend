@@ -37,6 +37,10 @@ wsk action update $PKG/morphism_to_cytoscape \
   "$NODE/morphism_to_cytoscape.bundle.js" \
   -a description "Convert a morphism expression to Cytoscape data"
 
+wsk action update $PKG/cache_concept \
+  "$NODE/cache_concept.bundle.js" \
+  -a description "Re-compute cached content for concept document"
+
 # Triggers
 ##########
 

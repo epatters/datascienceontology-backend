@@ -30,6 +30,9 @@ interface ConceptBase {
   /* ID of document in database. */
   _id?: string;
   
+  /* Schema of document in database (always equal to "concept"). */
+  schema?: string;
+  
   /* Ontology to which concept belongs. */
   ontology?: string;
   
