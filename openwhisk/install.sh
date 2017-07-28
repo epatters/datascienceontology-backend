@@ -37,16 +37,21 @@ wsk action update $PKG/morphism_to_cytoscape \
   "$NODE/morphism_to_cytoscape.bundle.js" \
   -a description "Convert a morphism expression to Cytoscape data"
 
-wsk action update $PKG/cache_concept \
-  "$NODE/cache_concept.bundle.js" \
-  -a description "Re-compute cached content for concept document"
+wsk action update $PKG/annotation_changed \
+  "$NODE/annotation_changed.bundle.js" \
+  -a description "Action fired when annotation document is created or updated"
 
 # Triggers
 ##########
 
 # Note: Trigger are not allowed inside packages, hence the naming convention.
 
-wsk trigger create $PKG-concept --feed "$CLOUDANT_PKG/changes" \
+wsk trigger create trigger-dso-concept --feed "$CLOUDANT_PKG/changes" \
   --param dbname "$CLOUDANT_DBNAME" \
   --param filter "schema/by_schema" \
   --param query_params '{"schema":"concept"}'
+
+wsk trigger create trigger-dso-annotation --feed "$CLOUDANT_PKG/changes" \
+  --param dbname "$CLOUDANT_DBNAME" \
+  --param filter "schema/by_schema" \
+  --param query_params '{"schema":"annotation"}'

@@ -31,6 +31,9 @@ export interface Annotation {
   
   /* Kind of concept in ontology: "object" or "morphism". */
   kind: string;
+  
+  /* Definition of annotated code as concept in ontology. */
+  definition: SExp;
 }
 
 export type PythonAnnotation = PythonObject | PythonMorphism;
@@ -40,9 +43,6 @@ export type PythonAnnotation = PythonObject | PythonMorphism;
 export interface PythonObject extends Annotation {
   /* Class to which annotation applies. */
   class: Array<string>;
-  
-  /* Definition of annotated class as object in ontology. */
-  definition: string;
 }
 
 /** Annotation for Python function or method.
@@ -54,11 +54,8 @@ export interface PythonMorphism extends Annotation {
   /* Class to which annotation applies, if annotating a method. */
   class?: Array<string>;
   
-  /* Unqualified name of method. */
+  /* Unqualified name of method, if annotating a method. */
   method?: string;
-  
-  /* Definition of annotated function or method as morphism in ontology. */
-  definition: SExp;
   
   /* Mapping of arguments (positional and named) to morphism domain/ */
   domain: Array<number | string>;

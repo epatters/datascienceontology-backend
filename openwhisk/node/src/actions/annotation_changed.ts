@@ -1,28 +1,29 @@
 import OpenWhisk = require("openwhisk");
 
+import { Annotation } from "../interfaces/annotation";
 import { Cache } from "../interfaces/cache";
-import { Concept } from "../interfaces/concept";
 import * as Cytoscape from "../interfaces/cytoscape";
 
 
 export interface ActionParams {
-  /* Document ID of created or updated concept. */
+  /* Document ID of created or updated annotation. */
   id: string;
 }
 
 export interface ActionResult {
-  /* Document ID of cached computation results for concept, if any. */
+  /* Document ID of cached computation results for annotation, if any. */
   id: string;
 }
 
-/* Action that is fired whenever a concept document is created or updated.
+/** Action that is invoked whenever a annotation document is created or updated.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
   let cache: Cache = {
-    _id: ["cache", params.id].join("/"),
+    schema: "cache",
+    _id: `cache/${params.id}`,
     key: params.id
   };
-  let doc: Concept = null;
+  let doc: Annotation = null;
   
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
@@ -34,8 +35,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     }
   }).then(result => {
     doc = result.response.result;
-    if (!(doc.schema === "concept" && 
-          doc.kind === "morphism" && doc.definition !== undefined)) {
+    if (!(doc.schema === "annotation" && doc.kind === "morphism")) {
       throw "skip";
     }
     return openwhisk.actions.invoke({
@@ -58,13 +58,13 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         dbname: "data-science-ontology",
         doc: cache
       }
-    });
+    }).then(result => result.response.result);
   }, reason => {
     if (reason !== "skip") {
       console.log(reason);
       throw reason;
     }
-    return {id: null};
-  }).then(result => result.response.result);
+    return { id: null, ok: true };
+  });
 }
 global.main = action;
