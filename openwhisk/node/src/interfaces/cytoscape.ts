@@ -15,7 +15,7 @@ export interface Element {
   group?: string;
   
   /* Space-separated list of classes element belongs to */
-  class?: string;
+  classes?: string;
   
   /* Element data */
   data: ElementData;

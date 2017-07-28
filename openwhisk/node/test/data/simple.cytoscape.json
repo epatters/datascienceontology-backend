@@ -1,8 +1,8 @@
 {
   "elements": [
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "main",
         "label": "main",
@@ -15,8 +15,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "parse",
         "label": "parse",
@@ -29,8 +29,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "execute",
         "label": "execute",
@@ -43,8 +43,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "init",
         "label": "init",
@@ -57,8 +57,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "cleanup",
         "label": "cleanup",
@@ -71,8 +71,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "make_string",
         "label": "make_string",
@@ -85,8 +85,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "printf",
         "label": "printf",
@@ -99,8 +99,8 @@
       }
     },
     {
-      "group": "node",
-      "class": "graphviz",
+      "group": "nodes",
+      "classes": "graphviz",
       "data": {
         "id": "compare",
         "label": "compare",
@@ -113,72 +113,72 @@
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "main",
         "target": "parse"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "main",
         "target": "init"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "main",
         "target": "cleanup"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "main",
         "target": "printf"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "parse",
         "target": "execute"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "execute",
         "target": "make_string"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "execute",
         "target": "printf"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "execute",
         "target": "compare"
       }
     },
     {
-      "group": "edge",
-      "class": "graphviz",
+      "group": "edges",
+      "classes": "graphviz",
       "data": {
         "source": "init",
         "target": "make_string"

@@ -54,8 +54,8 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
         selector: "edge.graphviz",
         style: opts.edgeEndPoints ?
           {
-            "source-endpoint": "data(source-endpoint)",
-            "target-endpoint": "data(target-endpoint)"
+            "source-endpoint": "data(sourceEndpoint)",
+            "target-endpoint": "data(targetEndpoint)"
           } : {}
       },
       {
@@ -95,8 +95,8 @@ function dotNodeToCytoscape(node: Graphviz.Node, opts: DotToCytoscapeOptions = {
     classes.push(`graphviz-${node.style}`);
   }
   return {
-    group: "node",
-    class: classes.join(" "),
+    group: "nodes",
+    classes: classes.join(" "),
     data: data,
     // Position refers to node *center* in both Graphviz and Cytoscape.
     position: parsePoint(node.pos)
@@ -115,11 +115,11 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
   }
   if (opts.edgeEndPoints) {
     const spline = parseSpline(edge.pos);
-    data["source-endpoint"] = [
+    data["sourceEndpoint"] = [
       round(spline[0].x - source.position.x, 3),
       round(spline[0].y - source.position.y, 3)
     ];
-    data["target-endpoint"] = [
+    data["targetEndpoint"] = [
       round(spline.slice(-1)[0].x - target.position.x, 3),
       round(spline.slice(-1)[0].y - target.position.y, 3)
     ];
@@ -131,8 +131,8 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
     classes.push(`graphviz-${edge.style}`);
   }
   return {
-    group: "edge",
-    class: classes.join(" "),
+    group: "edges",
+    classes: classes.join(" "),
     data: data
   };
 }

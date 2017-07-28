@@ -1,6 +1,7 @@
-export * from "./interfaces/annotation";
 export * from "./interfaces/expression";
 export * from "./interfaces/concept";
+export * from "./interfaces/annotation";
+export * from "./interfaces/cache";
 export * from "./syntax";
 
 import * as Cytoscape from "./interfaces/cytoscape";
