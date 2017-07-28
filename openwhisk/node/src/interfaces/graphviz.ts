@@ -12,6 +12,9 @@ export interface Graph {
   directed: boolean;
   strict: boolean;
   
+  /* Bounding box of graph as rectangle. */
+  bb: string;
+  
   /* Number of subgraphs in the graph. */
   _subgraph_cnt: number;
   

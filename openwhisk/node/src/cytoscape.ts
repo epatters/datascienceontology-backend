@@ -19,21 +19,33 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
     Cytoscape.Cytoscape {
   let elements: Cytoscape.Element[] = [];
   
+  /* Use bounding box to transform coordinates.
+  
+  Graphviz uses the "default" Cartesian coordinate system (origin in bottom
+  left corner), while Cytoscape uses the HTML coordinate system (origin in top
+  left corner). It seems (but is not documented) that the first two numbers in
+  the Graphviz bounding box are always (0,0).
+  */
+  const bb = parseFloatArray(dot.bb);
+  const transformPoint = (point: Point): Point => (
+    { x: point.x, y: bb[3] - point.y }
+  );
+  
   // Convert nodes, ignoring the subgraphs. Note that this does not exclude
   // any nodes, only the subgraph structure.
   const offset = dot._subgraph_cnt;
   for (let obj of dot.objects.slice(offset)) {
-    elements.push(dotNodeToCytoscape(obj as any, opts)); // obj as Node
+    elements.push(dotNodeToCytoscape(obj as any, transformPoint, opts));
   }
   
   // Convert edges.
-  const nodes = (id: number) => elements[id - offset];
+  const getNode = (id: number) => elements[id - offset];
   for (let edge of dot.edges) {
     if (edge.style === "invis") {
       // Omit invisible edges, which are used to tweak layout in Graphviz.
       continue;
     }
-    elements.push(dotEdgeToCytoscape(edge, nodes, opts));
+    elements.push(dotEdgeToCytoscape(edge, getNode, transformPoint, opts));
   }
   
   return {
@@ -68,8 +80,9 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
    };
 }
 
-function dotNodeToCytoscape(node: Graphviz.Node, opts: DotToCytoscapeOptions = {}):
-    Cytoscape.Element {
+function dotNodeToCytoscape(node: Graphviz.Node,
+    transformPoint: (point: Point) => Point,
+    opts: DotToCytoscapeOptions = {}): Cytoscape.Element {
   // Create element data.
   let data: Cytoscape.ElementData = {
    /* Confusingly, we assign the Graphviz name to the Cytoscape ID and vice
@@ -99,29 +112,32 @@ function dotNodeToCytoscape(node: Graphviz.Node, opts: DotToCytoscapeOptions = {
     classes: classes.join(" "),
     data: data,
     // Position refers to node *center* in both Graphviz and Cytoscape.
-    position: parsePoint(node.pos)
+    position: transformPoint(parsePoint(node.pos))
   };  
 }
 
 function dotEdgeToCytoscape(edge: Graphviz.Edge,
-    nodes: (id: number) => Cytoscape.Element,
+    getNode: (id: number) => Cytoscape.Element,
+    transformPoint: (point: Point) => Point,
     opts: DotToCytoscapeOptions = {}): Cytoscape.Element {
   // Create element data.
-  const source = nodes(edge.tail);
-  const target = nodes(edge.head);
+  const source = getNode(edge.tail);
+  const target = getNode(edge.head);
   let data: Cytoscape.ElementData = {
     source: source.data.id,
     target: target.data.id
   }
   if (opts.edgeEndPoints) {
     const spline = parseSpline(edge.pos);
+    const startPoint = transformPoint(spline[0]);
+    const endPoint = transformPoint(spline.slice(-1)[0]);
     data["sourceEndpoint"] = [
-      round(spline[0].x - source.position.x, 3),
-      round(spline[0].y - source.position.y, 3)
+      round(startPoint.x - source.position.x, 3),
+      round(startPoint.y - source.position.y, 3)
     ];
     data["targetEndpoint"] = [
-      round(spline.slice(-1)[0].x - target.position.x, 3),
-      round(spline.slice(-1)[0].y - target.position.y, 3)
+      round(endPoint.x - target.position.x, 3),
+      round(endPoint.y - target.position.y, 3)
     ];
   }
   
