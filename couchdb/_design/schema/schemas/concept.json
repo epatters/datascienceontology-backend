@@ -97,7 +97,7 @@
           "type": "string"
         },
         "name": {
-          "description": "Syntactic name of domain object",
+          "description": "Syntactic name of domain object (by default, the object identifer)",
           "type": "string"
         },
         "description": {
