@@ -6,9 +6,9 @@ import Catlab.Diagram: Graphviz
 using Catlab.Diagram: Wiring, GraphvizWiring
 
 
-function expression_to_graphviz(sexpr)::Graphviz.Graph
+function expression_to_graphviz(sexpr; kw...)::Graphviz.Graph
   expr = parse_json(FreeCartesianCategory, sexpr)
-  to_graphviz(to_wiring_diagram(expr))
+  to_graphviz(to_wiring_diagram(expr); kw...)
 end
 
 
@@ -19,7 +19,11 @@ function main(args::Vector{String})
   
   # Run action!
   result = if action == "expression_to_graphviz"
-    graph = expression_to_graphviz(params["expression"])
+    graph = expression_to_graphviz(
+      params["expression"];
+      labels = get(params, "labels", false),
+      xlabel = get(params, "xlabel", false),
+    )
     dot = sprint(Graphviz.pprint, graph)
     Dict(
       "success" => true,

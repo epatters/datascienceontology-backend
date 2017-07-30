@@ -45,7 +45,9 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       blocking: true,
       params: {
         action: "expression_to_graphviz",
-        expression: expression
+        expression: expression,
+        labels: true,
+        xlabel: true
       }
     });
   }).then((result) => {
