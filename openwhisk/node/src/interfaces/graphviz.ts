@@ -46,6 +46,9 @@ export interface Node extends GraphObject {
   
   /* Height of node in inches. */
   height?: string;
+  
+  /* External label for node. */
+  xlabel?: string;
 }
 
 export interface Subgraph extends GraphObject {
@@ -68,8 +71,13 @@ export interface Edge extends GraphElement {
   
   /* Positions of start, end, and control points of spline. 
      http://www.graphviz.org/doc/info/attrs.html#k:splineType
-  */
+   */
   pos?: string;
+  
+  /* External label for edge.
+     Except under the dot layout, a synonym for `label`.
+   */
+  xlabel?: string;
 }
 
 export interface GraphElement {

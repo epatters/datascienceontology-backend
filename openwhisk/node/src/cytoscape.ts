@@ -48,6 +48,14 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
     elements.push(dotEdgeToCytoscape(edge, getNode, transformPoint, opts));
   }
   
+  // Return elements data along with default styles.
+  let edgeStyle: Cytoscape.StyleData = {
+    label: "data(label)"
+  }
+  if (opts.edgeEndPoints) {
+    edgeStyle["source-endpoint"] = "data(sourceEndpoint)";
+    edgeStyle["target-endpoint"] = "data(targetEndpoint)";
+  }
   return {
     elements: elements,
     layout: {
@@ -64,11 +72,7 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
       },
       {
         selector: "edge.graphviz",
-        style: opts.edgeEndPoints ?
-          {
-            "source-endpoint": "data(sourceEndpoint)",
-            "target-endpoint": "data(targetEndpoint)"
-          } : {}
+        style: edgeStyle
       },
       {
         selector: ".graphviz-invis",
@@ -127,15 +131,23 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
     source: source.data.id,
     target: target.data.id
   }
+  if (edge.id !== undefined) {
+    data.name = edge.id;
+  }
+  if (edge.xlabel !== undefined) {
+    data.label = edge.xlabel;
+  } else if (edge.label !== undefined) {
+    data.label = edge.label;
+  }
   if (opts.edgeEndPoints) {
     const spline = parseSpline(edge.pos);
     const startPoint = transformPoint(spline[0]);
     const endPoint = transformPoint(spline.slice(-1)[0]);
-    data["sourceEndpoint"] = [
+    data.sourceEndpoint = [
       round(startPoint.x - source.position.x, 3),
       round(startPoint.y - source.position.y, 3)
     ];
-    data["targetEndpoint"] = [
+    data.targetEndpoint = [
       round(endPoint.x - target.position.x, 3),
       round(endPoint.y - target.position.y, 3)
     ];

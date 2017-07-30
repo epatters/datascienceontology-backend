@@ -125,7 +125,9 @@
       "fontname": "Serif",
       "headport": "in1:n",
       "pos": "e,15.572,134 15.572,170 15.572,155.88 15.572,151.1 15.572,139.17",
-      "tailport": "s"
+      "tailport": "s",
+      "xlabel": "X",
+      "xlp": "10.903,159.1"
     },
     {
       "_gvid": 2,
@@ -135,7 +137,9 @@
       "fontname": "Serif",
       "headport": "in1:n",
       "pos": "e,64.572,74 64.572,170 64.572,129.17 64.572,117.64 64.572,79.328",
-      "tailport": "s"
+      "tailport": "s",
+      "xlabel": "W",
+      "xlp": "57.965,128.92"
     },
     {
       "_gvid": 3,
@@ -154,7 +158,9 @@
       "fontname": "Serif",
       "headport": "n",
       "pos": "e,15.572,14 15.572,50 15.572,35.875 15.572,31.102 15.572,19.169",
-      "tailport": "out1:s"
+      "tailport": "out1:s",
+      "xlabel": "Z",
+      "xlp": "11.296,39.103"
     },
     {
       "_gvid": 5,
@@ -164,7 +170,9 @@
       "fontname": "Serif",
       "headport": "n",
       "pos": "e,64.572,14 64.572,50 64.572,35.875 64.572,31.102 64.572,19.169",
-      "tailport": "out1:s"
+      "tailport": "out1:s",
+      "xlabel": "W",
+      "xlp": "57.965,39.103"
     },
     {
       "_gvid": 6,
@@ -174,7 +182,9 @@
       "fontname": "Serif",
       "headport": "in1:n",
       "pos": "e,15.572,74 15.572,110 15.572,95.875 15.572,91.102 15.572,79.169",
-      "tailport": "out1:s"
+      "tailport": "out1:s",
+      "xlabel": "Y",
+      "xlp": "10.903,99.103"
     }
   ]
 }

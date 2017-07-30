@@ -199,7 +199,9 @@
     },
     {
       "selector": "edge.graphviz",
-      "style": {}
+      "style": {
+        "label": "data(label)"
+      }
     },
     {
       "selector": ".graphviz-invis",

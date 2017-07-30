@@ -102,6 +102,7 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
+        "label": "X",
         "source": "n1p1",
         "target": "n5",
         "sourceEndpoint": [
@@ -118,6 +119,7 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
+        "label": "W",
         "source": "n1p2",
         "target": "n4",
         "sourceEndpoint": [
@@ -134,6 +136,7 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
+        "label": "Z",
         "source": "n3",
         "target": "n2p1",
         "sourceEndpoint": [
@@ -150,6 +153,7 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
+        "label": "W",
         "source": "n4",
         "target": "n2p2",
         "sourceEndpoint": [
@@ -166,6 +170,7 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
+        "label": "Y",
         "source": "n5",
         "target": "n3",
         "sourceEndpoint": [
@@ -194,6 +199,7 @@
     {
       "selector": "edge.graphviz",
       "style": {
+        "label": "data(label)",
         "source-endpoint": "data(sourceEndpoint)",
         "target-endpoint": "data(targetEndpoint)"
       }
