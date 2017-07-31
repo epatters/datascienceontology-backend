@@ -1,0 +1,9 @@
+{
+  "name": "perfield",
+  "default": "standard",
+  "fields": {
+    "language": "keyword",
+    "package": "keyword",
+    "id": "keyword"
+  }
+}
