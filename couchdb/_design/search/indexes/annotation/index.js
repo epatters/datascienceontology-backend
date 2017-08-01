@@ -1,13 +1,6 @@
 function(doc) {
   if (doc.schema === "annotation") {
-    // If no field specified, search by key, name, and description.
-    index("default", [
-      doc.language,
-      doc.package,
-      doc.id,
-      doc.name,
-      doc.description
-    ].join(" "));
+    index("key", [doc.language, doc.package, doc.id].join("/"));
     
     index("language", doc.language, {"store": true});
     index("package", doc.package, {"store": true});
@@ -17,20 +10,20 @@ function(doc) {
     index("kind", doc.kind, {"store": true});
     
     if (doc.name) {
-      index("name", doc.name);
+      index("name", doc.name, {"store": true});
     }
     if (doc.description) {
-      index("description", doc.description);
+      index("description", doc.description, {"store": true});
     }
     
     if (doc.class) {
-      index("class", doc.class.join(","), {"store": true});
+      index("class", doc.class.join(","));
     }
     if (doc.function) {
-      index("function", doc.function, {"store": true});
+      index("function", doc.function);
     }
     if (doc.method) {
-      index("method", doc.method, {"store": true});
+      index("method", doc.method);
     }
   }
 }
