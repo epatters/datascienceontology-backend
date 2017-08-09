@@ -43,6 +43,11 @@ export type PythonAnnotation = PythonObject | PythonMorphism;
 export interface PythonObject extends Annotation {
   /* Class to which annotation applies. */
   class: string | Array<string>;
+  
+  /* Class slots (attributes, properties, methods) corresponding to morphisms
+     in the ontology.
+   */
+  slots?: { [slot: string]: string; };
 }
 
 /** Annotation for Python function or method.
