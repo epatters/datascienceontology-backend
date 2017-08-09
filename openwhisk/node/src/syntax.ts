@@ -1,12 +1,29 @@
 import { SExp, SExpArray } from "./interfaces/expression";
-import { MorphismConcept, DomainObject } from "./interfaces/concept";
+import { Concept, ObjectConcept, MorphismConcept, DomainObject }
+  from "./interfaces/concept";
 
 export { SExp, SExpArray };
 
 
-/** Convert morphism to S-expression.
+/** Convert concept to S-expression.
  */
-export function morphismToExpr(concept: MorphismConcept): SExp {
+export function conceptToExpr(concept: Concept): SExp {
+  if (concept.kind === "object") {
+    return objectToExpr(concept as ObjectConcept);
+  } else if (concept.kind === "morphism") {
+    return morphismToExpr(concept as MorphismConcept);
+  }
+}
+
+/** Convert object concept to S-expression.
+ */
+function objectToExpr(concept: ObjectConcept): SExp {
+  return ["Ob", concept.id];
+}
+
+/** Convert morphism concept to S-expression.
+ */
+function morphismToExpr(concept: MorphismConcept): SExp {
   return ["Hom", concept.id,
           domainToExpr(concept.domain), domainToExpr(concept.codomain)];
 }

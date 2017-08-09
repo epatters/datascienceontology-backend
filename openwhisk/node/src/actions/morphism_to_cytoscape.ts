@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 import OpenWhisk = require("openwhisk");
 
-import { SExp, SExpArray, morphismToExpr } from "../syntax";
-import { MorphismConcept } from "../interfaces/concept";
+import { SExp, SExpArray, conceptToExpr } from "../syntax";
+import { Concept } from "../interfaces/concept";
 import * as Cytoscape from "../interfaces/cytoscape";
 import * as Graphviz from "../interfaces/graphviz";
 
@@ -30,11 +30,10 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       query: {
         selector: {
           schema: "concept",
-          kind: "morphism",
           ontology: "data-science",
           id: { "$in": generators }
         },
-        fields: ["_id", "id", "domain", "codomain"],
+        fields: ["_id", "id", "kind", "domain", "codomain"],
         limit: generators.length
       }
     }
@@ -89,10 +88,10 @@ function getAtoms(expr: SExp): Array<string> {
 
   Uses generator definitions from the ontology.
  */
-function expandGenerators(expr: SExp, generators: Array<MorphismConcept>): SExp {
+function expandGenerators(expr: SExp, generators: Array<Concept>): SExp {
   let expansions: { [id: string]: SExp } = {};
   for (let concept of generators) {
-    expansions[concept.id] = morphismToExpr(concept);
+    expansions[concept.id] = conceptToExpr(concept);
   }
   const recurse = (expr: SExp): SExp => {
     if (typeof expr === "string") {
