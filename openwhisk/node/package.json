@@ -10,6 +10,8 @@
     "test": "./node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.ts"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.72",
+    "lodash": "^4.17.4",
     "striptags": "^3.0.1"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import OpenWhisk = require("openwhisk");
 
 import { SExp, SExpArray, morphismToExpr } from "../syntax";
@@ -39,7 +40,12 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     }
   }).then((result) => {
     const docs = result.response.result.docs;
-    const expression = expandGenerators(params.expression, docs);
+    let expression: SExp;
+    try {
+      expression = expandGenerators(params.expression, docs);
+    } catch (error) {
+      return { error: error.message };
+    }
     return openwhisk.actions.invoke({
       name: "data-science-ontology/catlab",
       blocking: true,
@@ -49,17 +55,17 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         labels: true,
         xlabel: true
       }
-    });
-  }).then((result) => {
-    return openwhisk.actions.invoke({
-      name: "data-science-ontology/graphviz_to_cytoscape",
-      blocking: true,
-      params: {
-        graph: result.response.result.data,
-        edgeEndPoints: true
-      }
-    });
-  }).then((result) => result.response.result);
+    }).then((result) => {
+      return openwhisk.actions.invoke({
+        name: "data-science-ontology/graphviz_to_cytoscape",
+        blocking: true,
+        params: {
+          graph: result.response.result.data,
+          edgeEndPoints: true
+        }
+      })
+    }).then((result) => result.response.result);
+  });
 }
 global.main = action;
 
@@ -90,9 +96,15 @@ function expandGenerators(expr: SExp, generators: Array<MorphismConcept>): SExp 
   }
   const recurse = (expr: SExp): SExp => {
     if (typeof expr === "string") {
-      return expansions[expr];
+      if (_.has(expansions, expr)) {
+        return expansions[expr];
+      } else {
+        throw new Error(`Unknown generator '${expr}'`);
+      }
     } else {
-      return (expr as SExpArray).map(recurse);
+      const sexp = expr as SExpArray;
+      const [head, args] = [sexp[0], sexp.slice(1)];
+      return [head].concat(args.map(recurse));
     }
   }
   return recurse(expr);
