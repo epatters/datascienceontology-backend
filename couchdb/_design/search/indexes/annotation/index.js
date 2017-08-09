@@ -1,7 +1,5 @@
 function(doc) {
   if (doc.schema === "annotation") {
-    index("key", [doc.language, doc.package, doc.id].join("/"));
-    
     index("language", doc.language, {"store": true});
     index("package", doc.package, {"store": true});
     index("id", doc.id, {"store": true});
@@ -17,7 +15,11 @@ function(doc) {
     }
     
     if (doc.class) {
-      index("class", doc.class.join(","));
+      if (typeof doc.class === "string") {
+        index("class", doc.class)
+      } else {
+        index("class", doc.class.join(","));
+      }
     }
     if (doc.function) {
       index("function", doc.function);

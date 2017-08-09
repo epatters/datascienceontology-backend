@@ -42,7 +42,7 @@ export type PythonAnnotation = PythonObject | PythonMorphism;
  */
 export interface PythonObject extends Annotation {
   /* Class to which annotation applies. */
-  class: Array<string>;
+  class: string | Array<string>;
 }
 
 /** Annotation for Python function or method.
@@ -52,7 +52,7 @@ export interface PythonMorphism extends Annotation {
   function?: string;
   
   /* Class to which annotation applies, if annotating a method. */
-  class?: Array<string>;
+  class?: string | Array<string>;
   
   /* Unqualified name of method, if annotating a method. */
   method?: string;

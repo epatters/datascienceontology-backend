@@ -54,6 +54,7 @@
   ],
   "definitions": {
     "s-expression": {
+      "description": "S-expression in JSON",
       "oneOf": [
         {
           "type": "string"

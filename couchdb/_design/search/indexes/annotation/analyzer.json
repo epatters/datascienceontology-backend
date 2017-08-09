@@ -4,7 +4,6 @@
   "fields": {
     "language": "keyword",
     "package": "keyword",
-    "id": "keyword",
-    "key": "keyword"
+    "id": "keyword"
   }
 }
