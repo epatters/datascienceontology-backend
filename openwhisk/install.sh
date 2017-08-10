@@ -15,9 +15,14 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 # Actions
 #########
 
-wsk action update $PKG/catlab \
+pushd catlab > /dev/null
+cp action.jl exec
+zip exec.zip exec
+rm exec
+wsk action update $PKG/catlab exec.zip \
   --docker $DOCKER/whisk-catlab \
   -a description "Run a subaction in Catlab"
+popd > /dev/null
 
 wsk action update $PKG/graphviz \
   --docker $DOCKER/whisk-graphviz \

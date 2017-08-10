@@ -37,7 +37,7 @@ ENV PATH $JULIA_PATH/bin:$PATH
 # Catlab
 ######################################################################
 
-ENV CATLAB_VERSION 9c933ec2aa62dc072fade7f29bd2e4058ea59e7f
+ENV CATLAB_VERSION b0e32e9d5b71d2e751c89430885b31a42b4e38d8
 
 RUN julia -e 'Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
   && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
@@ -52,7 +52,7 @@ RUN mkdir -p /actionProxy
 ADD actionproxy.py /actionProxy/
 
 RUN mkdir -p /action
-ADD action.jl /action/exec
+ADD stub.sh /action/exec
 RUN chmod +x /action/exec
 
 CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]

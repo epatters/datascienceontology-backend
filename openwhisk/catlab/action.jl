@@ -33,7 +33,7 @@ function main(args::Vector{String})
   else
     Dict(
       "success" => false,
-      "error" => "Unknown subaction: $action",
+      "error" => "Unknown Julia action: $action",
     )
   end
   
