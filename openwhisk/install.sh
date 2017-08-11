@@ -7,10 +7,6 @@ CLOUDANT_DBNAME="data-science-ontology"
 DOCKER_USERNAME="epatters"
 NODE="./node/build"
 
-JULIA_VERSION=0.6
-JULIA_SRC="julia/v${JULIA_VERSION}"
-JULIA_LIB="julia/lib/v${JULIA_VERSION}"
-
 # Package
 #########
 
@@ -19,19 +15,7 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 # Actions
 #########
 
-echo "Preparing zip bundle for $PKG/catlab"
-pushd catlab > /dev/null
-rm -rf build/
-mkdir -p build/${JULIA_SRC} build/${JULIA_LIB}
-cp action.jl build/exec
-cd build
-cp -r ~/.julia/v${JULIA_VERSION}/OpenDiscCore ${JULIA_SRC}
-julia -C core2 -e "unshift!(Base.LOAD_CACHE_PATH, \"${JULIA_LIB}\"); Base.compilecache(\"OpenDiscCore\")"
-rm -rf ${JULIA_SRC}/OpenDiscCore/.git ${JULIA_SRC}/OpenDiscCore/lang
-zip -r exec.zip exec ${JULIA_SRC} ${JULIA_LIB}
-popd > /dev/null
-
-wsk action update $PKG/catlab catlab/build/exec.zip \
+wsk action update $PKG/catlab \
   --docker $DOCKER_USERNAME/whisk-catlab \
   -a description "Run a subaction in Catlab"
 

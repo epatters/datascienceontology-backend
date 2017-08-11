@@ -15,9 +15,8 @@ ENV FLASK_PROXY_PORT 8080
 # Copied from official Julia repo on Docker Hub:
 # https://github.com/docker-library/julia/blob/ef0fdf96ba90c0020776bca367cb838910aca339/Dockerfile
 
-ENV JULIA_PATH /usr/local/julia
-ENV JULIA_VERSION 0.6.0
-ENV JULIA_PKGDIR /action/julia
+ENV JULIA_MAJOR=0.6 JULIA_VERSION=0.6.0
+ENV JULIA_PATH=/usr/local/julia JULIA_PKGDIR=/action/julia
 
 RUN mkdir $JULIA_PATH \
 	&& apt-get update && apt-get install -y curl \
@@ -40,19 +39,22 @@ ENV PATH $JULIA_PATH/bin:$PATH
 
 ENV CATLAB_VERSION b0e32e9d5b71d2e751c89430885b31a42b4e38d8
 
-RUN julia -e 'Pkg.init(); Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
-  && cd ${JULIA_PKGDIR}/v${JULIA_VERSION%[.-]*}/Catlab \
-  && git checkout ${CATLAB_VERSION} . \
-  # Precompile packages
-  && julia -e 'import JSON; import Catlab'
+RUN julia -e 'Pkg.init(); Pkg.clone("https://github.com/epatters/Catlab.git"); Pkg.add("JSON")' \
+  && cd ${JULIA_PKGDIR}/v${JULIA_MAJOR}/Catlab \
+  && git checkout ${CATLAB_VERSION}
+
+COPY build/OpenDiscCore ${JULIA_PKGDIR}/v${JULIA_MAJOR}/OpenDiscCore
+
+# Precompile packages to improve start time.
+RUN julia -e 'import Catlab; import OpenDiscCore'
 
 ######################################################################
 
 RUN mkdir -p /actionProxy
-ADD actionproxy.py /actionProxy/
+COPY actionproxy.py /actionProxy/
 
 RUN mkdir -p /action
-ADD stub.sh /action/exec
+COPY action.jl /action/exec
 RUN chmod +x /action/exec
 
 CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
