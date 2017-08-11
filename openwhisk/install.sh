@@ -4,8 +4,11 @@ PKG="data-science-ontology"
 CLOUDANT_PKG="Bluemix_Cloudant_Root"
 CLOUDANT_DBNAME="data-science-ontology"
 
-DOCKER="epatters"
+DOCKER_USERNAME="epatters"
 NODE="./node/build"
+
+JULIA_VERSION=0.6
+JULIA_BUILD="julia/v${JULIA_VERSION}"
 
 # Package
 #########
@@ -15,17 +18,23 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 # Actions
 #########
 
+echo "Preparing zip bundle for $PKG/catlab"
 pushd catlab > /dev/null
-cp action.jl exec
-zip exec.zip exec
-rm exec
-wsk action update $PKG/catlab exec.zip \
-  --docker $DOCKER/whisk-catlab \
-  -a description "Run a subaction in Catlab"
+rm -rf build/
+mkdir -p build/${JULIA_BUILD}
+cp action.jl build/exec
+cd build
+cp -r ~/.julia/v${JULIA_VERSION}/OpenDiscCore ${JULIA_BUILD}
+rm -rf ${JULIA_BUILD}/OpenDiscCore/.git ${JULIA_BUILD}/OpenDiscCore/lang
+zip -r exec.zip exec ${JULIA_BUILD}/OpenDiscCore
 popd > /dev/null
 
+wsk action update $PKG/catlab catlab/build/exec.zip \
+  --docker $DOCKER_USERNAME/whisk-catlab \
+  -a description "Run a subaction in Catlab"
+
 wsk action update $PKG/graphviz \
-  --docker $DOCKER/whisk-graphviz \
+  --docker $DOCKER_USERNAME/whisk-graphviz \
   --param prog dot \
   --param format json0 \
   -a description "Run Graphviz"

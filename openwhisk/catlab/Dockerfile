@@ -17,6 +17,7 @@ ENV FLASK_PROXY_PORT 8080
 
 ENV JULIA_PATH /usr/local/julia
 ENV JULIA_VERSION 0.6.0
+ENV JULIA_PKGDIR /action/julia
 
 RUN mkdir $JULIA_PATH \
 	&& apt-get update && apt-get install -y curl \
@@ -39,12 +40,11 @@ ENV PATH $JULIA_PATH/bin:$PATH
 
 ENV CATLAB_VERSION b0e32e9d5b71d2e751c89430885b31a42b4e38d8
 
-RUN julia -e 'Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
-  && cd /root/.julia/v${JULIA_VERSION%[.-]*}/Catlab \
+RUN julia -e 'Pkg.init(); Pkg.add("JSON"); Pkg.clone("https://github.com/epatters/Catlab.git")' \
+  && cd ${JULIA_PKGDIR}/v${JULIA_VERSION%[.-]*}/Catlab \
   && git checkout ${CATLAB_VERSION} . \
   # Precompile packages
-  && julia -e 'import JSON; import Catlab' \
-  && rm -rf /root/.julia/v${JULIA_VERSION%[.-]*}/METADATA
+  && julia -e 'import JSON; import Catlab'
 
 ######################################################################
 
