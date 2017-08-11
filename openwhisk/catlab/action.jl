@@ -17,10 +17,7 @@ function main(args::Vector{String})
   # Parse JSON and action parameters.
   params = isempty(args) ? Dict() : JSON.parse(args[1])
   if !(isa(params, Dict) && haskey(params, "action"))
-    JSON.print(Dict(
-      "success" => false,
-      "error" => "Must supply a Julia action",
-    ))
+    JSON.print(Dict("error" => "Must supply a Julia action"))
     return
   end
   action = params["action"]
@@ -34,15 +31,11 @@ function main(args::Vector{String})
     )
     dot = sprint(Graphviz.pprint, graph)
     Dict(
-      "success" => true,
       "data" => dot,
       "mimetype" => "text/vnd.graphviz",
     )
   else
-    Dict(
-      "success" => false,
-      "error" => "Unknown Julia action: $action",
-    )
+    Dict("error" => "Unknown Julia action: $action")
   end
   
   # Print result JSON to stdout.

@@ -8,7 +8,8 @@ DOCKER_USERNAME="epatters"
 NODE="./node/build"
 
 JULIA_VERSION=0.6
-JULIA_BUILD="julia/v${JULIA_VERSION}"
+JULIA_SRC="julia/v${JULIA_VERSION}"
+JULIA_LIB="julia/lib/v${JULIA_VERSION}"
 
 # Package
 #########
@@ -21,12 +22,13 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 echo "Preparing zip bundle for $PKG/catlab"
 pushd catlab > /dev/null
 rm -rf build/
-mkdir -p build/${JULIA_BUILD}
+mkdir -p build/${JULIA_SRC} build/${JULIA_LIB}
 cp action.jl build/exec
 cd build
-cp -r ~/.julia/v${JULIA_VERSION}/OpenDiscCore ${JULIA_BUILD}
-rm -rf ${JULIA_BUILD}/OpenDiscCore/.git ${JULIA_BUILD}/OpenDiscCore/lang
-zip -r exec.zip exec ${JULIA_BUILD}/OpenDiscCore
+cp -r ~/.julia/v${JULIA_VERSION}/OpenDiscCore ${JULIA_SRC}
+julia -C core2 -e "unshift!(Base.LOAD_CACHE_PATH, \"${JULIA_LIB}\"); Base.compilecache(\"OpenDiscCore\")"
+rm -rf ${JULIA_SRC}/OpenDiscCore/.git ${JULIA_SRC}/OpenDiscCore/lang
+zip -r exec.zip exec ${JULIA_SRC} ${JULIA_LIB}
 popd > /dev/null
 
 wsk action update $PKG/catlab catlab/build/exec.zip \
