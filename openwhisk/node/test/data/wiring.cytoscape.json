@@ -102,9 +102,9 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
-        "label": "X",
         "source": "n1p1",
         "target": "n5",
+        "label": "X",
         "sourceEndpoint": [
           0,
           7
@@ -112,6 +112,14 @@
         "targetEndpoint": [
           0,
           -12
+        ],
+        "controlPointDistances": [
+          0,
+          0
+        ],
+        "controlPointWeights": [
+          0.392,
+          0.525
         ]
       }
     },
@@ -119,9 +127,9 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
-        "label": "W",
         "source": "n1p2",
         "target": "n4",
+        "label": "W",
         "sourceEndpoint": [
           0,
           7
@@ -129,6 +137,14 @@
         "targetEndpoint": [
           0,
           -12
+        ],
+        "controlPointDistances": [
+          0,
+          0
+        ],
+        "controlPointWeights": [
+          0.425,
+          0.545
         ]
       }
     },
@@ -136,9 +152,9 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
-        "label": "Z",
         "source": "n3",
         "target": "n2p1",
+        "label": "Z",
         "sourceEndpoint": [
           0,
           12
@@ -146,6 +162,14 @@
         "targetEndpoint": [
           0,
           -7
+        ],
+        "controlPointDistances": [
+          0,
+          0
+        ],
+        "controlPointWeights": [
+          0.392,
+          0.525
         ]
       }
     },
@@ -153,9 +177,9 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
-        "label": "W",
         "source": "n4",
         "target": "n2p2",
+        "label": "W",
         "sourceEndpoint": [
           0,
           12
@@ -163,6 +187,14 @@
         "targetEndpoint": [
           0,
           -7
+        ],
+        "controlPointDistances": [
+          0,
+          0
+        ],
+        "controlPointWeights": [
+          0.392,
+          0.525
         ]
       }
     },
@@ -170,9 +202,9 @@
       "group": "edges",
       "classes": "graphviz",
       "data": {
-        "label": "Y",
         "source": "n5",
         "target": "n3",
+        "label": "Y",
         "sourceEndpoint": [
           0,
           12
@@ -180,6 +212,14 @@
         "targetEndpoint": [
           0,
           -12
+        ],
+        "controlPointDistances": [
+          0,
+          0
+        ],
+        "controlPointWeights": [
+          0.392,
+          0.525
         ]
       }
     }

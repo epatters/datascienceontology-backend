@@ -11,6 +11,9 @@ const striptags: (html: string) => string = require("striptags");
 export interface DotToCytoscapeOptions {
   /* Whether to manually set edge source and target endpoints (default false) */
   edgeEndPoints?: boolean;
+  
+  /* Whether to manually set spline control points (default false) */
+  controlPoints?: boolean;
 }
 
 /* Convert Graphviz xdot output (parsed as JSON) into Cytoscape data.
@@ -140,9 +143,9 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
     data.label = edge.label;
   }
   if (opts.edgeEndPoints) {
-    const spline = parseSpline(edge.pos);
-    const startPoint = transformPoint(spline[0]);
-    const endPoint = transformPoint(spline.slice(-1)[0]);
+    const spline = parseSpline(edge.pos).map(transformPoint);
+    const startPoint = spline[0];
+    const endPoint = spline.slice(-1)[0];
     data.sourceEndpoint = [
       round(startPoint.x - source.position.x, 3),
       round(startPoint.y - source.position.y, 3)
@@ -151,6 +154,11 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
       round(endPoint.x - target.position.x, 3),
       round(endPoint.y - target.position.y, 3)
     ];
+    if (opts.controlPoints) {
+      const controlPoints = cytoscapeSpline(spline);
+      data.controlPointDistances = controlPoints.map(p => round(p.distance, 3));
+      data.controlPointWeights = controlPoints.map(p => round(p.weight, 3));
+    }
   }
   
   // Create element.
@@ -204,13 +212,49 @@ function parseSpline(spline: string): Point[] {
     }
   });
   
+  /* Prefer explicit start or end points to the spline start and end points.
+     Thus, endpoints may pass into the node shape but should not fall short. */
   if (startPoint !== null) {
-    points.splice(0, 0, startPoint);
+    points[0] = startPoint;
   }
   if (endPoint !== null) {
+    points.pop();
     points.push(endPoint);
   }
   return points;    
+}
+
+/* Convert Graphviz spline to Cytoscape Bezier curve.
+
+  In Graphviz, a "spline" is a cubic B-spline of overlapping cubic Bezier
+  curves. In Cytoscape, an "(unbundled) Bezier curve" is a Bezier curve of
+  arbitrary order n. Thus, not every Graphviz spline can be converted into
+  a Cytoscape Bezier curve. We handle only the case where the Graphviz spline
+  consists of a single Bezier curve.
+
+  http://www.graphviz.org/content/how-convert-b-spline-bezier
+  http://js.cytoscape.org/#style/unbundled-bezier-edges
+*/
+function cytoscapeSpline(spline: Point[]): Array<{distance:number, weight:number}> {
+  if (spline.length != 4) {
+    return [];
+  }
+  const p0 = spline[0];                        // start point
+  const p1 = spline.slice(-1)[0];              // end point
+  const v0 = {x: p1.x - p0.x, y: p1.y - p0.y}; // vector from start to end
+  
+  const relativeCoords = (p: Point) => {
+    const v = {x: p.x - p0.x, y: p.y - p0.y};
+    const weight = (v0.x*v.x + v0.y*v.y) / (v0.x**2 + v0.y**2);
+    const proj = {x: weight * v0.x, y: weight * v0.y};
+    const orth = {x: v.x - proj.x, y: v.y - proj.y};
+    return {
+      distance: Math.sign(v0.x*v.y - v0.y*v.x) * Math.sqrt(orth.x**2 + orth.y**2),
+      weight: weight
+    }
+  }
+  
+  return spline.slice(1,-1).map(relativeCoords);
 }
 
 // 72 points per inch in Graphviz.

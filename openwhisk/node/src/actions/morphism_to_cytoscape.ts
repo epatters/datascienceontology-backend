@@ -59,7 +59,8 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         blocking: true,
         params: {
           graph: result.response.result.data,
-          edgeEndPoints: true
+          edgeEndPoints: true,
+          controlPoints: true
         }
       })
     }).then((result) => result.response.result);
