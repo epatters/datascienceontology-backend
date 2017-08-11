@@ -13,15 +13,22 @@ function expression_to_graphviz(sexpr; kw...)::Graphviz.Graph
 end
 
 
+function parse_graphviz_attrs(attrs::Associative)::Graphviz.Attributes
+  Graphviz.Attributes(Symbol(k) => string(v) for (k,v) in attrs)
+end
+
 function main(params::Dict)
   if !haskey(params, "expression")
     return Dict("error" => "Must supply an S-expression")
   end
-    
+  
   graph = expression_to_graphviz(
     params["expression"];
     labels = get(params, "labels", false),
     xlabel = get(params, "xlabel", false),
+    graph_attrs = parse_graphviz_attrs(get(params, "graph_attrs", Dict())),
+    node_attrs = parse_graphviz_attrs(get(params, "node_attrs", Dict())),
+    edge_attrs = parse_graphviz_attrs(get(params, "edge_attrs", Dict()))
   )
   dot = sprint(Graphviz.pprint, graph)
   return Dict(

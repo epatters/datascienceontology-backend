@@ -51,7 +51,10 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       params: {
         expression: expression,
         labels: true,
-        xlabel: true
+        xlabel: true,
+        edge_attrs: {
+          arrowhead: "none"
+        }
       }
     }).then((result) => {
       return openwhisk.actions.invoke({
