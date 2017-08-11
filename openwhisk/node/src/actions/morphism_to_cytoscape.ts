@@ -46,10 +46,9 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       return { error: error.message };
     }
     return openwhisk.actions.invoke({
-      name: "data-science-ontology/catlab",
+      name: "data-science-ontology/expression_to_graphviz",
       blocking: true,
       params: {
-        action: "expression_to_graphviz",
         expression: expression,
         labels: true,
         xlabel: true

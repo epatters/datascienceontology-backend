@@ -5,6 +5,7 @@ CLOUDANT_PKG="Bluemix_Cloudant_Root"
 CLOUDANT_DBNAME="data-science-ontology"
 
 DOCKER_USERNAME="epatters"
+CATLAB="./catlab/actions"
 NODE="./node/build"
 
 # Package
@@ -15,9 +16,12 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 # Actions
 #########
 
-wsk action update $PKG/catlab \
+WORKDIR=$(mktemp -d)
+
+cp "$CATLAB/expression_to_graphviz.jl" "$WORKDIR/exec"
+wsk action update $PKG/expression_to_graphviz "$WORKDIR/exec" \
   --docker $DOCKER_USERNAME/whisk-catlab \
-  -a description "Run a subaction in Catlab"
+  -a description "Convert a morphism S-expression to Graphviz dot format"
 
 wsk action update $PKG/graphviz \
   --docker $DOCKER_USERNAME/whisk-graphviz \

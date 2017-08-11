@@ -54,7 +54,7 @@ RUN mkdir -p /actionProxy
 COPY actionproxy.py /actionProxy/
 
 RUN mkdir -p /action
-COPY action.jl /action/exec
+COPY stub.sh /action/exec
 RUN chmod +x /action/exec
 
 CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
