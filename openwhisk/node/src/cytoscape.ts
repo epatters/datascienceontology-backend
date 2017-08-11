@@ -228,17 +228,15 @@ function parseSpline(spline: string): Point[] {
 
   In Graphviz, a "spline" is a cubic B-spline of overlapping cubic Bezier
   curves. In Cytoscape, an "(unbundled) Bezier curve" is a Bezier curve of
-  arbitrary order n. Thus, not every Graphviz spline can be converted into
-  a Cytoscape Bezier curve. We handle only the case where the Graphviz spline
-  consists of a single Bezier curve.
+  arbitrary order n. Thus, not every Graphviz spline can be converted exactly
+  into a Cytoscape Bezier curve. We naively copy the Graphviz control points
+  and discard the intermediate interpolation points, which seems to produce a
+  reasonable approximation.
 
   http://www.graphviz.org/content/how-convert-b-spline-bezier
   http://js.cytoscape.org/#style/unbundled-bezier-edges
 */
 function cytoscapeSpline(spline: Point[]): Array<{distance:number, weight:number}> {
-  if (spline.length != 4) {
-    return [];
-  }
   const p0 = spline[0];                        // start point
   const p1 = spline.slice(-1)[0];              // end point
   const v0 = {x: p1.x - p0.x, y: p1.y - p0.y}; // vector from start to end
@@ -254,7 +252,9 @@ function cytoscapeSpline(spline: Point[]): Array<{distance:number, weight:number
     }
   }
   
-  return spline.slice(1,-1).map(relativeCoords);
+  /* Skip every third point in the spline sequence, which is an interpolation
+     point, not a control point. */
+  return spline.slice(1,-1).filter((p,i) => i%3 != 2).map(relativeCoords);
 }
 
 // 72 points per inch in Graphviz.
