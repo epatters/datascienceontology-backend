@@ -5,7 +5,7 @@ CLOUDANT_PKG="Bluemix_Cloudant_Root"
 CLOUDANT_DBNAME="data-science-ontology"
 
 DOCKER_USERNAME="epatters"
-CATLAB="./catlab/actions"
+CATLAB="./catlab/src"
 NODE="./node/build"
 
 # Package
