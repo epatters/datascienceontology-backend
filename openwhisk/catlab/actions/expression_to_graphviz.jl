@@ -13,28 +13,24 @@ function expression_to_graphviz(sexpr; kw...)::Graphviz.Graph
 end
 
 
-function main(args::Vector{String})
-  # Parse JSON and action parameters.
-  params = isempty(args) ? Dict() : JSON.parse(args[1])
-  if !(isa(params, Dict) && haskey(params, "expression"))
-    JSON.print(Dict("error" => "Must supply an S-expression"))
-    return
+function main(params::Dict)
+  if !haskey(params, "expression")
+    return Dict("error" => "Must supply an S-expression")
   end
-  sexpr = params["expression"]
-  
-  # Run the action!
-  graph = expression_to_graphviz(sexpr;
+    
+  graph = expression_to_graphviz(
+    params["expression"];
     labels = get(params, "labels", false),
     xlabel = get(params, "xlabel", false),
   )
   dot = sprint(Graphviz.pprint, graph)
-  result = Dict(
+  return Dict(
     "data" => dot,
     "mimetype" => "text/vnd.graphviz",
   )
-  
-  # Print result JSON to stdout.
-  JSON.print(result)
 end
 
-main(ARGS)
+if current_module() == Main
+  const PARAMS = JSON.parse(isempty(ARGS) ? "{}" : ARGS[1])
+  JSON.print(main(PARAMS))
+end
