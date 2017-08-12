@@ -53,12 +53,15 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         labels: true,
         xlabel: true,
         graph_attrs: {
+          fontname: "Helvetica",
           fontsize: "12"
         },
         node_attrs: {
+          fontname: "Helvetica",
           fontsize: "12"
         },
         edge_attrs: {
+          fontname: "Helvetica",
           fontsize: "12",
           arrowhead: "none"
         }
