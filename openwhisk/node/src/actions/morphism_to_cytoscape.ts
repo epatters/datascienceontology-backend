@@ -52,7 +52,14 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         expression: expression,
         labels: true,
         xlabel: true,
+        graph_attrs: {
+          fontsize: "12"
+        },
+        node_attrs: {
+          fontsize: "12"
+        },
         edge_attrs: {
+          fontsize: "12",
           arrowhead: "none"
         }
       }
