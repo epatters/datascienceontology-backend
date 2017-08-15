@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import OpenWhisk = require("openwhisk");
 
 import { Annotation } from "../interfaces/annotation";
@@ -6,7 +7,7 @@ import * as Cytoscape from "../interfaces/cytoscape";
 
 
 export interface ActionParams {
-  /* Document ID of created or updated annotation. */
+  /* Document ID of morphism annotation. */
   id: string;
 }
 
@@ -15,15 +16,13 @@ export interface ActionResult {
   id: string;
 }
 
-/** Action that is invoked whenever a annotation document is created or updated.
+/** Create or update the cached data for a morphism annotation.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
-  let cache: Cache = {
-    schema: "cache",
-    _id: `cache/${params.id}`,
-    key: params.id
-  };
+  const cache_id = `cache/${params.id}`
   let doc: Annotation = null;
+  let cy: Cytoscape.Cytoscape = null;
+  let cache: Cache = null;
   
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
@@ -35,18 +34,35 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     }
   }).then(result => {
     doc = result.response.result;
-    if (!(doc.schema === "annotation" && doc.kind === "morphism")) {
-      throw "skip";
-    }
+    assert(doc.schema === "annotation" && doc.kind === "morphism");
     return openwhisk.actions.invoke({
       name: "data-science-ontology/morphism_to_cytoscape",
       blocking: true,
       params: {
         expression: doc.definition
       }
-    });
+    })
   }).then(result => {
-    const cy: Cytoscape.Cytoscape = result.response.result.cytoscape;
+    cy = result.response.result.cytoscape;
+    return openwhisk.actions.invoke({
+      name: "Bluemix_Cloudant_Root/read",
+      blocking: true,
+      params: {
+        dbname: "data-science-ontology",
+        id: cache_id
+      }
+    }).then(result => {
+      cache = result.response.result;
+    }, result => {
+      const error = result.error.response.result.error;
+      assert.equal(error.error, "not_found");
+      cache = {
+        schema: "cache",
+        _id: cache_id,
+        key: params.id
+      };
+    });
+  }).then(() => {
     cache.definition = {
       expression: doc.definition,
       cytoscape: cy
@@ -59,12 +75,6 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         doc: cache
       }
     }).then(result => result.response.result);
-  }, reason => {
-    if (reason !== "skip") {
-      console.log(reason);
-      throw reason;
-    }
-    return { id: null, ok: true };
   });
 }
 global.main = action;
