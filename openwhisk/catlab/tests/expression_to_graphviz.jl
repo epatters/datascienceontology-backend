@@ -13,11 +13,12 @@ end
 @test has_graphviz(main(Dict(
   "expression" => ["id", ["Ob", "A"]]
 )))
+
 @test has_graphviz(main(Dict(
   # annotation/python/sklearn/fit-predict-clustering
   "expression" =>
     ["compose",
-      ["Hom", "fit", ["otimes", ["Ob", "model"], ["Ob", "data"]], ["Ob", "model"]],
+      ["Hom", "fit", ["otimes", ["Ob", "clustering-model"], ["Ob", "data"]], ["Ob", "clustering-model"]],
       ["pair",
         ["id", ["Ob", "clustering-model"]],
         ["Hom", "clustering-model-clusters", ["Ob", "clustering-model"], ["Ob", "vector"]]]]
