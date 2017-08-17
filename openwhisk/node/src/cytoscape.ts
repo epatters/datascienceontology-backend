@@ -1,4 +1,5 @@
 import * as assert from "assert";
+import * as _ from "lodash";
 
 import * as Cytoscape from "./interfaces/cytoscape";
 import * as Graphviz from "./interfaces/graphviz";
@@ -255,6 +256,7 @@ function cytoscapeSpline(sourcePoint: Point, targetPoint: Point, spline: Point[]
   const v0 = {x: p1.x - p0.x, y: p1.y - p0.y};
   
   const relativeCoords = (p: Point) => {
+    // Compute linear projection of `v` onto `v0`.
     const v = {x: p.x - p0.x, y: p.y - p0.y};
     const weight = (v0.x*v.x + v0.y*v.y) / (v0.x**2 + v0.y**2);
     const proj = {x: weight * v0.x, y: weight * v0.y};
@@ -265,9 +267,21 @@ function cytoscapeSpline(sourcePoint: Point, targetPoint: Point, spline: Point[]
     }
   }
   
-  /* Skip every first and fourth points in the spline sequence, which are
-     interpolation points, not control points. */
-  return spline.filter((p,i) => i%4 == 1 || i%4 == 2).map(relativeCoords);
+  /* XXX: After some trial and error, I've determined that averaging the
+     consecutive control-point/end-point pairs produces curves that resemble
+     what Graphviz renders, but simply using the control points does not.
+     That doesn't make sense to me because the Cytoscape control points should
+     be exactly the same as the Graphviz control points (at least in the common
+     case of a cubic Bezier curve). I suspect that Cytoscape may be interpreting
+     the control points in some nonstandard way, but I don't have time to pour
+     through that large codebase right now.
+   */
+  return _.range(0, spline.length-1, 2).map(i =>
+    relativeCoords({
+      x: 0.5 * (spline[i].x + spline[i+1].x),
+      y: 0.5 * (spline[i].y + spline[i+1].y),
+    })
+  );
 }
 
 // 72 points per inch in Graphviz.
