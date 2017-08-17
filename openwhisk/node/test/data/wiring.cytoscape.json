@@ -241,7 +241,10 @@
       "style": {
         "label": "data(label)",
         "source-endpoint": "data(sourceEndpoint)",
-        "target-endpoint": "data(targetEndpoint)"
+        "target-endpoint": "data(targetEndpoint)",
+        "control-point-distances": "data(controlPointDistances)",
+        "control-point-weights": "data(controlPointWeights)",
+        "edge-distances": "node-position"
       }
     },
     {

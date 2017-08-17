@@ -56,8 +56,17 @@ export function dotToCytoscape(dot: Graphviz.Graph, opts: DotToCytoscapeOptions 
     label: "data(label)"
   }
   if (opts.edgeEndPoints) {
-    edgeStyle["source-endpoint"] = "data(sourceEndpoint)";
-    edgeStyle["target-endpoint"] = "data(targetEndpoint)";
+    Object.assign(edgeStyle, {
+      "source-endpoint": "data(sourceEndpoint)",
+      "target-endpoint": "data(targetEndpoint)"
+    });
+    if (opts.controlPoints) {
+      Object.assign(edgeStyle, {
+        "control-point-distances": "data(controlPointDistances)",
+        "control-point-weights": "data(controlPointWeights)",
+        "edge-distances": "node-position",
+      });
+    }
   }
   return {
     elements: elements,
@@ -155,7 +164,11 @@ function dotEdgeToCytoscape(edge: Graphviz.Edge,
       round(endPoint.y - target.position.y, 3)
     ];
     if (opts.controlPoints) {
-      const controlPoints = cytoscapeSpline(spline);
+      /* Assuming that `edge-distances: node-position` is set, the Cytoscape 
+         control points are relative to the line containing the centers of
+         the source and target nodes. */
+      const controlPoints = cytoscapeSpline(
+        source.position, target.position, spline);
       data.controlPointDistances = controlPoints.map(p => round(p.distance, 3));
       data.controlPointWeights = controlPoints.map(p => round(p.weight, 3));
     }
@@ -236,25 +249,25 @@ function parseSpline(spline: string): Point[] {
   http://www.graphviz.org/content/how-convert-b-spline-bezier
   http://js.cytoscape.org/#style/unbundled-bezier-edges
 */
-function cytoscapeSpline(spline: Point[]): Array<{distance:number, weight:number}> {
-  const p0 = spline[0];                        // start point
-  const p1 = spline.slice(-1)[0];              // end point
-  const v0 = {x: p1.x - p0.x, y: p1.y - p0.y}; // vector from start to end
+function cytoscapeSpline(sourcePoint: Point, targetPoint: Point, spline: Point[]):
+    Array<{distance:number, weight:number}> {
+  const [p0, p1] = [sourcePoint, targetPoint];
+  const v0 = {x: p1.x - p0.x, y: p1.y - p0.y};
   
   const relativeCoords = (p: Point) => {
     const v = {x: p.x - p0.x, y: p.y - p0.y};
     const weight = (v0.x*v.x + v0.y*v.y) / (v0.x**2 + v0.y**2);
     const proj = {x: weight * v0.x, y: weight * v0.y};
-    const orth = {x: v.x - proj.x, y: v.y - proj.y};
+    const perp = {x: v.x - proj.x, y: v.y - proj.y};
     return {
-      distance: Math.sign(v0.x*v.y - v0.y*v.x) * Math.sqrt(orth.x**2 + orth.y**2),
+      distance: Math.sign(v0.x*v.y - v0.y*v.x) * Math.sqrt(perp.x**2 + perp.y**2),
       weight: weight
     }
   }
   
-  /* Skip every third point in the spline sequence, which is an interpolation
-     point, not a control point. */
-  return spline.slice(1,-1).filter((p,i) => i%3 != 2).map(relativeCoords);
+  /* Skip every first and fourth points in the spline sequence, which are
+     interpolation points, not control points. */
+  return spline.filter((p,i) => i%4 == 1 || i%4 == 2).map(relativeCoords);
 }
 
 // 72 points per inch in Graphviz.
