@@ -63,8 +63,21 @@ export interface PythonMorphism extends Annotation {
   method?: string;
   
   /* Mapping of arguments (positional and named) to morphism domain/ */
-  domain: Array<number | string>;
+  domain: PythonDomainObject[];
   
   /* Mapping of mutated arguments and return value to morphism codomain. */
-  codomain: Array<number | string>;
+  codomain: PythonDomainObject[];
+}
+
+/** Object belonging to the domain or codomain of a Python function or method.
+ */
+export interface PythonDomainObject {
+  /* Function slot (argument or return value) */
+  slot: number | string;
+  
+  /* Syntactic name of domain object */
+  name?: string;
+  
+  /* Human-readable description of domain object */
+  description?: string;
 }
