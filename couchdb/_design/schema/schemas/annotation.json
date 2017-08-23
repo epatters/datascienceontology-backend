@@ -115,16 +115,12 @@
         "domain": {
           "description": "Mapping of arguments (positional and named) to morphism domain",
           "type": "array",
-          "items": {
-            "oneOf": [ {"type" : "number"}, {"type" : "string"} ]
-          }
+          "items": { "$ref": "#/definitions/python-domain-object" }
         },
         "codomain": {
           "description": "Mapping of mutated arguments and return value to morphism codomain",
           "type": "array",
-          "items": {
-            "oneOf": [ {"type" : "number"}, {"type" : "string"} ]
-          }
+          "items": { "$ref": "#/definitions/python-domain-object" }
         }
       },
       "oneOf": [
@@ -164,6 +160,28 @@
           "items": { "type": "string" }
         }
       ]
+    },
+    "python-domain-object": {
+      "description": "Object belonging to the domain or codomain of a Python function or method",
+      "type": "object",
+      "required": [ "slot" ],
+      "properties": {
+        "slot": {
+          "description": "Function slot (argument, identified by position or name, or return value, identified by \"__return__\")",
+          "oneOf": [
+            { "type" : "number" },
+            { "type" : "string" }
+          ]
+        },
+        "name": {
+          "description": "Syntactic name of domain object",
+          "type": "string"
+        },
+        "description": {
+          "description": "Human-readable description of domain object",
+          "type": "string"
+        }
+      }
     }
   }
 }

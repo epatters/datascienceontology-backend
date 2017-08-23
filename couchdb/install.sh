@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 pushd() { builtin pushd "$@" > /dev/null; }
 popd() { builtin pushd "$@" > /dev/null; }
