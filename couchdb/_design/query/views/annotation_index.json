@@ -1,0 +1,19 @@
+{
+  "map": {
+    "fields": {
+      "package": "asc",
+      "language": "asc",
+      "schema": "asc"
+    }
+  },
+  "reduce": "_count",
+  "options": {
+    "def": {
+      "fields": [
+        "package",
+        "language",
+        "schema"
+      ]
+    }
+  }
+}
