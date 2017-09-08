@@ -6,4 +6,9 @@ export * from "./syntax";
 
 import * as Cytoscape from "./interfaces/cytoscape";
 import * as Graphviz from "./interfaces/graphviz";
-export { Cytoscape, Graphviz };
+import * as Config from "./config";
+export {
+  Cytoscape,
+  Graphviz,
+  Config,
+};

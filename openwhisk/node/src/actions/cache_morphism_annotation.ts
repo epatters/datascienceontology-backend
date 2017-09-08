@@ -5,6 +5,7 @@ import { Annotation } from "../interfaces/annotation";
 import { AnnotationCache } from "../interfaces/annotation_cache";
 import * as Cytoscape from "../interfaces/cytoscape";
 import * as Graphviz from "../interfaces/graphviz";
+import * as Config from "../config";
 
 
 export interface ActionParams {
@@ -13,7 +14,7 @@ export interface ActionParams {
 }
 
 export interface ActionResult {
-  /* Document ID of cached computation results for annotation, if any. */
+  /* Document ID of cached data for annotation, if any. */
   id: string;
 }
 
@@ -30,7 +31,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     name: "Bluemix_Cloudant_Root/read",
     blocking: true,
     params: {
-      dbname: "data-science-ontology",
+      dbname: Config.db_name,
       id: params.id
     }
   }).then(result => {
@@ -50,7 +51,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "Bluemix_Cloudant_Root/read",
       blocking: true,
       params: {
-        dbname: "data-science-ontology-webapp",
+        dbname: Config.app_db_name,
         id: params.id
       }
     }).then(result => {
@@ -74,7 +75,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "Bluemix_Cloudant_Root/write",
       blocking: true,
       params: {
-        dbname: "data-science-ontology-webapp",
+        dbname: Config.app_db_name,
         doc: cache
       }
     }).then(result => result.response.result);
