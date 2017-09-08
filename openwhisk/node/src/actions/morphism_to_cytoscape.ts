@@ -13,6 +13,9 @@ export interface ActionParams {
 }
 
 export interface ActionResult {
+  /* Graphviz output in JSON format. */
+  graphviz: Graphviz.Graph;
+  
   /* Elements JSON in Cytoscape format. */
   cytoscape: Cytoscape.Cytoscape;
 }

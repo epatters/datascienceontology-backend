@@ -4,6 +4,7 @@ import OpenWhisk = require("openwhisk");
 import { Annotation } from "../interfaces/annotation";
 import { AnnotationCache } from "../interfaces/annotation_cache";
 import * as Cytoscape from "../interfaces/cytoscape";
+import * as Graphviz from "../interfaces/graphviz";
 
 
 export interface ActionParams {
@@ -20,7 +21,8 @@ export interface ActionResult {
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
   let doc: Annotation = null;
-  let cy: Cytoscape.Cytoscape = null;
+  let graphviz: Graphviz.Graph = null;
+  let cytoscape: Cytoscape.Cytoscape = null;
   let cache: AnnotationCache = null;
   
   const openwhisk = OpenWhisk();
@@ -42,7 +44,8 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       }
     })
   }).then(result => {
-    cy = result.response.result.cytoscape;
+    graphviz = result.response.result.graphviz;
+    cytoscape = result.response.result.cytoscape;
     return openwhisk.actions.invoke({
       name: "Bluemix_Cloudant_Root/read",
       blocking: true,
@@ -66,7 +69,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       };
     });
   }).then(() => {
-    cache.definition.cytoscape = cy;
+    Object.assign(cache.definition, { graphviz, cytoscape });
     return openwhisk.actions.invoke({
       name: "Bluemix_Cloudant_Root/write",
       blocking: true,

@@ -5,7 +5,7 @@ import { dotToCytoscape, DotToCytoscapeOptions } from "../cytoscape";
 
 export interface ActionParams extends DotToCytoscapeOptions {
   /* Graphviz output in JSON format. */
-  graph: Graphviz.Graph;
+  graphviz: Graphviz.Graph;
 }
 
 export interface ActionResult {
@@ -16,6 +16,6 @@ export interface ActionResult {
 /* Convert Graphviz JSON output to Cytoscape data.
  */
 export default function action(params: ActionParams): ActionResult {
-  return { cytoscape: dotToCytoscape(params.graph, params) };
+  return { cytoscape: dotToCytoscape(params.graphviz, params) };
 }
 global.main = action;

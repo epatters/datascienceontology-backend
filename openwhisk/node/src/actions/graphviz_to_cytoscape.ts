@@ -11,6 +11,9 @@ export interface ActionParams extends DotToCytoscapeOptions {
 }
 
 export interface ActionResult {
+  /* Graphviz output in JSON format. */
+  graphviz: Graphviz.Graph;
+  
   /* Elements JSON in Cytoscape format. */
   cytoscape: Cytoscape.Cytoscape;
 }
@@ -27,9 +30,10 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       format: "json0"
     }
   }).then((result) => {
-    const graph = JSON.parse(result.response.result.data) as Graphviz.Graph;
+    const graphviz = JSON.parse(result.response.result.data) as Graphviz.Graph;
     return {
-      cytoscape: dotToCytoscape(graph, params)
+      graphviz,
+      cytoscape: dotToCytoscape(graphviz, params)
     }
   });
 }
