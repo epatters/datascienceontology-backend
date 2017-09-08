@@ -2,7 +2,7 @@ import * as assert from "assert";
 import OpenWhisk = require("openwhisk");
 
 import { Annotation } from "../interfaces/annotation";
-import { Cache } from "../interfaces/cache";
+import { AnnotationCache } from "../interfaces/annotation_cache";
 import * as Cytoscape from "../interfaces/cytoscape";
 
 
@@ -19,10 +19,9 @@ export interface ActionResult {
 /** Create or update the cached data for a morphism annotation.
  */
 export default function action(params: ActionParams): Promise<ActionResult> {
-  const cache_id = `cache/${params.id}`
   let doc: Annotation = null;
   let cy: Cytoscape.Cytoscape = null;
-  let cache: Cache = null;
+  let cache: AnnotationCache = null;
   
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
@@ -48,8 +47,8 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "Bluemix_Cloudant_Root/read",
       blocking: true,
       params: {
-        dbname: "data-science-ontology",
-        id: cache_id
+        dbname: "data-science-ontology-webapp",
+        id: params.id
       }
     }).then(result => {
       cache = result.response.result;
@@ -57,21 +56,22 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       const error = result.error.response.result.error;
       assert.equal(error.error, "not_found");
       cache = {
-        schema: "cache",
-        _id: cache_id,
-        key: params.id
+        _id: params.id,
+        language: doc.language,
+        package: doc.package,
+        id: doc.id,
+        definition: {
+          expression: doc.definition
+        }
       };
     });
   }).then(() => {
-    cache.definition = {
-      expression: doc.definition,
-      cytoscape: cy
-    }
+    cache.definition.cytoscape = cy;
     return openwhisk.actions.invoke({
       name: "Bluemix_Cloudant_Root/write",
       blocking: true,
       params: {
-        dbname: "data-science-ontology",
+        dbname: "data-science-ontology-webapp",
         doc: cache
       }
     }).then(result => result.response.result);
