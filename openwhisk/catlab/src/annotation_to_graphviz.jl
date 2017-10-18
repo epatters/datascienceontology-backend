@@ -7,9 +7,12 @@ using Catlab.Diagram: Wiring, GraphvizWiring
 using OpenDiscCore
 
 
-function expression_to_graphviz(sexpr; kw...)::Graphviz.Graph
-  expr = parse_json(Monocl, sexpr)
-  to_graphviz(to_wiring_diagram(expr); kw...)
+""" Convert morphism annotation in data science ontology to Graphviz graph.
+"""
+function annotation_to_graphviz(id; kw...)::Graphviz.Graph
+  db = OntologyDB()
+  note = load_annotation(db, id)::HomAnnotation
+  to_graphviz(to_wiring_diagram(note.definition); kw...)
 end
 
 
@@ -18,12 +21,15 @@ function parse_graphviz_attrs(attrs::Associative)::Graphviz.Attributes
 end
 
 function main(params::Dict)
-  if !haskey(params, "expression")
-    return Dict("error" => "Must supply an S-expression")
+  id = if haskey(params, "_id")
+    params["_id"]
+  elseif all(haskey(params, k) for k in ("language", "package", "id"))
+    AnnotationID(params["language"], params["package"], params["id"])
+  else
+    return Dict("error" => "Must supply annotation ID")
   end
   
-  graph = expression_to_graphviz(
-    params["expression"];
+  graph = annotation_to_graphviz(id;
     labels = get(params, "labels", false),
     xlabel = get(params, "xlabel", false),
     graph_attrs = parse_graphviz_attrs(get(params, "graph_attrs", Dict())),
