@@ -9,7 +9,7 @@ using OpenDiscCore
 
 """ Convert morphism S-expression to Graphviz graph.
 """
-function sexpr_to_graphviz(sexpr; kw...)::Graphviz.Graph
+function morphism_to_graphviz(sexpr; kw...)::Graphviz.Graph
   db = OntologyDB()
   expr = parse_json_sexpr(Monocl, sexpr;
     symbols = false,
@@ -27,7 +27,7 @@ function main(params::Dict)
     return Dict("error" => "Must supply an S-expression")
   end
   
-  graph = sexpr_to_graphviz(
+  graph = morphism_to_graphviz(
     params["expression"];
     labels = get(params, "labels", false),
     xlabel = get(params, "xlabel", false),

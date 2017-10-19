@@ -1,7 +1,7 @@
 module TestExpressionToGraphviz
 using Base.Test
 
-include("../src/sexpr_to_graphviz.jl")
+include("../src/morphism_to_graphviz.jl")
 
 function has_graphviz(result)
   result["mimetype"] == "text/vnd.graphviz" && haskey(result, "data")

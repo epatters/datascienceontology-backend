@@ -18,10 +18,15 @@ wsk package update --shared yes $PKG -a description "Data Science Ontology"
 
 WORKDIR=$(mktemp -d)
 
-cp "$CATLAB/expression_to_graphviz.jl" "$WORKDIR/exec"
-wsk action update $PKG/expression_to_graphviz "$WORKDIR/exec" \
+cp "$CATLAB/annotation_to_graphviz.jl" "$WORKDIR/exec"
+wsk action update $PKG/annotation_to_graphviz "$WORKDIR/exec" \
   --docker $DOCKER_USERNAME/whisk-catlab \
-  -a description "Convert a morphism S-expression to Graphviz dot format"
+  -a description "Convert morphism annotation to Graphviz dot format"
+
+cp "$CATLAB/morphism_to_graphviz.jl" "$WORKDIR/exec"
+wsk action update $PKG/morphism_to_graphviz "$WORKDIR/exec" \
+  --docker $DOCKER_USERNAME/whisk-catlab \
+  -a description "Convert morphism S-expression to Graphviz dot format"
 
 wsk action update $PKG/graphviz \
   --docker $DOCKER_USERNAME/whisk-graphviz \
@@ -39,7 +44,7 @@ wsk action update $PKG/graphviz_to_cytoscape \
 
 wsk action update $PKG/morphism_to_cytoscape \
   "$NODE/morphism_to_cytoscape.bundle.js" \
-  -a description "Convert a morphism expression to Cytoscape data"
+  -a description "Convert a morphism S-expression to Cytoscape data"
 
 wsk action update $PKG/cache_morphism_annotation \
   "$NODE/cache_morphism_annotation.bundle.js" \

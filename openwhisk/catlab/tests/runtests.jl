@@ -4,6 +4,6 @@ using Base.Test
   include("annotation_to_graphviz.jl")
 end
 
-@testset "sexpr_to_graphviz" begin
-  include("sexpr_to_graphviz.jl")
+@testset "morphism_to_graphviz" begin
+  include("morphism_to_graphviz.jl")
 end
