@@ -34,7 +34,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       id: params.id
     }
   }).then(result => {
-    doc = result.response.result;
+    doc = result.response.result as Annotation;
     assert(doc.schema === "annotation" && doc.kind === "morphism");
     return openwhisk.actions.invoke({
       name: "data-science-ontology/morphism_to_cytoscape",
@@ -54,7 +54,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         id: params.id
       }
     }).then(result => {
-      cache = result.response.result;
+      cache = result.response.result as AnnotationCache;
     }, result => {
       const error = result.error.response.result.error;
       assert.equal(error.error, "not_found");
@@ -77,7 +77,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         dbname: Config.app_db_name,
         doc: cache
       }
-    }).then(result => result.response.result);
+    }).then(result => result.response.result as ActionResult);
   });
 }
 global.main = action;
