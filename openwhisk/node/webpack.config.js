@@ -1,3 +1,5 @@
+var webpack = require("webpack");
+
 module.exports = {
   entry: {
     cache_morphism_annotation: "./src/actions/cache_morphism_annotation.ts"
@@ -17,5 +19,8 @@ module.exports = {
         loader: "awesome-typescript-loader"
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.IgnorePlugin(/cls-bluebird/, /request-promise/)
+  ]
 };
