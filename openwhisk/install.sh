@@ -28,18 +28,6 @@ wsk action update $PKG/morphism_to_graphviz "$WORKDIR/exec" \
   --docker $DOCKER_USERNAME/whisk-catlab \
   -a description "Convert morphism S-expression to Graphviz dot format"
 
-wsk action update $PKG/dot_json_to_cytoscape \
-  "$NODE/dot_json_to_cytoscape.bundle.js" \
-  -a description "Convert Graphviz output (JSON format) to Cytoscape data"
-
-wsk action update $PKG/graphviz_to_cytoscape \
-  "$NODE/graphviz_to_cytoscape.bundle.js" \
-  -a description "Convert Graphviz input (dot format) to Cytoscape data"
-
-wsk action update $PKG/morphism_to_cytoscape \
-  "$NODE/morphism_to_cytoscape.bundle.js" \
-  -a description "Convert a morphism S-expression to Cytoscape data"
-
 wsk action update $PKG/cache_morphism_annotation \
   "$NODE/cache_morphism_annotation.bundle.js" \
   -a description "Create or update the cached data for a morphism annotation"

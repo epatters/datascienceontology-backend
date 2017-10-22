@@ -1,6 +1,4 @@
-import { SExp } from "./expression";
-import * as Cytoscape from "./cytoscape";
-import * as Graphviz from "./graphviz";
+import { SExp, Cytoscape, Graphviz } from "open-discovery";
 
 /** Cached data for a code annotation.
 

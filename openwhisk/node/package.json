@@ -9,11 +9,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.ts"
   },
-  "dependencies": {
-    "@types/lodash": "^4.14.72",
-    "lodash": "^4.17.4",
-    "striptags": "^3.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.14",
@@ -21,7 +17,6 @@
     "mocha": "^3.4.2",
     "openwhisk": "^3.6.0",
     "ts-node": "^3.2.0",
-    "typescript": "^2.4.1",
-    "webpack-node-externals": "^1.6.0"
+    "typescript": "^2.4.1"
   }
 }

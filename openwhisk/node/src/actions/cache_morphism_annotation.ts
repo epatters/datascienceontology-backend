@@ -1,10 +1,9 @@
 import * as assert from "assert";
 import OpenWhisk = require("openwhisk");
 
+import { Cytoscape, Graphviz } from "open-discovery";
 import { Annotation } from "../interfaces/annotation";
 import { AnnotationCache } from "../interfaces/annotation_cache";
-import * as Cytoscape from "../interfaces/cytoscape";
-import * as Graphviz from "../interfaces/graphviz";
 import * as Config from "../config";
 
 

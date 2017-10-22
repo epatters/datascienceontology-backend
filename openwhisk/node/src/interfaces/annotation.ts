@@ -1,4 +1,4 @@
-import { SExp } from "./expression";
+import { SExp } from "open-discovery";
 
 /** Code annotation for an ontology.
 

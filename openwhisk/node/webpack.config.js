@@ -1,11 +1,6 @@
-var nodeExternals = require('webpack-node-externals');
-
 module.exports = {
   entry: {
-    cache_morphism_annotation: "./src/actions/cache_morphism_annotation.ts",
-    dot_json_to_cytoscape: "./src/actions/dot_json_to_cytoscape.ts",
-    graphviz_to_cytoscape: "./src/actions/graphviz_to_cytoscape.ts",
-    morphism_to_cytoscape: "./src/actions/morphism_to_cytoscape.ts",
+    cache_morphism_annotation: "./src/actions/cache_morphism_annotation.ts"
   },
   output: {
     filename: "[name].bundle.js",
@@ -22,12 +17,5 @@ module.exports = {
         loader: "awesome-typescript-loader"
       }
     ]
-  },
-  externals: [
-    nodeExternals({
-      whitelist: [
-        "striptags"
-      ]
-    })
-  ],
+  }
 };
