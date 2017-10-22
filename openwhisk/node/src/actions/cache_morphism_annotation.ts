@@ -37,7 +37,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
     doc = result.response.result as Annotation;
     assert(doc.schema === "annotation" && doc.kind === "morphism");
     return openwhisk.actions.invoke({
-      name: "data-science-ontology/morphism_to_cytoscape",
+      name: "open-discovery/morphism_to_cytoscape",
       blocking: true,
       params: {
         expression: doc.definition

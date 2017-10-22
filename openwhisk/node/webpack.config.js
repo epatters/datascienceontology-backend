@@ -1,3 +1,4 @@
+var nodeExternals = require('webpack-node-externals');
 var webpack = require("webpack");
 
 module.exports = {
@@ -20,6 +21,9 @@ module.exports = {
       }
     ]
   },
+  externals: [
+    nodeExternals()
+  ],
   plugins: [
     new webpack.IgnorePlugin(/cls-bluebird/, /request-promise/)
   ]
