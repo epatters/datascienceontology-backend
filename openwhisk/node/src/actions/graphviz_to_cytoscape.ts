@@ -23,7 +23,7 @@ export interface ActionResult {
 export default function action(params: ActionParams): Promise<ActionResult> {
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
-    name: "data-science-ontology/graphviz",
+    name: "open-discovery/graphviz",
     blocking: true,
     params: {
       graph: params.graph,

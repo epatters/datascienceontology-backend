@@ -28,12 +28,6 @@ wsk action update $PKG/morphism_to_graphviz "$WORKDIR/exec" \
   --docker $DOCKER_USERNAME/whisk-catlab \
   -a description "Convert morphism S-expression to Graphviz dot format"
 
-wsk action update $PKG/graphviz \
-  --docker $DOCKER_USERNAME/whisk-graphviz \
-  --param prog dot \
-  --param format json0 \
-  -a description "Run Graphviz"
-
 wsk action update $PKG/dot_json_to_cytoscape \
   "$NODE/dot_json_to_cytoscape.bundle.js" \
   -a description "Convert Graphviz output (JSON format) to Cytoscape data"
