@@ -5,18 +5,13 @@
   "description": "Node.js backend for the Data Science Ontology",
   "author": "Evan Patterson",
   "license": "UNLICENSED",
-  "types": "./src/index.ts",
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.ts"
+  "dependencies": {
+    "open-discovery": "file:.yalc/open-discovery"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.14",
     "awesome-typescript-loader": "^3.2.1",
-    "mocha": "^3.4.2",
     "openwhisk": "^3.9.0",
-    "ts-node": "^3.2.0",
     "typescript": "^2.5.3",
     "webpack-node-externals": "^1.6.0"
   }

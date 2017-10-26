@@ -1,10 +1,7 @@
 import * as assert from "assert";
 import OpenWhisk = require("openwhisk");
 
-import { Cytoscape, Graphviz } from "open-discovery";
-import { Annotation } from "../interfaces/annotation";
-import { AnnotationCache } from "../interfaces/annotation_cache";
-import * as Config from "../config";
+import { Annotation, Cytoscape, Graphviz } from "open-discovery";
 
 
 export interface ActionParams {
@@ -23,14 +20,14 @@ export default function action(params: ActionParams): Promise<ActionResult> {
   let doc: Annotation = null;
   let graphviz: Graphviz.Graph = null;
   let cytoscape: Cytoscape.Cytoscape = null;
-  let cache: AnnotationCache = null;
+  let cache: any = null;
   
   const openwhisk = OpenWhisk();
   return openwhisk.actions.invoke({
     name: "Bluemix_Cloudant_Root/read",
     blocking: true,
     params: {
-      dbname: Config.db_name,
+      dbname: "data-science-ontology",
       id: params.id
     }
   }).then(result => {
@@ -50,11 +47,11 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "Bluemix_Cloudant_Root/read",
       blocking: true,
       params: {
-        dbname: Config.app_db_name,
+        dbname: "data-science-ontology-webapp",
         id: params.id
       }
     }).then(result => {
-      cache = result.response.result as AnnotationCache;
+      cache = result.response.result;
     }, result => {
       const error = result.error.response.result.error;
       assert.equal(error.error, "not_found");
@@ -75,7 +72,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
       name: "Bluemix_Cloudant_Root/write",
       blocking: true,
       params: {
-        dbname: Config.app_db_name,
+        dbname: "data-science-ontology-webapp",
         doc: cache
       }
     }).then(result => result.response.result as ActionResult);

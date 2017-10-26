@@ -3,7 +3,7 @@ var webpack = require("webpack");
 
 module.exports = {
   entry: {
-    cache_morphism_annotation: "./src/actions/cache_morphism_annotation.ts"
+    cache_morphism_annotation: "./src/cache_morphism_annotation.ts"
   },
   output: {
     filename: "[name].bundle.js",
