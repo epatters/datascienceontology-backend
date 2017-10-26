@@ -63,6 +63,7 @@ export default function action(params: ActionParams): Promise<ActionResult> {
         language: doc.language,
         package: doc.package,
         id: doc.id,
+        kind: doc.kind,
         definition: {
           expression: doc.definition
         }

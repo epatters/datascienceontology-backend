@@ -13,6 +13,9 @@ export interface AnnotationCache {
   package: string;
   id: string;
   
+  /* Kind of concept in ontology: "object" or "morphism". */
+  kind: string;
+  
   /* Definition of annotated code as concept in ontology. */
   definition: {
     /* Definition as S-expression. */
