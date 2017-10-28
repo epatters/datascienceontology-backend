@@ -2,9 +2,7 @@ var nodeExternals = require('webpack-node-externals');
 var webpack = require("webpack");
 
 module.exports = {
-  entry: {
-    cache_morphism_annotation: "./src/cache_morphism_annotation.ts"
-  },
+  entry: {},
   output: {
     filename: "[name].bundle.js",
     path: __dirname + "/build"
