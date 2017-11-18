@@ -89,9 +89,20 @@
         },
         "slots": {
           "description": "Class slots (attributes, properties, methods) defining morphisms in ontology",
-          "type": "object",
-          "patternProperties": {
-            ".*": { "type": "string" }
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["slot", "definition"],
+            "properties": {
+              "slot": {
+                "description": "Python slot specification ala Django HTML templates",
+                "type": "string"
+              },
+              "definition": {
+                "description": "Definition of slot as morphism in ontology",
+                "$ref": "#/definitions/s-expression"
+              }
+            }
           }
         }
       }
