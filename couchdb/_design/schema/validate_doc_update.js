@@ -15,7 +15,7 @@ function(newDoc, oldDoc, userCtx) {
   
   // Validate schema.
   var Ajv = require('lib/ajv.min');
-  var ajv = new Ajv({format: 'full', allErrors: true});
+  var ajv = new Ajv({format: 'full', allErrors: true, logger: false});
   try {
     var valid = ajv.validate(schema, newDoc);
   } catch (exc) {
