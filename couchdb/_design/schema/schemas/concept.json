@@ -53,19 +53,6 @@
     { "$ref": "#/definitions/morphism" }
   ],
   "definitions": {
-    "s-expression": {
-      "description": "S-expression in JSON",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "array",
-          "minItems": 1,
-          "items": { "$ref": "#/definitions/s-expression" }
-        }
-      ]
-    },
     "object": {
       "required": [ "kind" ],
       "properties": {
@@ -106,6 +93,19 @@
           "type": "string"
         }
       }
+    },
+    "s-expression": {
+      "description": "S-expression in JSON",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/s-expression" }
+        }
+      ]
     }
   }
 }

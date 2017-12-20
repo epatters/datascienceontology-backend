@@ -52,11 +52,13 @@
   },
   "oneOf": [
     { "$ref": "#/definitions/python-object" },
-    { "$ref": "#/definitions/python-morphism" }
+    { "$ref": "#/definitions/python-morphism" },
+    { "$ref": "#/definitions/r-object" },
+    { "$ref": "#/definitions/r-morphism" }
   ],
   "definitions": {
-    "s-expression": {
-      "description": "S-expression in JSON",
+    "python-class": {
+      "description": "Class or intersection of classes (with fully qualified names)",
       "oneOf": [
         {
           "type": "string"
@@ -64,7 +66,7 @@
         {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/definitions/s-expression" }
+          "items": { "type": "string" }
         }
       ]
     },
@@ -90,20 +92,7 @@
         "slots": {
           "description": "Class slots (attributes, properties, methods) defining morphisms in ontology",
           "type": "array",
-          "items": {
-            "type": "object",
-            "required": ["slot", "definition"],
-            "properties": {
-              "slot": {
-                "description": "Python slot specification ala Django HTML templates",
-                "type": "string"
-              },
-              "definition": {
-                "description": "Definition of slot as morphism in ontology",
-                "$ref": "#/definitions/s-expression"
-              }
-            }
-          }
+          "items": { "$ref": "#/definitions/slot" }
         }
       }
     },
@@ -126,12 +115,12 @@
         "domain": {
           "description": "Mapping of arguments (positional and named) to morphism domain",
           "type": "array",
-          "items": { "$ref": "#/definitions/python-domain-object" }
+          "items": { "$ref": "#/definitions/domain-object" }
         },
         "codomain": {
           "description": "Mapping of mutated arguments and return value to morphism codomain",
           "type": "array",
-          "items": { "$ref": "#/definitions/python-domain-object" }
+          "items": { "$ref": "#/definitions/domain-object" }
         }
       },
       "oneOf": [
@@ -148,7 +137,7 @@
           "required": [ "class", "method" ],
           "properties": {
             "class": {
-              "description": "Class to which annotation applies",
+              "description": "Class to which method belongs",
               "$ref": "#/definitions/python-class"
             },
             "method": {
@@ -159,26 +148,100 @@
         }
       ]
     },
-    "python-class": {
-      "description": "Class or intersection of classes (with fully qualified names)",
-      "oneOf": [
-        {
+    "r-object": {
+      "description": "Annotation of R type as object",
+      "required": [
+        "language",
+        "kind",
+        "class",
+        "system",
+        "definition"
+      ],
+      "properties": {
+        "language": { "enum": ["r"] },
+        "kind": { "enum": ["object"] },
+        "class": {
+          "description": "Class to which annotation applies",
           "type": "string"
         },
-        {
+        "system": {
+          "description": "Object-oriented system to which class belongs",
+          "enum": [ "S3", "S4", "R5", "R6" ]
+        },
+        "definition": {
+          "description": "Definition of annotated class as object in ontology",
+          "type": "string"
+        },
+        "slots": {
+          "description": "Class slots defining morphisms in ontology",
           "type": "array",
-          "minItems": 1,
-          "items": { "type": "string" }
+          "items": { "$ref": "#/definitions/slot" }
+        }
+      }
+    },
+    "r-morphism": {
+      "description": "Annotation of R function or method as morphism",
+      "required": [
+        "language",
+        "kind",
+        "definition",
+        "domain",
+        "codomain"
+      ],
+      "properties": {
+        "language": { "enum": ["r"] },
+        "kind": { "enum": ["morphism"] },
+        "definition": {
+          "description": "Definition of annotated function or method as morphism in ontology",
+          "$ref": "#/definitions/s-expression"
+        },
+        "domain": {
+          "description": "Mapping of arguments (positional and named) to morphism domain",
+          "type": "array",
+          "items": { "$ref": "#/definitions/domain-object" }
+        },
+        "codomain": {
+          "description": "Mapping of mutated arguments and return value to morphism codomain",
+          "type": "array",
+          "items": { "$ref": "#/definitions/domain-object" }
+        }
+      },
+      "oneOf": [
+        {
+          "required": [ "function" ],
+          "properties": {
+            "function": {
+              "description": "Name of function",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "required": [ "class", "system", "method" ],
+          "properties": {
+            "class": {
+              "description": "Class on which method dispatches",
+              "type": "string"
+            },
+            "system": {
+              "description": "Object-oriented system to which class belongs",
+              "enum": [ "S3", "S4", "R5", "R6" ]
+            },
+            "method": {
+              "description": "Name of method",
+              "type": "string"
+            }
+          }
         }
       ]
     },
-    "python-domain-object": {
-      "description": "Object belonging to the domain or codomain of a Python function or method",
+    "domain-object": {
+      "description": "Object belonging to the domain or codomain of a concrete function or method",
       "type": "object",
       "required": [ "slot" ],
       "properties": {
         "slot": {
-          "description": "Function slot (argument, identified by position or name, or return value, identified by \"__return__\")",
+          "description": "Function slot (argument or return value)",
           "oneOf": [
             { "type" : "number" },
             { "type" : "string" }
@@ -193,6 +256,34 @@
           "type": "string"
         }
       }
+    },
+    "slot": {
+      "description": "Slot corresponding to a morphism in the ontology",
+      "type": "object",
+      "required": ["slot", "definition"],
+      "properties": {
+        "slot": {
+          "description": "Language-specific slot specification",
+          "type": "string"
+        },
+        "definition": {
+          "description": "Definition of slot as morphism in ontology",
+          "$ref": "#/definitions/s-expression"
+        }
+      }
+    },
+    "s-expression": {
+      "description": "S-expression in JSON",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/s-expression" }
+        }
+      ]
     }
   }
 }
