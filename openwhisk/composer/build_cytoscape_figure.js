@@ -3,7 +3,7 @@ composer.sequence(
     $blocking: true, // Work around Composer bug.
   }),
   composer.task("open-discovery/expression_to_cytoscape", { merge: true }),
-  args => JSON.stringify({
+  args => ({
     expression: args.expression,
     width: args.width,
     height: args.height,
