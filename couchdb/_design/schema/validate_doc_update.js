@@ -14,15 +14,14 @@ function(newDoc, oldDoc, userCtx) {
   var schema = this.schemas[newDoc.schema];
   
   // Validate schema.
-  var Ajv = require('lib/ajv.min');
-  var ajv = new Ajv({format: 'full', allErrors: true, logger: false});
+  var tv4 = require('lib/tv4');
   try {
-    var valid = ajv.validate(schema, newDoc);
+    var result = tv4.validateResult(newDoc, schema);
   } catch (exc) {
-    throw({forbidden: 'Error validating document:' + JSON.stringify(exc)});
+    throw({forbidden: 'Error validating document: ' + JSON.stringify(exc)});
   }
-  if (!valid) {
-    throw({forbidden: 'Document invalid: ' + ajv.errorsText()});
+  if (!result.valid) {
+    throw({forbidden: 'Document invalid: ' + result.error.message});
   }
   
   // Validate ID.
