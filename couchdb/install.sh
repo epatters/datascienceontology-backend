@@ -20,8 +20,3 @@ echo "Pushing design document: search"
 pushd _design/search
 couchapp push $COUCHAPP
 popd
-
-echo "Creating bulk data"
-jq '{docs: .}' ../../ontology.json |
-  ccurl -X POST -d @- /data-science-ontology/_bulk_docs |
-  jq '.'
