@@ -124,30 +124,8 @@ function is_subobject(g::MetaDiGraph,
 end
 
 
-""" Convert attributed, directed multigraph to Graphviz.
-"""
-function to_graphviz(g::MetaDiGraph)::Graphviz.Graph
-  gv_name(v::Int) = "n$v"
-  stmts = Graphviz.Statement[]
-  for v in vertices(g)
-    push!(stmts, Graphviz.Node(gv_name(v), props(g, v)))
-  end
-  for e in edges(g)
-    for data in get_prop(g, e, :edges)
-      path = [gv_name(src(e)), gv_name(dst(e))]
-      push!(stmts, Graphviz.Edge(map(Graphviz.NodeID, path), data))
-    end
-  end
-  attrs = props(g)
-  Graphviz.Digraph("G", stmts;
-    graph_attrs = Graphviz.Attributes(get(attrs, :graph, Dict())),
-    node_attrs = Graphviz.Attributes(get(attrs, :node, Dict())),
-    edge_attrs = Graphviz.Attributes(get(attrs, :edge, Dict())),
-  )
-end
-
 function main(params::Dict)::Dict
-  graphviz = to_graphviz(concept_map())
+  graphviz = Graphviz.to_graphviz(concept_map(); multigraph=true)
   return Dict(
     "graph" => sprint(Graphviz.pprint, graphviz),
     "prog" => "neato",
