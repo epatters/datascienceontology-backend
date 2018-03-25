@@ -20,6 +20,22 @@ function concept_map()::MetaDiGraph
 
   # Create graphs for concept map and subobject relations.
   g = MetaDiGraph()
+  set_props!(g, Dict(
+    :graph => Dict(
+      :fontname => "helvetica",
+    ),
+    :node => Dict(
+      :fontname => "helvetica",
+      :shape => "box",
+      :style => "rounded",
+      :width => "0",
+      :height => "0",
+    ),
+    :edge => Dict(
+      :fontname => "helvetica",
+      :arrowsize => "0.75",
+    ),
+  ))
   g_subobjects = subobjects(concepts(db))
 
   # Add node for object generators.
@@ -122,7 +138,12 @@ function to_graphviz(g::MetaDiGraph)::Graphviz.Graph
       push!(stmts, Graphviz.Edge(map(Graphviz.NodeID, path), data))
     end
   end
-  Graphviz.Digraph("G", stmts)
+  attrs = props(g)
+  Graphviz.Digraph("G", stmts;
+    graph_attrs = Graphviz.Attributes(get(attrs, :graph, Dict())),
+    node_attrs = Graphviz.Attributes(get(attrs, :node, Dict())),
+    edge_attrs = Graphviz.Attributes(get(attrs, :edge, Dict())),
+  )
 end
 
 function main(params::Dict)::Dict
