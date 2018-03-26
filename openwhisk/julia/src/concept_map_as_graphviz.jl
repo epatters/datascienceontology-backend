@@ -10,15 +10,10 @@ using OpenDiscCore
 """ Visualize concepts as "concept map" or "mind map" using GraphViz.
 """
 function concept_map()::MetaDiGraph
-  # Load concept documents from database.
   db = OntologyDB()
-  docs = OntologyDBs.CouchDB.find(db, Dict(
-    "schema" => "concept",
-  ))
-  OntologyDBs.load_documents(db, docs)
-  docs = Dict(doc["id"] => doc for doc in docs)
+  load_concepts(db)
 
-  # Create graphs for concept map and subobject relations.
+  # Create graph for concept map.
   g = MetaDiGraph()
   set_props!(g, Dict(
     :graph => Dict(
@@ -36,14 +31,14 @@ function concept_map()::MetaDiGraph
       :arrowsize => "0.75",
     ),
   ))
-  g_subobjects = subobjects(concepts(db))
 
   # Add node for object generators.
   for ob in generators(concepts(db), Monocl.Ob)
     name = first(ob)
+    doc = concept_document(db, name)
     add_vertex!(g, Dict(
       :id => name,
-      :label => docs[name]["name"],
+      :label => doc["name"],
     ))
   end
   set_indexing_prop!(g, :id)
@@ -57,6 +52,7 @@ function concept_map()::MetaDiGraph
   end
 
   # Add edges for morphism generators with simple domain and codomain.
+  subobjects_graph = subobjects(concepts(db))
   primitive_types = concepts(db, ["array", "scalar"])
   for hom in generators(concepts(db), Monocl.Hom)
     if !(head(dom(hom)) == :generator && head(codom(hom)) == :generator)
@@ -67,18 +63,20 @@ function concept_map()::MetaDiGraph
     # occurrence, rather than linking back to original node.
     # This heuristic significantly improves the layout of the graph.
     dom_v, codom_v = g[first(dom(hom)),:id], g[first(codom(hom)),:id]
-    if any(is_subobject(g_subobjects, codom(hom), ob) for ob in primitive_types)
+    if any(is_subobject(subobjects_graph, codom(hom), ob) for ob in primitive_types)
       name = first(codom(hom))
+      doc = concept_document(db, name)
       add_vertex!(g, Dict(
-        :label => docs[name]["name"],
+        :label => doc["name"],
       ))
       codom_v = nv(g)
     end
 
     name = first(hom)
+    doc = concept_document(db, name)
     add_multi_edge!(g, dom_v, codom_v, Dict(
       :id => name,
-      :xlabel => docs[name]["name"]
+      :xlabel => doc["name"]
     ))
   end
   return g
@@ -118,9 +116,9 @@ function subobjects(concepts::Presentation)::MetaDiGraph
   return g_trans
 end
 
-function is_subobject(g::MetaDiGraph,
+function is_subobject(graph::MetaDiGraph,
                       ob1::Monocl.Ob{:generator}, ob2::Monocl.Ob{:generator})
-  has_edge(g, g[first(ob1),:name], g[first(ob2),:name])
+  has_edge(graph, graph[first(ob1),:name], graph[first(ob2),:name])
 end
 
 
