@@ -3,8 +3,6 @@ function(doc) {
     index("language", doc.language, {"store": true});
     index("package", doc.package, {"store": true});
     index("id", doc.id, {"store": true});
-
-    index("ontology", doc.ontology, {"store": true});
     index("kind", doc.kind, {"store": true});
     
     if (doc.name) {

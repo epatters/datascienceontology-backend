@@ -5,13 +5,11 @@
   "type": "object",
   "documentID": [
     "schema",
-    "ontology",
     "id"
   ],
   "required": [
     "_id",
     "schema",
-    "ontology",
     "id",
     "name"
   ],
@@ -21,10 +19,6 @@
     },
     "schema": {
       "enum": ["concept"]
-    },
-    "ontology": {
-      "description": "Ontology to which the concept belongs",
-      "type": "string"
     },
     "id": {
       "description": "Identifer for concept, unique within ontology",
@@ -42,10 +36,17 @@
       "description": "Definition of concept in terms of other concepts",
       "$ref": "#/definitions/s-expression"
     },
-    "subconcept": {
-      "description": "Concept is a sub-concept (subobject/subtype or sub-morphism) of these concepts",
-      "type": "array",
-      "items": { "type": "string" }
+    "is-a": {
+      "description": "Concept is a sub-concept of these concepts",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      ]
     },
     "external": {
       "description": "Links to external resources about the concept",
