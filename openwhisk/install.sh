@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 PKG="data-science-ontology"
-
 COMPOSER="./composer"
-NODE="./node/build"
 
 # Package
 #########

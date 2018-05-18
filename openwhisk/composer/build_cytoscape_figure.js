@@ -1,14 +1,11 @@
 composer.sequence(
-  args => Object.assign(args, {
-    $blocking: true, // Work around Composer bug.
-  }),
-  composer.task("open-discovery/expression_to_cytoscape", { merge: true }),
-  args => ({
-    expression: args.expression,
-    width: args.width,
-    height: args.height,
+  composer.retain("open-discovery/expression_to_cytoscape"),
+  ({ params, result }) => ({
+    expression: params.expression,
+    width: params.width,
+    height: params.height,
     cytoscape: {
-      elements: args.cytoscape.elements,
+      elements: result.cytoscape.elements,
     },
   })
 )

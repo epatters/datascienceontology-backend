@@ -1,35 +1,52 @@
 composer.sequence(
-  args => Object.assign(args, {
-    dbname: "data-science-ontology",
-    /* Work around Composer bug where long-running apps return a session ID
-       rather than the actual result. When the bug is fixed the `$blocking`
-       argument can be removed.
-     */
-    $blocking: true,
-  }),
-  composer.task("Bluemix_Cloudant_Root/read", { output: "note" }),
-  composer.task("open-discovery/annotation_to_cytoscape", { output: "graphs" }),
-  args => Object.assign(args, {
-    dbname: "data-science-ontology-webapp"
-  }),
-  composer.task(
-    composer.try("Bluemix_Cloudant_Root/read", args => {}),
-    { output: "doc" }
+  // Read annotation document in DSO database.
+  composer.retain(
+    composer.sequence(
+      params => ({
+        docid: params.docid,
+        dbname: "data-science-ontology",
+      }),
+      "Bluemix_Cloudant_Root/read"
+    )
   ),
-  args => ({
-    dbname: "data-science-ontology-webapp",
-    doc: {
-      _id: args.docid,
-      _rev: args.doc._rev,
-      language: args.note.language,
-      package: args.note.package,
-      id: args.note.id,
-      kind: args.note.kind,
-      definition: Object.assign(
-        { expression: args.note.definition },
-        args.graphs
-      )
-    }
-  }),
+  ({ params, result }) => Object.assign(params, { annotation: result }),
+
+  // Create Cytoscape graphs for annotation.
+  // (This step is independent of previous one and could be run in parallel.)
+  composer.retain(
+    composer.sequence(
+      params => ({ docid: params.docid }),
+      "open-discovery/annotation_to_cytoscape"
+    )
+  ),
+  ({ params, result }) => Object.assign(params, { graphs: result }),
+
+  // Create or update annotation document in DSO web application database.
+  composer.retain_catch(
+    composer.sequence(
+      params => ({
+        docid: params.docid,
+        dbname: "data-science-ontology-webapp",
+      }),
+      "Bluemix_Cloudant_Root/read"
+    )
+  ),
+  ({ params, result }) => {
+    let doc = result;
+    let note = params.annotation;
+    return {
+      doc: {
+        _id: params.docid,
+        _rev: doc._rev,
+        language: note.language,
+        package: note.package,
+        id: note.id,
+        kind: note.kind,
+        definition: Object.assign(
+          { expression: note.definition }, params.graphs),
+      },
+      dbname: "data-science-ontology-webapp",
+    };
+  },
   "Bluemix_Cloudant_Root/write"
 )
