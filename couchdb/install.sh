@@ -1,22 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
-COUCHAPP="data-science-ontology"
+DB="data-science-ontology"
 
-pushd() { builtin pushd "$@" > /dev/null; }
-popd() { builtin pushd "$@" > /dev/null; }
+echo "Creating database and setting permissions"
+ccurl -X DELETE /$DB
+ccurl -X PUT /$DB
+ccurl -X PUT -d '{"cloudant": {"nobody": ["_reader"]}}' /$DB/_security
 
 echo "Pushing design document: schema"
-pushd _design/schema
-couchapp push $COUCHAPP
-popd
+couchapp push _design/schema $DB
 
 echo "Pushing design document: query"
-pushd _design/query
-couchapp push $COUCHAPP
-popd
+couchapp push _design/query $DB
 
 echo "Pushing design document: search"
-pushd _design/search
-couchapp push $COUCHAPP
-popd
+couchapp push _design/search $DB
