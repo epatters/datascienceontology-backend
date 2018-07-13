@@ -6,7 +6,7 @@ COMPOSER="./composer"
 # Package
 #########
 
-wsk package update --shared yes $PKG -a description "Data Science Ontology"
+ibmcloud wsk package update --shared yes $PKG -a description "Data Science Ontology"
 
 # Actions
 #########
