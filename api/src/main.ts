@@ -1,5 +1,5 @@
 import express from "express";
-import request from "request";
+import request from "request-promise-native";
 
 // Environment variables.
 const PORT = process.env.PORT || 3000;
@@ -26,18 +26,16 @@ app.get('/concept/:id',
   (req, res) => {
     let { id } = req.params;
     const _id = `concept/${id}`;
-    request(ontologyDB.get(_id), (err, response) => {
-      sendJSON(res, response.body);
-    });
+    request(ontologyDB.get(_id))
+      .then(body => sendJSON(res, body));
   });
 
 app.get('/annotation/:lang/:pkg/:id',
   (req, res) => {
     let { lang, pkg, id } = req.params;
     const _id = `annotation/${lang}/${pkg}/${id}`;
-    request(ontologyDB.get(_id), (err, response) => {
-      sendJSON(res, response.body);
-    });
+    request(ontologyDB.get(_id))
+      .then(body => sendJSON(res, body));
   });
 
 // Start the app!
