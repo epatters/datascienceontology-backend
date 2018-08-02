@@ -1,0 +1,9 @@
+{
+  "name": "data-science-ontology-api",
+  "version": "0.1.0",
+  "description": "REST API for the Data Science Ontology",
+  "main": "index.js",
+  "author": "Evan Patterson",
+  "license": "UNLICENSED",
+  "private": true
+}
