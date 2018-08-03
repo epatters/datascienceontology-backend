@@ -67,6 +67,13 @@ app.get('/search/annotation/:text',
     methods.searchAnnotations(text).then(body => sendJSON(res, body));
   });
 
+app.get('/_cache/annotation/:lang/:pkg/:id',
+  (req, res) => {
+    let { lang, pkg, id } = req.params;
+    const _id = `annotation/${lang}/${pkg}/${id}`;
+    methods.getCache(_id).then(body => sendJSON(res, body));
+  });
+
 // Start the app!
 app.listen(PORT, () => console.log(
   `Data Science Ontology proxy server listening on port ${PORT}`));

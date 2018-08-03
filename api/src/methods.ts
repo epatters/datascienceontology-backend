@@ -52,6 +52,10 @@ export function getAnnotation(lang: string, pkg: string, id: string) {
   return get(`annotation/${lang}/${pkg}/${id}`);
 }
 
+export function getCache(_id: string) {
+  return request(`${WEBAPP_DB_URL}/${encodeURIComponent(_id)}`);
+}
+
 export function listConcepts() {
   return find({
     selector: { schema: 'concept' },
