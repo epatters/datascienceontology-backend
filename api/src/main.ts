@@ -1,18 +1,20 @@
-import express from "express";
+import Express from "express";
+import ExpressRedisCache from "express-redis-cache";
+import Redis from "redis";
 
 import * as Config from "./config";
 import * as Methods from "./methods";
 
 // Helper functions.
 
-const sendJSON = (res: express.Response, data: object | string) => {
+const sendJSON = (res: Express.Response, data: object | string) => {
   if (typeof data === 'object')
     data = JSON.stringify(data);
   res.set('Content-Type', 'application/json');
   res.send(data);
 }
 
-const handleGetError = (res: express.Response, next: express.NextFunction, error: any) => {
+const handleGetError = (res: Express.Response, next: Express.NextFunction, error: any) => {
   if (error.statusCode == 404) {
     res.status(404);
     sendJSON(res, { error: 'not_found' });
@@ -21,9 +23,21 @@ const handleGetError = (res: express.Response, next: express.NextFunction, error
   }
 }
 
-// Create and set up Express.js app.
+// Create Express.js app.
 
-const app = express();
+const app = Express();
+
+// Set up Redis caching on all routes.
+
+const redis = Redis.createClient(Config.redisUrl);
+const cache = ExpressRedisCache({
+  client: redis,
+  prefix: 'dso',
+  expire: 60*60*24, // Cache entries expire after one day.
+})
+app.use(cache.route());
+
+// Define routes for REST API.
 
 app.get('/', (req, res) => res.send('Data Science Ontology API'));
 

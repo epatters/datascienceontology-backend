@@ -9,3 +9,6 @@ export const dbUrl = `${couchUrl}/${dbName}`;
 
 export const appDbName = 'data-science-ontology-webapp';
 export const appDbUrl = `${couchUrl}/${appDbName}`;
+
+// Redis
+export const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
