@@ -4,6 +4,7 @@ import * as Config from "./config";
 import * as Methods from "./methods";
 
 // Helper functions.
+
 const sendJSON = (res: express.Response, data: object | string) => {
   if (typeof data === 'object')
     data = JSON.stringify(data);
@@ -11,7 +12,17 @@ const sendJSON = (res: express.Response, data: object | string) => {
   res.send(data);
 }
 
+const handleGetError = (res: express.Response, next: express.NextFunction, error: any) => {
+  if (error.statusCode == 404) {
+    res.status(404);
+    sendJSON(res, { error: 'not_found' });
+  } else {
+    next();
+  }
+}
+
 // Create and set up Express.js app.
+
 const app = express();
 
 app.get('/', (req, res) => res.send('Data Science Ontology API'));
@@ -27,15 +38,19 @@ app.get('/annotation/_random',
   });
 
 app.get('/concept/:id',
-  (req, res) => {
+  (req, res, next) => {
     let { id } = req.params;
-    Methods.getConcept(id).then(body => sendJSON(res, body));
+    Methods.getConcept(id)
+      .then(body => sendJSON(res, body))
+      .catch(error => handleGetError(res, next, error));
   });
 
 app.get('/annotation/:lang/:pkg/:id',
-  (req, res) => {
+  (req, res, next) => {
     let { lang, pkg, id } = req.params;
-    Methods.getAnnotation(lang, pkg, id).then(body => sendJSON(res, body));
+    Methods.getAnnotation(lang, pkg, id)
+      .then(body => sendJSON(res, body))
+      .catch(error => handleGetError(res, next, error));
   });
 
 app.get('/concepts',
@@ -66,12 +81,15 @@ app.get('/search/annotation/:text',
   });
 
 app.get('/_cache/annotation/:lang/:pkg/:id',
-  (req, res) => {
+  (req, res, next) => {
     let { lang, pkg, id } = req.params;
     const _id = `annotation/${lang}/${pkg}/${id}`;
-    Methods.getCache(_id).then(body => sendJSON(res, body));
+    Methods.getCache(_id)
+      .then(body => sendJSON(res, body))
+      .catch(error => handleGetError(res, next, error));
   });
 
 // Start the app!
+
 app.listen(Config.port, () => console.log(
   `Data Science Ontology proxy server listening on port ${Config.port}`));
