@@ -30,6 +30,15 @@ function find(options: object) {
   }).then(result => result.docs) as Promise<Array<any>>;
 }
 
+function search(ddoc: string, index: string, options: object) {
+  return request({
+    url: `${ONTOLOGY_DB_URL}/_design/${ddoc}/_search/${index}`,
+    method: 'POST',
+    json: true,
+    body: options,
+  });
+}
+
 // API methods
 
 export function getConcept(id: string) {

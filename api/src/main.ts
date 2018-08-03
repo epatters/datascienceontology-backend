@@ -45,6 +45,18 @@ app.get('/counts',
     methods.counts().then(body => sendJSON(res, body));
   });
 
+app.get('/search/concept/:text',
+  (req, res) => {
+    let { text } = req.params;
+    methods.searchConcepts(text).then(body => sendJSON(res, body));
+  });
+
+app.get('/search/annotation/:text',
+  (req, res) => {
+    let { text } = req.params;
+    methods.searchAnnotations(text).then(body => sendJSON(res, body));
+  });
+
 // Start the app!
 app.listen(PORT, () => console.log(
   `Data Science Ontology proxy server listening on port ${PORT}`));
