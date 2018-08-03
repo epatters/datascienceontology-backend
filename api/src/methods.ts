@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import request from "request-promise-native";
 
 // Constants and environment variables.
@@ -20,6 +21,15 @@ function view(ddoc: string, view: string, params?: object) {
   });
 }
 
+function find(options: object) {
+  return request({
+    url: `${ONTOLOGY_DB_URL}/_find`,
+    method: 'POST',
+    json: true,
+    body: options,
+  }).then(result => result.docs) as Promise<Array<any>>;
+}
+
 // API methods
 
 export function getConcept(id: string) {
@@ -29,19 +39,42 @@ export function getAnnotation(lang: string, pkg: string, id: string) {
   return get(`annotation/${lang}/${pkg}/${id}`);
 }
 
-export function stats() {
+export function randomConcept() {
+  return countsJSON().then(counts => {
+    const nconcepts = counts.concept;
+    return find({
+      selector: { schema: 'concept' },
+      limit: 1,
+      skip: _.random(nconcepts),
+    }).then(docs => docs[0]);
+  });
+}
+export function randomAnnotation() {
+  return countsJSON().then(counts => {
+    const nannations = counts.annotation;
+    return find({
+      selector: { schema: 'annotation' },
+      limit: 1,
+      skip: _.random(nannations),
+    }).then(docs => docs[0]);
+  });
+}
+
+export function counts() {
+  return countsJSON().then(result => JSON.stringify(result));
+}
+function countsJSON(): Promise<{[key: string]: number}> {
   return view("query", "schema_index", {
     group: true,
     reduce: true,
-  })
-  .then(body => {
+  }).then(body => {
     const result = JSON.parse(body) as {
       rows: { key: string[], value: number }[],
     };
-    const table = result.rows.reduce((table: {[key: string]: number}, row) => {
-      table[row.key[0]] = row.value;
-      return table;
-    }, {});
-    return JSON.stringify(table);
+    return(_.chain(result.rows)
+      .keyBy(row => row.key[0])
+      .mapValues(row => row.value)
+      .value()
+    );
   });
 }

@@ -6,7 +6,9 @@ import * as methods from "./methods";
 const PORT = process.env.PORT || 3000;
 
 // Helper functions.
-const sendJSON = (res: express.Response, data: string) => {
+const sendJSON = (res: express.Response, data: object | string) => {
+  if (typeof data === 'object')
+    data = JSON.stringify(data);
   res.set('Content-Type', 'application/json');
   res.send(data);
 }
@@ -15,6 +17,16 @@ const sendJSON = (res: express.Response, data: string) => {
 const app = express();
 
 app.get('/', (req, res) => res.send('Data Science Ontology API'));
+
+app.get('/concept/_random',
+  (req, res) => {
+    methods.randomConcept().then(body => sendJSON(res, body));
+  });
+
+app.get('/annotation/_random',
+  (req, res) => {
+    methods.randomAnnotation().then(body => sendJSON(res, body));
+  });
 
 app.get('/concept/:id',
   (req, res) => {
@@ -28,9 +40,9 @@ app.get('/annotation/:lang/:pkg/:id',
     methods.getAnnotation(lang, pkg, id).then(body => sendJSON(res, body));
   });
 
-app.get('/stats',
+app.get('/counts',
   (req, res) => {
-    methods.stats().then(body => sendJSON(res, body));
+    methods.counts().then(body => sendJSON(res, body));
   });
 
 // Start the app!
