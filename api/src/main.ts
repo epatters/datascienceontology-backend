@@ -40,6 +40,16 @@ app.get('/annotation/:lang/:pkg/:id',
     methods.getAnnotation(lang, pkg, id).then(body => sendJSON(res, body));
   });
 
+app.get('/concepts',
+  (req, res) => {
+    methods.listConcepts().then(body => sendJSON(res, body));
+  });
+
+app.get('/annotations',
+  (req, res) => {
+    methods.listAnnotations().then(body => sendJSON(res, body));
+  });
+
 app.get('/counts',
   (req, res) => {
     methods.counts().then(body => sendJSON(res, body));

@@ -52,6 +52,20 @@ export function getAnnotation(lang: string, pkg: string, id: string) {
   return get(`annotation/${lang}/${pkg}/${id}`);
 }
 
+export function listConcepts() {
+  return find({
+    selector: { schema: 'concept' },
+    fields: ['_id', 'id', 'name', 'kind'],
+  });
+}
+
+export function listAnnotations() {
+  return find({
+    selector: { schema: 'annotation' },
+    fields: ['_id', 'language', 'package', 'id', 'name', 'kind'],
+  });
+}
+
 export function randomConcept() {
   return countsJSON().then(counts => {
     const nconcepts = counts.concept;
