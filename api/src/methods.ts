@@ -1,29 +1,24 @@
 import * as _ from "lodash";
 import request from "request-promise-native";
 
-// Constants and environment variables.
-const COUCH_URL = process.env.COUCH_URL || 'http://localhost:5986';
-const ONTOLOGY_DB = 'data-science-ontology';
-const ONTOLOGY_DB_URL = `${COUCH_URL}/${ONTOLOGY_DB}`;
-const WEBAPP_DB = 'data-science-ontology-webapp';
-const WEBAPP_DB_URL = `${COUCH_URL}/${WEBAPP_DB}`;
+import * as Config from "./config";
 
 // Generic CouchDB/Cloudant 
 
 function get(_id: string) {
-  return request(`${ONTOLOGY_DB_URL}/${encodeURIComponent(_id)}`);
+  return request(`${Config.dbUrl}/${encodeURIComponent(_id)}`);
 }
 
 function view(ddoc: string, view: string, params?: object) {
   return request({
-    url: `${ONTOLOGY_DB_URL}/_design/${ddoc}/_view/${view}`,
+    url: `${Config.dbUrl}/_design/${ddoc}/_view/${view}`,
     qs: params,
   });
 }
 
 function find(options: object) {
   return request({
-    url: `${ONTOLOGY_DB_URL}/_find`,
+    url: `${Config.dbUrl}/_find`,
     method: 'POST',
     json: true,
     body: options,
@@ -32,7 +27,7 @@ function find(options: object) {
 
 function search(ddoc: string, index: string, options: object) {
   return request({
-    url: `${ONTOLOGY_DB_URL}/_design/${ddoc}/_search/${index}`,
+    url: `${Config.dbUrl}/_design/${ddoc}/_search/${index}`,
     method: 'POST',
     json: true,
     body: options,
@@ -53,7 +48,7 @@ export function getAnnotation(lang: string, pkg: string, id: string) {
 }
 
 export function getCache(_id: string) {
-  return request(`${WEBAPP_DB_URL}/${encodeURIComponent(_id)}`);
+  return request(`${Config.appDbUrl}/${encodeURIComponent(_id)}`);
 }
 
 export function listConcepts() {
