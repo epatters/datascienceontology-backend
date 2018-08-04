@@ -18,3 +18,7 @@ fsh app update $PKG/build_cytoscape_figure \
 fsh app update $PKG/create_annotation_cache \
   "$COMPOSER/create_annotation_cache.js" \
   -a description "Create or update cache data for morphism annotation"
+
+fsh app update $PKG/list_missing_cache \
+  "$COMPOSER/list_missing_cache.js" \
+  -a description "List concepts and annotations with missing cache data"

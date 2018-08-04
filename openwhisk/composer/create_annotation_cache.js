@@ -1,5 +1,3 @@
-const cloudant = "Bluemix_Cloudant-discovery_Credentials-lite";
-
 composer.sequence(
   // Read annotation document in DSO database.
   composer.retain(
@@ -8,7 +6,7 @@ composer.sequence(
         docid: params.docid,
         dbname: "data-science-ontology",
       }),
-      `${cloudant}/read`
+      "cloudant/read"
     )
   ),
   ({ params, result }) => Object.assign(params, { annotation: result }),
@@ -30,7 +28,7 @@ composer.sequence(
         docid: params.docid,
         dbname: "data-science-ontology-webapp",
       }),
-      `${cloudant}/read`
+      "cloudant/read"
     )
   ),
   ({ params, result }) => {
@@ -50,5 +48,5 @@ composer.sequence(
       dbname: "data-science-ontology-webapp",
     };
   },
-  `${cloudant}/write`
+  "cloudant/write"
 )
