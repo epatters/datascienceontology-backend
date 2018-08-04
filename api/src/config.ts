@@ -1,5 +1,14 @@
+import { CorsOptions } from "cors";
+
 // General
 export const port = process.env.PORT || 3000;
+
+export const cors: CorsOptions = {
+  origin: [
+    'https://datascienceontology.org',
+    'https://www.datascienceontology.org',
+  ],
+};
 
 // CouchDB/Cloudant
 export const couchUrl = process.env.COUCH_URL || 'http://localhost:5986';

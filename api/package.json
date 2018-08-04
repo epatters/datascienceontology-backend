@@ -12,14 +12,16 @@
     "serve": "node ./build/main.js"
   },
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-redis-cache": "^1.1.3",
     "lodash": "^4.17.10",
-    "redis": "https://github.com/NodeRedis/node_redis",
+    "redis": "https://github.com/NodeRedis/node_redis.git",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.4",
     "@types/express": "^4.16.0",
     "@types/express-redis-cache": "^1.1.0",
     "@types/lodash": "^4.14.115",

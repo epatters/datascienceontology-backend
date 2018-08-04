@@ -1,5 +1,6 @@
 import Express from "express";
 import ExpressRedisCache from "express-redis-cache";
+import Cors from "cors";
 import Redis from "redis";
 
 import * as Config from "./config";
@@ -26,6 +27,7 @@ const handleGetError = (res: Express.Response, next: Express.NextFunction, error
 // Create Express.js app.
 
 const app = Express();
+app.use(Cors(Config.cors));
 
 // Set up Redis caching on all routes.
 
