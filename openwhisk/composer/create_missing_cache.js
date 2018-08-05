@@ -5,7 +5,7 @@ composer.sequence(
     composer.sequence(
       composer.retain(
         params => ({ docid: params.missing[0] }),
-        "data-science-ontology/create_annotation_cache"
+        "data-science-ontology/update_annotation_cache"
       ),
       ({ params }) => ({ missing: params.missing.slice(1) })
     )
