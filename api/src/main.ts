@@ -107,9 +107,20 @@ app.get('/annotations/:lang/:pkg',
     }).then(body => sendJSON(res, body));
   });
 
-app.get('/counts',
+app.get('/count',
   (req, res) => {
-    Methods.counts().then(body => sendJSON(res, body));
+    Methods.count().then(result => sendJSON(res, result));
+  });
+
+app.get('/count/annotation',
+  (req, res) => {
+    Methods.countAnnotationsByLanguage().then(result => sendJSON(res, result));
+  });
+
+app.get('/count/annotation/:lang',
+  (req, res) => {
+    const { lang } = req.params;
+    Methods.countAnnotationsByPackage(lang).then(result => sendJSON(res, result));
   });
 
 app.get('/search/concept/:text',

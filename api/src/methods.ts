@@ -13,7 +13,8 @@ function view(ddoc: string, view: string, params?: object) {
   return request({
     url: `${Config.dbUrl}/_design/${ddoc}/_view/${view}`,
     qs: params,
-  });
+    json: true,
+  }).then(result => result.rows as { key: string[], value: number }[]);
 }
 
 function find(options: object) {
@@ -84,7 +85,7 @@ export function listAnnotations(options: ListAnnotationsOptions = {}) {
 }
 
 export function randomConcept() {
-  return countsJSON().then(counts => {
+  return count().then(counts => {
     const nconcepts = counts.concept;
     return find({
       selector: { schema: 'concept' },
@@ -95,7 +96,7 @@ export function randomConcept() {
 }
 
 export function randomAnnotation() {
-  return countsJSON().then(counts => {
+  return count().then(counts => {
     const nannations = counts.annotation;
     return find({
       selector: { schema: 'annotation' },
@@ -123,20 +124,37 @@ export function searchAnnotations(text: string) {
   return search('search', 'annotation', { query });
 }
 
-export function counts() {
-  return countsJSON().then(result => JSON.stringify(result));
-}
-function countsJSON(): Promise<{[key: string]: number}> {
+export function count(): Promise<{[key: string]: number}> {
   return view('query', 'schema_index', {
     group: true,
-    reduce: true,
-  }).then(body => {
-    const result = JSON.parse(body) as {
-      rows: { key: string[], value: number }[],
-    };
-    return _.chain(result.rows)
+  }).then(rows =>
+    _.chain(rows)
       .keyBy(row => row.key[0])
       .mapValues(row => row.value)
-      .value();
-  });
+      .value()
+  );
+}
+
+export function countAnnotationsByLanguage() {
+  return view('query', 'annotation_index', {
+    group: true,
+    group_level: 2,
+  }).then(rows =>
+    _.chain(rows)
+      .keyBy(row => row.key[1])
+      .mapValues(row => row.value)
+      .value()
+  );
+}
+
+export function countAnnotationsByPackage(lang: string) {
+  return view('query', 'annotation_index', {
+    group: true,
+  }).then(rows =>
+    _.chain(rows)
+      .filter(row => row.key[1] == lang)
+      .keyBy(row => row.key[2])
+      .mapValues(row => row.value)
+      .value()
+  );
 }
