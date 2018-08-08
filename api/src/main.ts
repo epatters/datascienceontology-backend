@@ -78,12 +78,33 @@ app.get('/annotation/:lang/:pkg/:id',
 
 app.get('/concepts',
   (req, res) => {
-    Methods.listConcepts().then(body => sendJSON(res, body));
+    Methods.listConcepts({
+      short: req.query.short === "true",
+    }).then(body => sendJSON(res, body));
   });
 
 app.get('/annotations',
   (req, res) => {
-    Methods.listAnnotations().then(body => sendJSON(res, body));
+    Methods.listAnnotations({
+      short: req.query.short === "true",
+    }).then(body => sendJSON(res, body));
+  });
+
+app.get('/annotations/:lang',
+  (req, res) => {
+    Methods.listAnnotations({
+      short: req.query.short === "true",
+      language: req.params.lang,
+    }).then(body => sendJSON(res, body));
+  });
+
+app.get('/annotations/:lang/:pkg',
+  (req, res) => {
+    Methods.listAnnotations({
+      short: req.query.short === "true",
+      language: req.params.lang,
+      package: req.params.pkg,
+    }).then(body => sendJSON(res, body));
   });
 
 app.get('/counts',
