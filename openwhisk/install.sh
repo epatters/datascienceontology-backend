@@ -33,6 +33,10 @@ fsh app update $PKG/update_annotation_cache \
   "$COMPOSER/update_annotation_cache.js" \
   -a description "Create or update cache data for morphism annotation"
 
+fsh app update $PKG/concept_map_as_cytoscape \
+  "$COMPOSER/concept_map_as_cytoscape.js" \
+  -a description "Create concept map as Cytoscape data"
+
 cp "$JULIA/concept_map_as_graphviz.jl" "$WORKDIR/exec"
 ibmcloud wsk action update $PKG/concept_map_as_graphviz "$WORKDIR/exec" \
   --docker $DOCKER_USERNAME/whisk-catlab \
