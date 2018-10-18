@@ -5,4 +5,5 @@ The Data Science Ontology backend consists of
 - CouchDB (or Cloudant) database
 - Actions for Apache OpenWhisk (or IBM Cloud Functions)
 
-The ontology itself lives in [its own repository](https://bitbucket.org/opendiscovery/data-science-ontology).
+The Data Science Ontology itself lives in its own
+[repository](https://github.com/ibm/datascienceontology).
