@@ -3,8 +3,8 @@ import JSON
 using LightGraphs, MetaGraphs
 
 using Catlab
-import Catlab.Diagram: Graphviz
-using OpenDiscCore
+import Catlab.Diagram.Graphviz
+using SemanticFlowGraphs
 
 
 """ Visualize concepts as "concept map" or "mind map" using GraphViz.
@@ -130,7 +130,7 @@ function main(params::Dict)::Dict
   )
 end
 
-if current_module() == Main
+if @__MODULE__() == Main
   const PARAMS = JSON.parse(isempty(ARGS) ? "{}" : ARGS[1])
   JSON.print(main(PARAMS))
 end
