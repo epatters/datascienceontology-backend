@@ -1,4 +1,6 @@
-composer.sequence(
+const composer = require('openwhisk-composer')
+
+module.exports = composer.sequence(
   // Get all documents for which the frontend expects cache data.
   composer.retain(
     params => ({

@@ -1,4 +1,6 @@
-composer.sequence(
+const composer = require('openwhisk-composer')
+
+module.exports = composer.sequence(
   "data-science-ontology/list_missing_cache",
   composer.while(
     params => params.missing.length > 0,

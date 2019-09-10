@@ -1,4 +1,6 @@
-composer.sequence(
+const composer = require('openwhisk-composer')
+
+module.exports = composer.sequence(
   // Read annotation document in DSO database.
   composer.retain(
     composer.sequence(

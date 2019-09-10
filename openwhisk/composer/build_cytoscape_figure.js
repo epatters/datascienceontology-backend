@@ -1,4 +1,6 @@
-composer.sequence(
+const composer = require('openwhisk-composer')
+
+module.exports = composer.sequence(
   composer.retain("open-discovery/expression_to_cytoscape"),
   ({ params, result }) => ({
     expression: params.expression,
