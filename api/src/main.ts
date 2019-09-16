@@ -29,22 +29,24 @@ const handleGetError = (res: Express.Response, next: Express.NextFunction, error
 const app = Express();
 app.use(Cors(Config.cors));
 
-// Set up Redis caching on all routes.
+// Set up Redis caching on all routes, if Redis is enabled.
 
-const redis = Redis.createClient(Config.redisUrl);
-const cache = ExpressRedisCache({
-  client: redis,
-  prefix: 'dso',
-  expire: {
-    // Cache successful requests for one day.
-    200: 60*60*24,
-    // Don't cache failed requests.
-    // FIXME: Should be 0, not 1, but that's not yet supported, see:
-    // https://github.com/rv-kip/express-redis-cache/pull/93
-    xxx: 1,
-  } as any,
-})
-app.use(cache.route());
+if (Config.redisUrl && Config.redisUrl !== "") {
+  const redis = Redis.createClient(Config.redisUrl);
+  const cache = ExpressRedisCache({
+    client: redis,
+    prefix: 'dso',
+    expire: {
+      // Cache successful requests for one day.
+      200: 60*60*24,
+      // Don't cache failed requests.
+      // FIXME: Should be 0, not 1, but that's not yet supported, see:
+      // https://github.com/rv-kip/express-redis-cache/pull/93
+      xxx: 1,
+    } as any,
+  })
+  app.use(cache.route());
+}
 
 // Define routes for REST API.
 
