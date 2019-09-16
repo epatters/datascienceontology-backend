@@ -6,7 +6,7 @@ COMPOSER="./composer"
 JULIA="./julia/src"
 JULIA_TIMEOUT="300000" # milliseconds
 
-JULIA_DOCKER="epatters/whisk-catlab:julia1.2"
+JULIA_DOCKER="epatters/whisk-catlab"
 
 # Package
 #########
@@ -18,9 +18,9 @@ ibmcloud wsk package update --shared yes $PKG -a description "Data Science Ontol
 
 WORKDIR=$(mktemp -d)
 
-kui wsk app update $PKG/build_cytoscape_figure \
-  "$COMPOSER/build_cytoscape_figure.js" \
-  -a description "Build Cytoscape graph for morphism figure in documentation"
+kui wsk app update $PKG/build_morphism_figure \
+  "$COMPOSER/build_morphism_figure.js" \
+  -a description "Build Graphviz JSON for morphism figure in documentation"
 
 kui wsk app update $PKG/create_missing_cache \
   "$COMPOSER/create_missing_cache.js" \
