@@ -8,7 +8,7 @@ module.exports = composer.sequence(
       query: {
         selector: {
           schema: "annotation",
-          kind: "morphism",
+          kind: "function",
         },
         fields: [ "_id" ],
       }
