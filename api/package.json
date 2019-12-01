@@ -1,12 +1,12 @@
 {
+  "private": true,
   "name": "data-science-ontology-api",
   "version": "0.1.0",
   "description": "REST API for the Data Science Ontology",
   "main": "build/main.js",
   "types": "src/main.ts",
   "author": "Evan Patterson",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "Apache-2.0",
   "scripts": {
     "build": "./node_modules/typescript/bin/tsc",
     "serve": "node ./build/main.js"

@@ -1,7 +1,8 @@
-# Data Science Ontology backend
+# Backend for Data Science Ontology
 
-The Data Science Ontology backend consists of
-- REST API, implemented by Express.js proxy server
+This repository contains the web backend for the Data Science Ontology,
+consisting of:
+- REST API, implemented using an Express.js proxy server
 - CouchDB (or Cloudant) database
 - Actions for Apache OpenWhisk (or IBM Cloud Functions)
 
