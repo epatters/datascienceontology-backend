@@ -1,0 +1,17 @@
+{
+  "name": "data-science-ontology-backend-couchdb",
+  "version": "0.1.0",
+  "description": "CouchDB backend for the Data Science Ontology",
+  "homepage": "https://www.datascienceontology.org",
+  "repository": "git@github.com:ibm/datascienceontology-backend.git",
+  "author": "Evan Patterson <epatters@stanford.edu>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ccurl": "^0.4.2",
+    "ccurllib": "^1.0.3",
+    "http-proxy": "^1.18.0"
+  },
+  "scripts": {
+    "proxy": "node proxy.js"
+  }
+}
