@@ -2,6 +2,7 @@
 set -e
 
 DB="data-science-ontology"
+PATH="node_modules/.bin:$PATH"
 
 echo "Creating database"
 ccurl -X DELETE /$DB
