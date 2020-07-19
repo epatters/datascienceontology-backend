@@ -15,7 +15,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-redis-cache": "^1.1.3",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "redis": "https://github.com/NodeRedis/node_redis.git",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
