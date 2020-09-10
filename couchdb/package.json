@@ -9,7 +9,7 @@
   "devDependencies": {
     "ccurl": "^0.4.2",
     "ccurllib": "^1.0.3",
-    "http-proxy": "^1.18.0"
+    "http-proxy": "^1.18.1"
   },
   "scripts": {
     "proxy": "node proxy.js"
